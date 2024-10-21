@@ -9,74 +9,66 @@ import SwiftUI
 import SwiftData
 
 struct ContentView: View {
+    
     @Environment(\.modelContext) private var modelContext
     @Query private var items: [Item]
 
-    var body: some View {
-        TabView {
-            LessonSectionView(title: "Introduction", content: "Here we introduce and define the lesson.")
-            
-            LessonSectionView(title: "Lesson", content: "Full detailed lesson goes here with examples and diagrams.")
-            
-            LessonSectionView(title: "Discussion", content: "Discussion with pros and cons and comparisons.")
-            
-            LessonSectionView(title: "Summary", content: "Flashcard-style key takeaways.")
-        }
-        .tabViewStyle(PageTabViewStyle(indexDisplayMode: .automatic)) // This hides the default tab bar and shows a dot indicator
-        .indexViewStyle(PageIndexViewStyle(backgroundDisplayMode: .always)) // Optional: Customize the dot indicator visibility
-        .background(Color.customBackground.ignoresSafeArea()) // Custom background color applied to entire view
-    }
-    
-
-    private func addItem() {
-        withAnimation {
-            let newItem = Item(timestamp: Date())
-            modelContext.insert(newItem)
-        }
-    }
-
-    private func deleteItems(offsets: IndexSet) {
-        withAnimation {
-            for index in offsets {
-                modelContext.delete(items[index])
+        var body: some View {
+            TabView {
+                LessonSectionView(markdownContent: """
+                # Introduction to SwiftUI
+                SwiftUI is a framework introduced by Apple that allows for declarative UI programming.
+                
+                - **Declarative**: You describe the UI and its state rather than the steps to modify the UI.
+                - **Reactive**: SwiftUI updates the view whenever the state changes.
+                
+                ```swift
+                struct ContentView: View {
+                    var body: some View {
+                        Text("Hello, World!")
+                    }
+                }
+                ```
+                """)
+                
+                LessonSectionView(markdownContent: """
+                ## Full Lesson Content
+                This is where the more detailed content of the lesson goes.
+                You can use images, code blocks, lists, and more.
+                
+                ### Example:
+                ```swift
+                struct ContentView: View {
+                    var body: some View {
+                        Text("Full Lesson Example")
+                    }
+                }
+                ```
+                
+                ![SwiftUI Logo](https://developer.apple.com/assets/elements/icons/swiftui/swiftui-96x96.png)
+                """)
+                
+                LessonSectionView(markdownContent: """
+                ### Discussion
+                What are the advantages of using SwiftUI?
+                
+                1. **Declarative**: Write less code to describe the UI.
+                2. **Live Previews**: Instant feedback in Xcode.
+                """)
+                
+                LessonSectionView(markdownContent: """
+                ### Key Takeaways
+                - SwiftUI is declarative and reactive.
+                - It integrates with Combine and uses modern Swift features.
+                """)
             }
+            .tabViewStyle(PageTabViewStyle(indexDisplayMode: .automatic))
+            .background(ThemeManager.shared.backgroundColor)
         }
-    }
 }
 
-struct LessonSectionView: View {
-    let title: String
-    let content: String
-    
-    var body: some View {
-        VStack {
-            Text(title)
-                .font(.largeTitle)
-                .foregroundColor(.customText) // Custom text color
-                .padding()
-            
-            ScrollView {
-                Text(content)
-                    .foregroundColor(.customText) // Custom text color
-                    .padding()
-            }
-        }
-        .navigationTitle(title)
-    }
-}
-
-struct ContentView_Previews: PreviewProvider {
-    static var previews: some View {
-        ContentView()
-    }
-}
 
 #Preview {
     ContentView()
         .modelContainer(for: Item.self, inMemory: true)
-}
-
-extension Color {
-    static let customBackground = Color(red: 30/255, green: 34/255, blue: 45/255) // A custom dark gray with a blueish hue
-    static let customText = Color(red: 220/255, green: 220/255, blue: 230/255) // Lighter gray text color
 }

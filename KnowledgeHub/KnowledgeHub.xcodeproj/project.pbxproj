@@ -6,6 +6,11 @@
 	objectVersion = 77;
 	objects = {
 
+/* Begin PBXBuildFile section */
+		415024322CC6A78F009EE8C3 /* Ink in Frameworks */ = {isa = PBXBuildFile; productRef = 415024312CC6A78F009EE8C3 /* Ink */; };
+		4152A8042CC6AB66009A445D /* MarkdownUI in Frameworks */ = {isa = PBXBuildFile; productRef = 4152A8032CC6AB66009A445D /* MarkdownUI */; };
+/* End PBXBuildFile section */
+
 /* Begin PBXContainerItemProxy section */
 		415024102CC69A60009EE8C3 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
@@ -65,6 +70,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				415024322CC6A78F009EE8C3 /* Ink in Frameworks */,
+				4152A8042CC6AB66009A445D /* MarkdownUI in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -125,6 +132,8 @@
 			);
 			name = KnowledgeHub;
 			packageProductDependencies = (
+				415024312CC6A78F009EE8C3 /* Ink */,
+				4152A8032CC6AB66009A445D /* MarkdownUI */,
 			);
 			productName = KnowledgeHub;
 			productReference = 415023FB2CC69A5F009EE8C3 /* KnowledgeHub.app */;
@@ -208,6 +217,10 @@
 			);
 			mainGroup = 415023F22CC69A5F009EE8C3;
 			minimizedProjectReferenceProxies = 1;
+			packageReferences = (
+				415024302CC6A78F009EE8C3 /* XCRemoteSwiftPackageReference "Ink" */,
+				4152A8022CC6AB66009A445D /* XCRemoteSwiftPackageReference "MarkdownUI" */,
+			);
 			preferredProjectObjectVersion = 77;
 			productRefGroup = 415023FC2CC69A5F009EE8C3 /* Products */;
 			projectDirPath = "";
@@ -575,6 +588,38 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		415024302CC6A78F009EE8C3 /* XCRemoteSwiftPackageReference "Ink" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/JohnSundell/Ink";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 0.6.0;
+			};
+		};
+		4152A8022CC6AB66009A445D /* XCRemoteSwiftPackageReference "MarkdownUI" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/gonzalezreal/MarkdownUI";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 2.4.1;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		415024312CC6A78F009EE8C3 /* Ink */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 415024302CC6A78F009EE8C3 /* XCRemoteSwiftPackageReference "Ink" */;
+			productName = Ink;
+		};
+		4152A8032CC6AB66009A445D /* MarkdownUI */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 4152A8022CC6AB66009A445D /* XCRemoteSwiftPackageReference "MarkdownUI" */;
+			productName = MarkdownUI;
+		};
+/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = 415023F32CC69A5F009EE8C3 /* Project object */;
 }
