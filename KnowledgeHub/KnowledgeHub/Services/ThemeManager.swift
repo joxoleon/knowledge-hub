@@ -12,6 +12,9 @@ class ThemeManager: ObservableObject {
     
     @Published var backgroundColor: Color = .background_1
     @Published var textColor: Color = .text_color_1
+    @Published var headingColor: Color = .text_color_3
+    @Published var secondaryTextColor: Color = .text_color_3
+    @Published var boldTextColor: Color = .text_color_3
     
     private init() {}
     
