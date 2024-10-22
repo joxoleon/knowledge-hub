@@ -11,80 +11,72 @@ import Splash
 
 struct LessonSectionView: View {
     let markdownContent: String
-    @Environment(\.colorScheme) private var colorScheme
+    @EnvironmentObject var themeManager: ThemeManager
 
     var body: some View {
-        // Scrollable Markdown content with custom styles
         ScrollView {
             Markdown(markdownContent)
-                .markdownTextStyle(\.code) {
-                    FontFamilyVariant(.monospaced)
-                    FontSize(.em(0.85))
-                    ForegroundColor(.purple)
-                    BackgroundColor(.purple.opacity(0.25))
+                .markdownTextStyle(\.text) {
+                    FontStyle(.normal)
+                    ForegroundColor(themeManager.lessonTheme.textColor)
+                }
+                .markdownTextStyle(\.strong) {
+                    FontWeight(.bold)
+                    ForegroundColor(themeManager.lessonTheme.textColor)
                 }
                 .markdownTextStyle(\.emphasis) {
                     FontStyle(.italic)
-                    UnderlineStyle(.single)
-                    ForegroundColor(ThemeManager.shared.boldTextColor)
+                    ForegroundColor(themeManager.lessonTheme.textColor)
                 }
-                .markdownTextStyle(\.strong) {
-                    FontWeight(.heavy)
-                    ForegroundColor(ThemeManager.shared.boldTextColor)
+                .markdownTextStyle(\.code) {
+                    FontFamilyVariant(.monospaced)
+                    FontSize(.em(0.85))
+                    ForegroundColor(themeManager.lessonTheme.textColor)
+                    BackgroundColor(themeManager.lessonTheme.blockquoteBackgroundColor.opacity(0.25))
                 }
-                .markdownTextStyle(\.text) {
-                    FontStyle(.normal)
-                    ForegroundColor(ThemeManager.shared.textColor)
-                }
-            // Code block styling with syntax highlighting
                 .markdownBlockStyle(\.codeBlock) { configuration in
                     codeBlock(configuration)
                 }
-            // Blockquote styling
                 .markdownBlockStyle(\.blockquote) { configuration in
                     configuration.label
                         .padding()
-                        .background(Color.blue.opacity(0.1))
-                        .border(Color.blue, width: 2)
+                        .background(themeManager.lessonTheme.blockquoteBackgroundColor)
+                        .border(themeManager.lessonTheme.blockquoteBorderColor, width: 2)
                         .padding(.top, 10)
                 }
-            // Heading 1 styling
                 .markdownBlockStyle(\.heading1) { configuration in
                     configuration.label
                         .padding(.bottom, 10)
                         .markdownTextStyle {
                             FontWeight(.bold)
                             FontSize(.em(1.4))
-                            ForegroundColor(ThemeManager.shared.headingColor)
+                            ForegroundColor(themeManager.lessonTheme.textColor)
                         }
                 }
-            // Heading 2 styling
                 .markdownBlockStyle(\.heading2) { configuration in
                     configuration.label
                         .padding(.bottom, 8)
                         .markdownTextStyle {
                             FontWeight(.bold)
                             FontSize(.em(1.2))
-                            ForegroundColor(ThemeManager.shared.headingColor)
+                            ForegroundColor(themeManager.lessonTheme.textColor)
                         }
                 }
-            // Heading 3 styling
                 .markdownBlockStyle(\.heading3) { configuration in
                     configuration.label
                         .padding(.bottom, 6)
                         .markdownTextStyle {
                             FontWeight(.bold)
                             FontSize(.em(1.1))
-                            ForegroundColor(ThemeManager.shared.headingColor)
+                            ForegroundColor(themeManager.lessonTheme.textColor)
                         }
                 }
-                .markdownCodeSyntaxHighlighter(.splash(theme: self.theme)) // Apply syntax highlighting
+                .markdownCodeSyntaxHighlighter(.splash(theme: self.theme))
                 .padding()
         }
-        .background(Color(red: 30/255, green: 34/255, blue: 45/255)) // Custom background
+        .background(themeManager.lessonTheme.backgroundColor)
     }
 
-    // Custom code block view for syntax highlighting
     @ViewBuilder
     private func codeBlock(_ configuration: CodeBlockConfiguration) -> some View {
         VStack(spacing: 0) {
@@ -92,7 +84,7 @@ struct LessonSectionView: View {
                 Text(configuration.language ?? "plain text")
                     .font(.system(.caption, design: .monospaced))
                     .fontWeight(.semibold)
-                    .foregroundColor(Color(theme.plainTextColor))
+                    .foregroundColor(themeManager.lessonTheme.textColor)
                 Spacer()
 
                 Image(systemName: "clipboard")
@@ -102,9 +94,7 @@ struct LessonSectionView: View {
             }
             .padding(.horizontal)
             .padding(.vertical, 8)
-            .background {
-                Color(theme.backgroundColor)
-            }
+            .background(themeManager.lessonTheme.blockquoteBackgroundColor)
 
             Divider()
 
@@ -113,7 +103,7 @@ struct LessonSectionView: View {
                     .padding()
             }
         }
-        .background(Color(ThemeManager.shared.codeBackgroundColor))
+        .background(themeManager.lessonTheme.blockquoteBackgroundColor)
         .clipShape(RoundedRectangle(cornerRadius: 8))
         .markdownMargin(top: .zero, bottom: .em(0.8))
     }
@@ -126,7 +116,6 @@ struct LessonSectionView: View {
         UIPasteboard.general.string = string
     }
 
-    // Helper to highlight code
     private func highlightCode(_ content: String, language: String?) -> AttributedText {
         let highlighter = SplashCodeSyntaxHighlighter(theme: theme)
         return highlighter.highlightCode(content, language: language)
@@ -138,26 +127,36 @@ struct LessonSectionView_Previews: PreviewProvider {
     static var previews: some View {
         LessonSectionView(
             markdownContent: """
-            # Introduction to SwiftUI
-            `SwiftUI` is a framework introduced by Apple that allows for declarative UI programming.
-            
-            ## Key Concepts
-            - **Declarative**: You describe the UI and its state rather than the steps to modify the UI.
-            - **Reactive**: SwiftUI updates the view whenever the state changes.
+            # Markdown Showcase
+
+            **Markdown** is a lightweight markup language that you can use to add formatting elements to plaintext documents. 
+
+            ## Basic Elements
+
+            - **Bold** text
+            - *Italic* text
+            - ~~Strikethrough~~
+            - `Code block inline`
             
             ```swift
             struct ContentView: View {
                 var body: some View {
-                    Text("Hello, World!")
+                    Text("This is a code block example in Swift!")
                 }
             }
             ```
-            
-            > Something Something
-            > In my shoe!
-            
-            ![SwiftUI Logo](https://developer.apple.com/assets/elements/icons/swiftui/swiftui-96x96.png)
+
+            > "Blockquotes are useful for highlighting key points or quotes."
+
+            ### Nested List Example
+            - Item 1
+            - Item 2
+              - Sub-item 1
+              - Sub-item 2
+
+            *Markdown* is often used for documentation, readme files, and more!
             """
         )
+        .environmentObject(ThemeManager(defaultTheme: .midnightBlue))
     }
 }

@@ -9,9 +9,10 @@ import SwiftUI
 import SwiftData
 
 struct ContentView: View {
-    
+
     @Environment(\.modelContext) private var modelContext
     @Query private var items: [Item]
+    @EnvironmentObject var themeManager: ThemeManager
 
     var body: some View {
         TabView {
@@ -31,6 +32,7 @@ struct ContentView: View {
             - **View**: The user interface that displays the data.
             - **Controller**: Acts as a mediator between the Model and the View.
             """)
+            .environmentObject(themeManager)
             
             // Full Lesson Section
             LessonSectionView(markdownContent: """
@@ -97,6 +99,7 @@ struct ContentView: View {
             - The **Controller** updates the **Model**.
             - The **Model** updates the **View** to reflect changes.
             """)
+            .environmentObject(themeManager)
             
             // Discussion Section
             LessonSectionView(markdownContent: """
@@ -113,6 +116,7 @@ struct ContentView: View {
 
             Alternatives like **MVVM (Model-View-ViewModel)** are often considered for better separation in iOS projects.
             """)
+            .environmentObject(themeManager)
             
             // Key Takeaways Section
             LessonSectionView(markdownContent: """
@@ -125,15 +129,15 @@ struct ContentView: View {
 
             **Important**: For smaller apps, consider the complexity added by MVC and evaluate if simpler architectures might be better suited.
             """)
+            .environmentObject(themeManager)
         }
         .tabViewStyle(PageTabViewStyle(indexDisplayMode: .automatic))
-        .background(ThemeManager.shared.backgroundColor)
     }
-
 }
 
-
+// SwiftUI Preview
 #Preview {
     ContentView()
+        .environmentObject(ThemeManager(defaultTheme: .midnightBlue)) // Inject theme manager for previews
         .modelContainer(for: Item.self, inMemory: true)
 }

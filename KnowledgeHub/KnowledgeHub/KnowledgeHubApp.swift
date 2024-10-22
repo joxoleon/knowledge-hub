@@ -10,6 +10,8 @@ import SwiftData
 
 @main
 struct KnowledgeHubApp: App {
+    @StateObject private var themeManager = ThemeManager(defaultTheme: .midnightBlue)
+
     var sharedModelContainer: ModelContainer = {
         let schema = Schema([
             Item.self,
@@ -26,6 +28,7 @@ struct KnowledgeHubApp: App {
     var body: some Scene {
         WindowGroup {
             ContentView()
+                .environmentObject(themeManager)
         }
         .modelContainer(sharedModelContainer)
     }
