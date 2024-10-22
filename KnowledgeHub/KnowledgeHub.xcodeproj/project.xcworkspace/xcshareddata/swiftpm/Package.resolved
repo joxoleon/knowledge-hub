@@ -1,5 +1,5 @@
 {
-  "originHash" : "9be6c800785d61301e8d4b23eec6cf947cf2c39c4704849fb3721ad4abeac920",
+  "originHash" : "da1bd64122efc4ec3eec3b2e50996b33776f24c6cc39b4daed4ab0325abc0d8c",
   "pins" : [
     {
       "identity" : "ink",
@@ -26,6 +26,15 @@
       "state" : {
         "revision" : "2849f5323265386e200484b0d0f896e73c3411b9",
         "version" : "6.0.1"
+      }
+    },
+    {
+      "identity" : "splash",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/JohnSundell/Splash.git",
+      "state" : {
+        "revision" : "7f4df436eb78fe64fe2c32c58006e9949fa28ad8",
+        "version" : "0.16.0"
       }
     },
     {
