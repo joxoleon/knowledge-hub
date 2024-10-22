@@ -1,74 +1,13 @@
+//
+//  AttributedText.swift
+//  KnowledgeHub
+//
+//  Created by Jovan Radivojsa on 21.10.24..
+//
+
 import SwiftUI
 import MarkdownUI
 import Splash
-
-// Syntax highlighter implementation using Splash
-struct SplashCodeSyntaxHighlighter: CodeSyntaxHighlighter {
-    func highlightCode(_ code: String, language: String?) -> Text {
-        guard language != nil else {
-            return Text(code).font(.system(.body, design: .monospaced))
-        }
-
-        // Use Splash's syntax highlighter to highlight the code
-        let highlightedCode = self.syntaxHighlighter.highlight(code)
-
-        // Manually extract attributes and construct a SwiftUI Text view
-        let attributedString = highlightedCode
-        var result = Text("")
-
-        attributedString.enumerateAttributes(in: NSRange(location: 0, length: attributedString.length)) { attributes, range, _ in
-            let substring = (attributedString.string as NSString).substring(with: range)
-            
-            // Check if foreground color is set
-            if let color = attributes[.foregroundColor] as? UIColor {
-                let swiftUIColor = Color(color)
-                result = result + Text(substring).foregroundColor(swiftUIColor)
-            } else {
-                result = result + Text(substring)
-            }
-        }
-
-        return result
-            .font(.system(.body, design: .monospaced))
-        
-    }
-    
-    private let syntaxHighlighter: SyntaxHighlighter<AttributedStringOutputFormat>
-
-    init(theme: Splash.Theme) {
-        self.syntaxHighlighter = SyntaxHighlighter(format: AttributedStringOutputFormat(theme: theme))
-    }
-
-    func highlightCode(_ content: String, language: String?) -> AttributedText {
-        guard language != nil else {
-            return AttributedText(attributedString: NSAttributedString(string: content))
-        }
-
-        let highlightedCode = self.syntaxHighlighter.highlight(content)
-        return AttributedText(attributedString: highlightedCode)
-    }
-}
-
-// UIViewRepresentable for NSAttributedString to SwiftUI bridging
-struct AttributedText: UIViewRepresentable {
-    var attributedString: NSAttributedString
-
-    func makeUIView(context: Context) -> UILabel {
-        let label = UILabel()
-        label.numberOfLines = 0
-        return label
-    }
-
-    func updateUIView(_ uiView: UILabel, context: Context) {
-        uiView.attributedText = attributedString
-    }
-}
-
-extension CodeSyntaxHighlighter where Self == SplashCodeSyntaxHighlighter {
-    static func splash(theme: Splash.Theme) -> Self {
-        SplashCodeSyntaxHighlighter(theme: theme)
-    }
-}
 
 struct LessonSectionView: View {
     let markdownContent: String
