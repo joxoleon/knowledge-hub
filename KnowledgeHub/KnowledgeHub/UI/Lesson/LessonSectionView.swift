@@ -21,7 +21,6 @@ struct LessonSectionView: View {
                 }
                 .markdownTextStyle(\.strong) {
                     FontWeight(.bold)
-                    FontSize(.em(1.05))
                     ForegroundColor(themeManager.theme.strongTextColor)
                 }
                 .markdownTextStyle(\.emphasis) {
@@ -44,16 +43,15 @@ struct LessonSectionView: View {
                             RoundedRectangle(cornerRadius: 10)
                                 .stroke(themeManager.theme.blockquoteBorderColor, lineWidth: 2)  // Border with rounded corners
                         )
-                        .padding(.top, 10)
                         .markdownTextStyle {
                             FontWeight(.semibold)
                             FontSize(.em(0.9))
-                            ForegroundColor(themeManager.theme.headingTextColor)
+                            ForegroundColor(themeManager.theme.emphasisTextColor)
                         }
                 }
                 .markdownBlockStyle(\.heading1) { configuration in
                     configuration.label
-                        .padding(.bottom, 20)
+                        .padding(.bottom, 24)
                         .markdownTextStyle {
                             FontWeight(.bold)
                             FontSize(.em(1.4))
@@ -62,11 +60,11 @@ struct LessonSectionView: View {
                 }
                 .markdownBlockStyle(\.heading2) { configuration in
                     configuration.label
-                        .padding(.bottom, 8)
+                        .padding(.bottom, 12)
                         .markdownTextStyle {
                             FontWeight(.bold)
                             FontSize(.em(1.2))
-                            ForegroundColor(themeManager.theme.headingTextColor)
+                            ForegroundColor(themeManager.theme.strongTextColor)
                         }
                 }
                 .markdownBlockStyle(\.heading3) { configuration in
@@ -75,12 +73,13 @@ struct LessonSectionView: View {
                         .markdownTextStyle {
                             FontWeight(.bold)
                             FontSize(.em(1.1))
-                            ForegroundColor(themeManager.theme.headingTextColor)
+                            ForegroundColor(themeManager.theme.strongTextColor)
                         }
                 }
                 .padding()
         }
         .background(themeManager.theme.backgroundColor)
+        .frame(maxWidth: .infinity)
     }
 
 
@@ -135,6 +134,7 @@ struct LessonSectionView_Previews: PreviewProvider {
         LessonSectionView(
             markdownContent: """
             # Markdown Showcase
+            
 
             **Markdown** is a lightweight markup language that you can use to add formatting elements to plaintext documents. 
 

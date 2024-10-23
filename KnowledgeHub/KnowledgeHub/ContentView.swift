@@ -16,36 +16,37 @@ struct ContentView: View {
 
     var body: some View {
         TabView {
-            // Introduction Section
+            // Section: MVC Architecture
             LessonSectionView(markdownContent: """
-            # MVC (Model-View-Controller) Architecture
+            # MVC Architecture
 
-            The **Model-View-Controller (MVC)** design pattern is one of the most widely used software architectural patterns, particularly in iOS development. 
+            The **Model-View-Controller (MVC)** design pattern is one of the most widely used software architectural patterns, particularly in iOS development.
 
             In this lesson, we will cover:
             - The **key components** of MVC
             - How to implement MVC in an iOS application
             - The **benefits** and **drawbacks** of using MVC
 
-            ### Quick Overview
-            - **Model**: The component responsible for managing the app's data.
+            ### Overview
+            - **Model**: Responsible for managing the app's data.
             - **View**: The user interface that displays the data.
-            - **Controller**: Acts as a mediator between the Model and the View.
+            - **Controller**: Mediates between the Model and the View.
             """)
             .environmentObject(themeManager)
-            
-            // Full Lesson Section
-            LessonSectionView(markdownContent: """
-            ## Full Lesson Content: Model-View-Controller Breakdown
+            .frame(maxWidth: .infinity)
 
-            ### 1. The Model
+            // Section: Model-View-Controller Breakdown
+            LessonSectionView(markdownContent: """
+            # Model-View-Controller Breakdown
+
+            ## The Model
             The **Model** is responsible for:
             - Storing and managing data.
             - Providing data to the controller when requested.
-            
+
             **Key concept**: The Model does not know anything about the UI or the View.
-            
-            Here's an example of a simple `Model` in Swift:
+
+            Example of a simple `Model` in Swift:
             ```swift
             struct User {
                 var name: String
@@ -53,13 +54,13 @@ struct ContentView: View {
             }
             ```
 
-            ### 2. The View
+            ## The View
             The **View** is responsible for:
             - Displaying the data managed by the Model.
             - Reacting to user input and presenting information.
 
-            **Important**: The View doesn't know how the data is managed, it simply displays it.
-            
+            **Important**: The View doesn’t manage data, it just displays it.
+
             ```swift
             struct UserView: View {
                 var user: User
@@ -73,11 +74,11 @@ struct ContentView: View {
             }
             ```
 
-            ### 3. The Controller
+            ## The Controller
             The **Controller** handles:
             - Managing communication between the Model and the View.
             - Taking user input and updating the Model or View accordingly.
-            
+
             ```swift
             class UserController {
                 var model: User
@@ -92,7 +93,7 @@ struct ContentView: View {
             }
             ```
 
-            ### How it Works Together
+            ## How It Works Together
             The **Controller** updates the **Model**, which then updates the **View**:
             - User interacts with the **View**.
             - The **View** sends the interaction to the **Controller**.
@@ -100,38 +101,42 @@ struct ContentView: View {
             - The **Model** updates the **View** to reflect changes.
             """)
             .environmentObject(themeManager)
-            
-            // Discussion Section
-            LessonSectionView(markdownContent: """
-            ### Discussion: Advantages and Drawbacks of MVC
+            .frame(maxWidth: .infinity)
 
-            **Advantages**:
-            1. **Separation of Concerns**: By separating the data (Model), UI (View), and business logic (Controller), you can keep your code more modular and maintainable.
+            // Section: Discussion
+            LessonSectionView(markdownContent: """
+            # Discussion
+
+            ## Advantages
+            1. **Separation of Concerns**: By separating data (Model), UI (View), and business logic (Controller), your code becomes more modular and maintainable.
             2. **Reusability**: Since the View and Model are independent, they can be reused in different parts of the app.
             3. **Testability**: Each component can be tested independently, making unit testing easier.
-            
-            **Drawbacks**:
-            - **Tight Coupling**: In practice, the View and Controller can become tightly coupled, leading to massive view controllers (often referred to as "Massive View Controller" problem).
+
+            ## Drawbacks
+            - **Tight Coupling**: In practice, the View and Controller can become tightly coupled, leading to massive view controllers ("Massive View Controller" problem).
             - **Complexity**: For small apps, MVC can add unnecessary complexity.
 
             Alternatives like **MVVM (Model-View-ViewModel)** are often considered for better separation in iOS projects.
             """)
             .environmentObject(themeManager)
-            
-            // Key Takeaways Section
+            .frame(maxWidth: .infinity)
+
+            // Section: Key Takeaways
             LessonSectionView(markdownContent: """
-            ### Key Takeaways
+            # Key Takeaways
 
             - The **Model** stores and manages data.
-            - The **View** is responsible for displaying data to the user.
+            - The **View** displays data to the user.
             - The **Controller** coordinates the flow between the Model and the View.
-            - **MVC** helps in maintaining a clear separation of concerns but can result in large view controllers in practice.
+            - **MVC** helps maintain a clear separation of concerns but can result in large view controllers in practice.
 
             **Important**: For smaller apps, consider the complexity added by MVC and evaluate if simpler architectures might be better suited.
             """)
             .environmentObject(themeManager)
+            .frame(maxWidth: .infinity)
         }
         .tabViewStyle(PageTabViewStyle(indexDisplayMode: .automatic))
+        .background(themeManager.theme.backgroundColor)
     }
 }
 

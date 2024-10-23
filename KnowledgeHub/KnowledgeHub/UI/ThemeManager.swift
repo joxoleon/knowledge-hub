@@ -42,11 +42,11 @@ extension ColorTheme {
         codeBackgroundColor: Color(#colorLiteral(red: 0.08627839598, green: 0.1753570129, blue: 0.247, alpha: 1)),
         // Text Colors
         textColor: Color(#colorLiteral(red: 0.839, green: 0.851, blue: 0.882, alpha: 1)),
-        strongTextColor: Color(#colorLiteral(red: 0.9125629067, green: 0.7982304528, blue: 0.5720377832, alpha: 1)),
-        emphasisTextColor: Color(#colorLiteral(red: 0.9125629067, green: 0.7982304528, blue: 0.5720377832, alpha: 1)),
-        headingTextColor: Color(#colorLiteral(red: 0.9125629067, green: 0.6697749496, blue: 0.4562430382, alpha: 1)),
-        quoteTextColor: Color(#colorLiteral(red: 0.9125629067, green: 0.6697749496, blue: 0.4562430382, alpha: 1)),
-        inlineCodeTextColor: Color(#colorLiteral(red: 0.9125629067, green: 0.6697749496, blue: 0.4562430382, alpha: 1)),
+        strongTextColor: Color(#colorLiteral(red: 0.9461077131, green: 0.8667619021, blue: 0.6855118213, alpha: 1)),
+        emphasisTextColor: Color(#colorLiteral(red: 0.9461077131, green: 0.8667619021, blue: 0.6855118213, alpha: 1)),
+        headingTextColor: Color(#colorLiteral(red: 0.8470588235, green: 0.6039215686, blue: 0.337254902, alpha: 1)),
+        quoteTextColor: Color(#colorLiteral(red: 0.9461077131, green: 0.8667619021, blue: 0.6855118213, alpha: 1)),
+        inlineCodeTextColor: Color(#colorLiteral(red: 0.9461077131, green: 0.8667619021, blue: 0.6855118213, alpha: 1)),
         // Border Colors
         blockquoteBorderColor: Color(#colorLiteral(red: 0.298, green: 0.537, blue: 0.882, alpha: 1))
     )
