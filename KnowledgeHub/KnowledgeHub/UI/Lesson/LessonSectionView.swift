@@ -10,12 +10,12 @@ import MarkdownUI
 import Splash
 
 struct LessonSectionView: View {
-    let markdownContent: String
+    let section: LessonSection
     @EnvironmentObject var themeManager: ColorManager
-
+    
     var body: some View {
         ScrollView {
-            Markdown(markdownContent)
+            Markdown(section.content)
                 .markdownTextStyle(\.text) {
                     ForegroundColor(themeManager.theme.textColor)
                 }
@@ -82,8 +82,8 @@ struct LessonSectionView: View {
         .background(themeManager.theme.backgroundColor)
         .frame(maxWidth: .infinity)
     }
-
-
+    
+    
     @ViewBuilder
     private func codeBlock(_ configuration: CodeBlockConfiguration) -> some View {
         VStack(spacing: 0) {
@@ -93,7 +93,7 @@ struct LessonSectionView: View {
                     .fontWeight(.bold)
                     .foregroundColor(themeManager.theme.codeBlockLanguageTextColor)
                 Spacer()
-
+                
                 Image(systemName: "clipboard")
                     .onTapGesture {
                         copyToClipboard(configuration.content)
@@ -102,9 +102,9 @@ struct LessonSectionView: View {
             .padding(.horizontal)
             .padding(.vertical, 8)
             .background(themeManager.theme.backgroundLighterColor)
-
+            
             Divider()
-
+            
             ScrollView(.horizontal) {
                 highlightCode(configuration.content, language: configuration.language)
                     .padding()
@@ -114,15 +114,15 @@ struct LessonSectionView: View {
         .clipShape(RoundedRectangle(cornerRadius: 8))
         .markdownMargin(top: .zero, bottom: .em(0.8))
     }
-
+    
     private var theme: Splash.Theme {
         .sundellsColors(withFont: .init(size: 13))
     }
-
+    
     private func copyToClipboard(_ string: String) {
         UIPasteboard.general.string = string
     }
-
+    
     private func highlightCode(_ content: String, language: String?) -> AttributedText {
         let highlighter = SplashCodeSyntaxHighlighter(theme: theme)
         return highlighter.highlightCode(content, language: language)
@@ -133,14 +133,14 @@ struct LessonSectionView: View {
 struct LessonSectionView_Previews: PreviewProvider {
     static var previews: some View {
         LessonSectionView(
-            markdownContent: """
+            section: LessonSection(content:"""
             # Markdown Showcase
             
-
+            
             **Markdown** is a lightweight markup language that you can use to add formatting elements to plaintext documents. 
-
+            
             ## Basic Elements
-
+            
             - **Bold** text
             - *Italic* text
             - ~~Strikethrough~~
@@ -153,17 +153,18 @@ struct LessonSectionView_Previews: PreviewProvider {
                 }
             }
             ```
-
+            
             > "Blockquotes are useful for highlighting key points or quotes."
-
+            
             ### Nested List Example
             - Item 1
             - Item 2
               - Sub-item 1
               - Sub-item 2
-
+            
             *Markdown* is often used for documentation, readme files, and more!
             """
+            )
         )
         .environmentObject(ColorManager(colorTheme: .midnightBlue))
     }

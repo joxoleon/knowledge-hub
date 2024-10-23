@@ -12,7 +12,7 @@
 - [ ] See where those lessons will be transformed into appropriate lesson models
 
 ## Backglog Tasks
-- [ ] Nothing for now
+- [ ] Autohide the tab indicator at the bottom of the lesson screen
 
 ## Ideas 
 - [ ] AI Integration for quizzing

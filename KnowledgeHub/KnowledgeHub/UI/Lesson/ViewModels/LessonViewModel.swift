@@ -6,3 +6,19 @@
 //
 
 import Foundation
+
+class LessonViewModel: ObservableObject {
+    @Published var lesson: Lesson
+    @Published var colorManager: ColorManager
+
+    init(lesson: Lesson, colorManager: ColorManager) {
+        self.lesson = lesson
+        self.colorManager = colorManager
+    }
+
+    var sections: [LessonSection] {
+        lesson.sections
+    }
+
+    // Add any business logic here, such as fetching lessons from a service later on
+}
