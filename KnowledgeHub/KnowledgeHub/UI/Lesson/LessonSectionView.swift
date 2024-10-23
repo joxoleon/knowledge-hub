@@ -31,6 +31,7 @@ struct LessonSectionView: View {
                     FontFamilyVariant(.monospaced)
                     FontSize(.em(0.85))
                     ForegroundColor(themeManager.theme.inlineCodeTextColor)
+                    BackgroundColor(themeManager.theme.codeBlockInlineBackgroundColor)
                 }
                 .markdownBlockStyle(\.codeBlock) { configuration in
                     codeBlock(configuration)
@@ -46,7 +47,7 @@ struct LessonSectionView: View {
                         .markdownTextStyle {
                             FontWeight(.semibold)
                             FontSize(.em(0.9))
-                            ForegroundColor(themeManager.theme.emphasisTextColor)
+                            ForegroundColor(themeManager.theme.quoteTextColor)
                         }
                 }
                 .markdownBlockStyle(\.heading1) { configuration in
@@ -55,7 +56,7 @@ struct LessonSectionView: View {
                         .markdownTextStyle {
                             FontWeight(.bold)
                             FontSize(.em(1.4))
-                            ForegroundColor(themeManager.theme.headingTextColor)
+                            ForegroundColor(themeManager.theme.heading1TextColor)
                         }
                 }
                 .markdownBlockStyle(\.heading2) { configuration in
@@ -64,7 +65,7 @@ struct LessonSectionView: View {
                         .markdownTextStyle {
                             FontWeight(.bold)
                             FontSize(.em(1.2))
-                            ForegroundColor(themeManager.theme.strongTextColor)
+                            ForegroundColor(themeManager.theme.heading2TextColor)
                         }
                 }
                 .markdownBlockStyle(\.heading3) { configuration in
@@ -73,7 +74,7 @@ struct LessonSectionView: View {
                         .markdownTextStyle {
                             FontWeight(.bold)
                             FontSize(.em(1.1))
-                            ForegroundColor(themeManager.theme.strongTextColor)
+                            ForegroundColor(themeManager.theme.heading3TextColor)
                         }
                 }
                 .padding()
@@ -90,7 +91,7 @@ struct LessonSectionView: View {
                 Text(configuration.language ?? "plain text")
                     .font(.system(.caption, design: .monospaced))
                     .fontWeight(.bold)
-                    .foregroundColor(themeManager.theme.headingTextColor)
+                    .foregroundColor(themeManager.theme.codeBlockLanguageTextColor)
                 Spacer()
 
                 Image(systemName: "clipboard")
