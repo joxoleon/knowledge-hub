@@ -44,7 +44,7 @@ extension ColorTheme {
         textColor: Color(#colorLiteral(red: 0.839, green: 0.851, blue: 0.882, alpha: 1)),
         strongTextColor: Color(#colorLiteral(red: 0.9461077131, green: 0.8667619021, blue: 0.6855118213, alpha: 1)),
         emphasisTextColor: Color(#colorLiteral(red: 0.9461077131, green: 0.8667619021, blue: 0.6855118213, alpha: 1)),
-        headingTextColor: Color(#colorLiteral(red: 0.8470588235, green: 0.6039215686, blue: 0.337254902, alpha: 1)),
+        headingTextColor: Color(#colorLiteral(red: 0.8470588235, green: 0.6663265001, blue: 0.4084971358, alpha: 1)),
         quoteTextColor: Color(#colorLiteral(red: 0.9461077131, green: 0.8667619021, blue: 0.6855118213, alpha: 1)),
         inlineCodeTextColor: Color(#colorLiteral(red: 0.9461077131, green: 0.8667619021, blue: 0.6855118213, alpha: 1)),
         // Border Colors
