@@ -12,7 +12,7 @@ struct ContentView: View {
 
     @Environment(\.modelContext) private var modelContext
     @Query private var items: [Item]
-    @EnvironmentObject var themeManager: ThemeManager
+    @EnvironmentObject var themeManager: ColorManager
 
     var body: some View {
         TabView {
@@ -138,6 +138,6 @@ struct ContentView: View {
 // SwiftUI Preview
 #Preview {
     ContentView()
-        .environmentObject(ThemeManager(defaultTheme: .midnightBlue)) // Inject theme manager for previews
+        .environmentObject(ColorManager(colorTheme: .midnightBlue)) // Inject theme manager for previews
         .modelContainer(for: Item.self, inMemory: true)
 }

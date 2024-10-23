@@ -11,28 +11,27 @@ import Splash
 
 struct LessonSectionView: View {
     let markdownContent: String
-    @EnvironmentObject var themeManager: ThemeManager
+    @EnvironmentObject var themeManager: ColorManager
 
     var body: some View {
         ScrollView {
             Markdown(markdownContent)
                 .markdownTextStyle(\.text) {
-                    FontStyle(.normal)
-                    ForegroundColor(themeManager.lessonTheme.textColor)
+                    ForegroundColor(themeManager.theme.textColor)
                 }
                 .markdownTextStyle(\.strong) {
                     FontWeight(.bold)
-                    ForegroundColor(themeManager.lessonTheme.textColor)
+                    FontSize(.em(1.05))
+                    ForegroundColor(themeManager.theme.strongTextColor)
                 }
                 .markdownTextStyle(\.emphasis) {
                     FontStyle(.italic)
-                    ForegroundColor(themeManager.lessonTheme.textColor)
+                    ForegroundColor(themeManager.theme.emphasisTextColor)
                 }
                 .markdownTextStyle(\.code) {
                     FontFamilyVariant(.monospaced)
                     FontSize(.em(0.85))
-                    ForegroundColor(themeManager.lessonTheme.textColor)
-                    BackgroundColor(themeManager.lessonTheme.blockquoteBackgroundColor.opacity(0.25))
+                    ForegroundColor(themeManager.theme.inlineCodeTextColor)
                 }
                 .markdownBlockStyle(\.codeBlock) { configuration in
                     codeBlock(configuration)
@@ -40,17 +39,25 @@ struct LessonSectionView: View {
                 .markdownBlockStyle(\.blockquote) { configuration in
                     configuration.label
                         .padding()
-                        .background(themeManager.lessonTheme.blockquoteBackgroundColor)
-                        .border(themeManager.lessonTheme.blockquoteBorderColor, width: 2)
+                        .background(themeManager.theme.blockquoteBackgroundColor)
+                        .overlay(
+                            RoundedRectangle(cornerRadius: 10)
+                                .stroke(themeManager.theme.blockquoteBorderColor, lineWidth: 2)  // Border with rounded corners
+                        )
                         .padding(.top, 10)
+                        .markdownTextStyle {
+                            FontWeight(.semibold)
+                            FontSize(.em(0.9))
+                            ForegroundColor(themeManager.theme.headingTextColor)
+                        }
                 }
                 .markdownBlockStyle(\.heading1) { configuration in
                     configuration.label
-                        .padding(.bottom, 10)
+                        .padding(.bottom, 20)
                         .markdownTextStyle {
                             FontWeight(.bold)
                             FontSize(.em(1.4))
-                            ForegroundColor(themeManager.lessonTheme.textColor)
+                            ForegroundColor(themeManager.theme.headingTextColor)
                         }
                 }
                 .markdownBlockStyle(\.heading2) { configuration in
@@ -59,7 +66,7 @@ struct LessonSectionView: View {
                         .markdownTextStyle {
                             FontWeight(.bold)
                             FontSize(.em(1.2))
-                            ForegroundColor(themeManager.lessonTheme.textColor)
+                            ForegroundColor(themeManager.theme.headingTextColor)
                         }
                 }
                 .markdownBlockStyle(\.heading3) { configuration in
@@ -68,14 +75,14 @@ struct LessonSectionView: View {
                         .markdownTextStyle {
                             FontWeight(.bold)
                             FontSize(.em(1.1))
-                            ForegroundColor(themeManager.lessonTheme.textColor)
+                            ForegroundColor(themeManager.theme.headingTextColor)
                         }
                 }
-                .markdownCodeSyntaxHighlighter(.splash(theme: self.theme))
                 .padding()
         }
-        .background(themeManager.lessonTheme.backgroundColor)
+        .background(themeManager.theme.backgroundColor)
     }
+
 
     @ViewBuilder
     private func codeBlock(_ configuration: CodeBlockConfiguration) -> some View {
@@ -83,8 +90,8 @@ struct LessonSectionView: View {
             HStack {
                 Text(configuration.language ?? "plain text")
                     .font(.system(.caption, design: .monospaced))
-                    .fontWeight(.semibold)
-                    .foregroundColor(themeManager.lessonTheme.textColor)
+                    .fontWeight(.bold)
+                    .foregroundColor(themeManager.theme.headingTextColor)
                 Spacer()
 
                 Image(systemName: "clipboard")
@@ -94,7 +101,7 @@ struct LessonSectionView: View {
             }
             .padding(.horizontal)
             .padding(.vertical, 8)
-            .background(themeManager.lessonTheme.blockquoteBackgroundColor)
+            .background(themeManager.theme.backgroundLighterColor)
 
             Divider()
 
@@ -103,7 +110,7 @@ struct LessonSectionView: View {
                     .padding()
             }
         }
-        .background(themeManager.lessonTheme.blockquoteBackgroundColor)
+        .background(themeManager.theme.blockquoteBackgroundColor)
         .clipShape(RoundedRectangle(cornerRadius: 8))
         .markdownMargin(top: .zero, bottom: .em(0.8))
     }
@@ -157,6 +164,6 @@ struct LessonSectionView_Previews: PreviewProvider {
             *Markdown* is often used for documentation, readme files, and more!
             """
         )
-        .environmentObject(ThemeManager(defaultTheme: .midnightBlue))
+        .environmentObject(ColorManager(colorTheme: .midnightBlue))
     }
 }

@@ -10,7 +10,7 @@ import SwiftData
 
 @main
 struct KnowledgeHubApp: App {
-    @StateObject private var themeManager = ThemeManager(defaultTheme: .midnightBlue)
+    @StateObject private var themeManager = ColorManager(colorTheme: .midnightBlue)
 
     var sharedModelContainer: ModelContainer = {
         let schema = Schema([
