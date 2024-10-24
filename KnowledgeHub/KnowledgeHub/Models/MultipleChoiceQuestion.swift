@@ -8,7 +8,7 @@
 import Foundation
 
 struct MultipleChoiceQuestion: Question {
-    let id: String
+    let id: QuestionId
     let profficiency: QuestionProfficiency
     let question: QuestionId
     let answers: [String]

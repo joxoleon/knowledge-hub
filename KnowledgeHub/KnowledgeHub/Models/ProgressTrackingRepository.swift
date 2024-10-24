@@ -8,8 +8,8 @@
 import Foundation
 
 protocol ProgressTrackingRepository {
-    func fetchTracking(for questionId: String) -> QuestionTrackingDataContainer
-    func updateTracking(for questionId: String, newState: QuestionTrackingDataContainer)
+    func fetchTracking(for questionId: QuestionId) -> QuestionTrackingDataContainer
+    func updateTracking(for questionId: QuestionId, newState: QuestionTrackingDataContainer)
 }
 
 struct QuestionTrackingDataContainer {
@@ -17,13 +17,13 @@ struct QuestionTrackingDataContainer {
 }
 
 class InMemoryProgressTrackingRepository: ProgressTrackingRepository {
-    private var questionTrackingData: [String: QuestionTrackingDataContainer] = [:]
+    private var questionTrackingData: [QuestionId: QuestionTrackingDataContainer] = [:]
 
-    func fetchTracking(for questionId: String) -> QuestionTrackingDataContainer {
+    func fetchTracking(for questionId: QuestionId) -> QuestionTrackingDataContainer {
         return questionTrackingData[questionId] ?? QuestionTrackingDataContainer(answeredState: .none)
     }
 
-    func updateTracking(for questionId: String, newState: QuestionTrackingDataContainer) {
+    func updateTracking(for questionId: QuestionId, newState: QuestionTrackingDataContainer) {
         questionTrackingData[questionId] = newState
     }
 }
