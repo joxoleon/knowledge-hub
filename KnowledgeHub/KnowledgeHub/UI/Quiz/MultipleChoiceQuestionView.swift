@@ -26,9 +26,9 @@ struct MultipleChoiceQuestionView: View {
     var body: some View {
         VStack(alignment: .leading) {
             Text(question.question)
-                .font(.system(size: 20, weight: .regular))
+                .font(.system(size: 20, weight: .medium))
                 .foregroundColor(colorManager.theme.heading1TextColor)
-                .padding([.top, .bottom], 25)
+                .padding([.top, .bottom], 20)
 
             ForEach(0..<question.answers.count, id: \.self) { index in
                 KHButton(
@@ -49,7 +49,6 @@ struct MultipleChoiceQuestionView: View {
                 
                 Text(question.fetchExplanation())
                     .font(.system(size: 14, weight: .medium))
-                    // .padding()
                     .background(colorManager.theme.questionExplanationBackgroundColor)
                     .foregroundColor(colorManager.theme.questionExplanationTextColor)
             }

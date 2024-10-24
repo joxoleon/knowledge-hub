@@ -64,8 +64,8 @@ extension ColorTheme {
         quoteTextColor: Color(#colorLiteral(red: 0.8470588235, green: 0.6663265001, blue: 0.4084971358, alpha: 1)),
         inlineCodeTextColor: Color(#colorLiteral(red: 0.8470588235, green: 0.6663265001, blue: 0.4084971358, alpha: 1)),
         codeBlockLanguageTextColor: Color(#colorLiteral(red: 0.8470588235, green: 0.6663265001, blue: 0.4084971358, alpha: 1)),
-        questionExplanationTextColor: Color(#colorLiteral(red: 1, green: 0.9423112676, blue: 0.9022147691, alpha: 1)),
-        buttonTextColor: Color(#colorLiteral(red: 1, green: 0.9423112676, blue: 0.9022147691, alpha: 1)),
+        questionExplanationTextColor: Color(#colorLiteral(red: 1, green: 0.8959273985, blue: 0.779499998, alpha: 1)),
+        buttonTextColor: Color(#colorLiteral(red: 1, green: 0.9206869829, blue: 0.8306420257, alpha: 1)),
 
         // Border Colors
         blockquoteBorderColor: Color(#colorLiteral(red: 0.298, green: 0.537, blue: 0.882, alpha: 1)),
