@@ -31,7 +31,7 @@ struct MultipleChoiceQuestionView: View {
                 .padding([.top, .bottom], 25)
 
             ForEach(0..<question.answers.count, id: \.self) { index in
-                AnswerButton(
+                KHButton(
                     answerText: question.answers[index],
                     state: buttonStates[index],
                     onSelected: { answerText in

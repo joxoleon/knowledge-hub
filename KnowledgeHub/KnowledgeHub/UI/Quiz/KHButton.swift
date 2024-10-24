@@ -11,7 +11,7 @@ enum ButtonState {
     case active, disabled, correct, wrong
 }
 
-struct AnswerButton: View {
+struct KHButton: View {
     @EnvironmentObject var colorManager: ColorManager
     let answerText: String
     let state: ButtonState
@@ -56,8 +56,8 @@ struct AnswerButton: View {
     
     var font: Font {
         switch state {
-        case .correct: return .system(size: 17, weight: .bold)
-        case .wrong: return .system(size: 16, weight: .regular)
+        case .correct: return .system(size: 18, weight: .bold)
+        case .wrong: return .system(size: 16, weight: .semibold)
         case .active, .disabled: return .system(size: 16, weight: .semibold)
         }
     }
@@ -99,25 +99,25 @@ struct AnswerButton_Previews: PreviewProvider {
             colorManager.theme.backgroundColor
                 .edgesIgnoringSafeArea(.all)
             VStack(spacing: 12) {
-                AnswerButton(
+                KHButton(
                     answerText: "The capital of France is Paris.",
                     state: .active,
                     onSelected: { _ in selectedAnswer = 0 } // Update the @State variable
                 )
                 .environmentObject(colorManager)
-                AnswerButton(
+                KHButton(
                     answerText: "The capital of Germany is Istanbul. But let's make this text a bit longer and see how it actually scales",
                     state: .disabled,
                     onSelected: { _ in selectedAnswer = 1 } // Update the @State variable
                 )
                 .environmentObject(colorManager)
-                AnswerButton(
+                KHButton(
                     answerText: "The capital of Italy is Prague.",
                     state: .correct,
                     onSelected: { _ in selectedAnswer = 2 } // Update the @State variable
                 )
                 .environmentObject(colorManager)
-                AnswerButton(
+                KHButton(
                     answerText: "The capital of Spain is MOJA KITA.",
                     state: .wrong,
                     onSelected: { _ in selectedAnswer = 3 } // Update the @State variable
