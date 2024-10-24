@@ -7,7 +7,13 @@
 - [x] Create lesson model and business logic
 - [x] Make the lesson view configurable by injecting it with the appropriate lesson business model
 - [x] Figure out how these are going to be configured and layed out in SwiftUI
-- [ ] Think of the models that are going to represent the business logic for courses, roadmaps and lessons and how are they going to be interconnected
+- [x] Think of the models that are going to represent the business logic for courses, roadmaps and lessons and how are they going to be interconnected
+- [x] Design and think about how Quiz is going to be implemented
+- [x] Implement: Question as a protocol, MultipleChoiceQuestion and Quiz models
+- [x] Figure out how to have progress tracking done regarding lessons and learning modules
+- [x] Implement progress tracking repository
+- [ ] Write unit tests for question, quiz and progres tracking repository implementations
+- [ ] Figure out how the Quiz UI is going to look like and start implementing it
 - [ ] Once that model is designed and implemented in a basic way, you need to figure out a good way how that content is going to be fed into the app and formatted in a correct way
 - [ ] Figure out how the LessonView (entire lesson) is going to fit into the rest of the app - is it going to be embedded into something - it needs to be completely fullscreen in order to have the most space for the text
 - [ ] Make that service abstract in such a way that it's API can be used independetly from where the lessons are being fetched, like a LessonService or some shit like that
