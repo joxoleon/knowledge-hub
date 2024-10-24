@@ -8,8 +8,8 @@
 import SwiftUI
 
 struct MultipleChoiceQuestionView: View {
-    @State private var selectedAnswer: String? = nil
-    @State private var buttonStates: [ButtonState] = []
+    @State private var selectedAnswer: String?
+    @State private var buttonStates: [ButtonState]
     
     let question: MultipleChoiceQuestion
     
@@ -60,11 +60,7 @@ struct MultipleChoiceQuestionView: View {
         // Update the button states
         for i in 0..<buttonStates.count {
             if i == index {
-                if question.correctAnswerIndex == index {
-                    buttonStates[i] = .correct
-                } else {
-                    buttonStates[i] = .wrong
-                }
+                buttonStates[i] = question.correctAnswerIndex == index ? .correct : .wrong
             } else if i == question.correctAnswerIndex {
                 buttonStates[i] = .correct
             } else {
@@ -83,25 +79,21 @@ struct MultipleChoiceQuestionView: View {
 
 struct MultipleChoicePreviewView: View {
     @State private var question: MultipleChoiceQuestion = MultipleChoiceQuestion.placeholder
-    @State private var multipleChoiceQuestionView: MultipleChoiceQuestionView?
+    @State private var resetTrigger: Bool = false
 
     var body: some View {
         VStack {
             Spacer()
-            
-            if let multipleChoiceQuestionView = multipleChoiceQuestionView {
-                multipleChoiceQuestionView
-            } else {
-                MultipleChoiceQuestionView(question: question)
-                    .onAppear {
-                        self.multipleChoiceQuestionView = MultipleChoiceQuestionView(question: question)
-                    }
-            }
+
+            // Recreate the MultipleChoiceQuestionView when resetTrigger toggles
+            MultipleChoiceQuestionView(question: question)
+                .id(resetTrigger) // Forces the view to reset when this id changes
             
             Spacer()
             
             Button("Reset") {
-                multipleChoiceQuestionView?.reset()
+                // Toggling resetTrigger forces the view to reset
+                resetTrigger.toggle()
             }
             .padding()
         }
