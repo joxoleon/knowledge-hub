@@ -28,7 +28,7 @@ struct AnswerButton: View {
                 .multilineTextAlignment(.leading)
                 .background(
                     ZStack {
-                        // Rectangle overlay for glassy appearance
+                        
                         RoundedRectangle(cornerRadius: 12)
                             .fill(
                                 LinearGradient(
@@ -42,14 +42,14 @@ struct AnswerButton: View {
                             )
                             .opacity(0.3)
                         
-                        // RoundedRectangle outline for glassy border
                         RoundedRectangle(cornerRadius: 12)
                             .stroke(color.opacity(0.3), lineWidth: 4)
                     }
                 )
-                .cornerRadius(12) // Ensures the RoundedRectangle has rounded corners
-                .shadow(color: Color.black.opacity(0.3), radius: 3, x: 3, y: 5) // Add shadow for depth
+                .cornerRadius(12)
+                .shadow(color: Color.black.opacity(0.3), radius: 3, x: 3, y: 5)
         }
+        .disabled(state != .active)
     }
     
     var font: Font {
@@ -63,7 +63,7 @@ struct AnswerButton: View {
     var color: Color {
         switch state {
         case .active: return .white
-        case .disabled: return Color(#colorLiteral(red: 0.2549019754, green: 0.2745098174, blue: 0.3019607961, alpha: 1))
+        case .disabled: return Color(#colorLiteral(red: 0.501960814, green: 0.501960814, blue: 0.501960814, alpha: 1))
         case .correct: return .green
         case .wrong: return .red
         }
