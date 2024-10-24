@@ -23,6 +23,8 @@ public struct ColorTheme {
     var blockquoteBackgroundColor: Color
     var codeBackgroundColor: Color
     var codeBlockInlineBackgroundColor: Color
+    var questionExplanationBackgroundColor: Color
+    
     // Text Colors
     var textColor: Color
     var strongTextColor: Color
@@ -33,9 +35,13 @@ public struct ColorTheme {
     var quoteTextColor: Color
     var inlineCodeTextColor: Color
     var codeBlockLanguageTextColor: Color
+    var questionExplanationTextColor: Color
+    var buttonTextColor: Color
+    
     // Border Colors
     var blockquoteBorderColor: Color
-    var explanationBorderColor: Color
+    var questionExplanationBorderColor: Color
+    var buttonBorderColor: Color
 }
 
 extension ColorTheme {
@@ -46,6 +52,7 @@ extension ColorTheme {
         blockquoteBackgroundColor: Color(#colorLiteral(red: 0.145, green: 0.192, blue: 0.247, alpha: 1)),
         codeBackgroundColor: Color(#colorLiteral(red: 0.145, green: 0.192, blue: 0.247, alpha: 1)),
         codeBlockInlineBackgroundColor: Color(#colorLiteral(red: 0.145, green: 0.192, blue: 0.247, alpha: 1)),
+        questionExplanationBackgroundColor: Color(#colorLiteral(red: 0.145, green: 0.192, blue: 0.247, alpha: 1)),
         
         // Text Colors
         textColor: Color(#colorLiteral(red: 0.839, green: 0.851, blue: 0.882, alpha: 1)),
@@ -57,10 +64,13 @@ extension ColorTheme {
         quoteTextColor: Color(#colorLiteral(red: 0.8470588235, green: 0.6663265001, blue: 0.4084971358, alpha: 1)),
         inlineCodeTextColor: Color(#colorLiteral(red: 0.8470588235, green: 0.6663265001, blue: 0.4084971358, alpha: 1)),
         codeBlockLanguageTextColor: Color(#colorLiteral(red: 0.8470588235, green: 0.6663265001, blue: 0.4084971358, alpha: 1)),
-        
+        questionExplanationTextColor: Color(#colorLiteral(red: 1, green: 0.9423112676, blue: 0.9022147691, alpha: 1)),
+        buttonTextColor: Color(#colorLiteral(red: 1, green: 0.9423112676, blue: 0.9022147691, alpha: 1)),
+
         // Border Colors
         blockquoteBorderColor: Color(#colorLiteral(red: 0.298, green: 0.537, blue: 0.882, alpha: 1)),
-        explanationBorderColor: Color(#colorLiteral(red: 0.8470588235, green: 0.6663265001, blue: 0.4084971358, alpha: 1))
+        questionExplanationBorderColor: Color(#colorLiteral(red: 0.8470588235, green: 0.6663265001, blue: 0.4084971358, alpha: 1)),
+        buttonBorderColor: Color(#colorLiteral(red: 0.8470588235, green: 0.6663265001, blue: 0.4084971358, alpha: 1))
     )
 }
 

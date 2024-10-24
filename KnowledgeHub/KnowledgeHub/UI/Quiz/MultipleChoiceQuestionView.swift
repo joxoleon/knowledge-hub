@@ -26,12 +26,10 @@ struct MultipleChoiceQuestionView: View {
     var body: some View {
         VStack(alignment: .leading) {
             Text(question.question)
-                .font(.system(size: 20, weight: .bold))
-                .foregroundColor(.white)
-                .padding(.top, 25)
-                .padding(.bottom, 25)
+                .font(.system(size: 20, weight: .regular))
+                .foregroundColor(colorManager.theme.heading1TextColor)
+                .padding([.top, .bottom], 25)
 
-            // Display answer buttons
             ForEach(0..<question.answers.count, id: \.self) { index in
                 AnswerButton(
                     answerText: question.answers[index],
@@ -43,20 +41,31 @@ struct MultipleChoiceQuestionView: View {
                 .padding(.bottom, 8)
             }
 
-            Text(question.fetchExplanation())
-                .font(.subheadline)
-                .padding()
-                .background(colorManager.theme.backgroundLighterColor)
-                .cornerRadius(12)
-                .overlay(
-                    RoundedRectangle(cornerRadius: 12)
-                        .stroke(.white, lineWidth: 2)
-                )
-                .padding(.top, 16)
-//                .opacity(hasSubmittedAnswer ? 1 : 0)
-                .animation(.easeInOut, value: hasSubmittedAnswer)
+            VStack {
+                Text("TAKEAWAY")
+                    .font(.system(size: 12, weight: .bold))
+                    .foregroundColor(colorManager.theme.buttonBorderColor)
+                    .padding(.bottom, 8)
+                
+                Text(question.fetchExplanation())
+                    .font(.system(size: 14, weight: .medium))
+                    // .padding()
+                    .background(colorManager.theme.questionExplanationBackgroundColor)
+                    .foregroundColor(colorManager.theme.questionExplanationTextColor)
+            }
+            .padding([.top, .bottom], 8)
+            .padding()
+            .background(colorManager.theme.questionExplanationBackgroundColor)
+            .cornerRadius(12)
+            .overlay(
+                RoundedRectangle(cornerRadius: 16)
+                    .stroke(colorManager.theme.questionExplanationBorderColor, lineWidth: 2)
+            )
+            .opacity(hasSubmittedAnswer ? 1 : 0)
+            .animation(.easeInOut(duration: 0.5), value: hasSubmittedAnswer)
+
         }
-        .padding()
+        .padding(18)
     }
 
     // Handle the answer selection and update button states
