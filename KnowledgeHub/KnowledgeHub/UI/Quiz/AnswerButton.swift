@@ -77,7 +77,7 @@ struct AnswerButton_Previews: PreviewProvider {
     static var previews: some View {
         ZStack {
             colorManager.theme.backgroundColor
-                .edgesIgnoringSafeArea(.all) // Ensure the background color covers the entire preview area
+                .edgesIgnoringSafeArea(.all)
             VStack(spacing: 12) {
                 AnswerButton(
                     answerText: "The capital of France is Paris.",
