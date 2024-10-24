@@ -8,6 +8,7 @@
 import SwiftUI
 
 struct MultipleChoiceQuestionView: View {
+    @EnvironmentObject var colorManager: ColorManager
     @State private var selectedAnswer: String?
     @State private var buttonStates: [ButtonState]
     
@@ -25,8 +26,10 @@ struct MultipleChoiceQuestionView: View {
     var body: some View {
         VStack(alignment: .leading) {
             Text(question.question)
-                .font(.headline)
-                .padding(.bottom, 16)
+                .font(.system(size: 20, weight: .bold))
+                .foregroundColor(.white)
+                .padding(.top, 25)
+                .padding(.bottom, 25)
 
             // Display answer buttons
             ForEach(0..<question.answers.count, id: \.self) { index in
@@ -40,13 +43,18 @@ struct MultipleChoiceQuestionView: View {
                 .padding(.bottom, 8)
             }
 
-            // Explanation section (after submission)
-            if hasSubmittedAnswer {
-                Text(question.fetchExplanation())
-                    .font(.subheadline)
-                    .padding(.top, 16)
-                    .transition(.opacity)
-            }
+            Text(question.fetchExplanation())
+                .font(.subheadline)
+                .padding()
+                .background(colorManager.theme.backgroundLighterColor)
+                .cornerRadius(12)
+                .overlay(
+                    RoundedRectangle(cornerRadius: 12)
+                        .stroke(.white, lineWidth: 2)
+                )
+                .padding(.top, 16)
+//                .opacity(hasSubmittedAnswer ? 1 : 0)
+                .animation(.easeInOut, value: hasSubmittedAnswer)
         }
         .padding()
     }
@@ -107,6 +115,8 @@ struct MultipleChoiceQuestionView_Previews: PreviewProvider {
                 .edgesIgnoringSafeArea(.all)
             
             MultipleChoicePreviewView()
+                .environmentObject(ColorManager(colorTheme: .midnightBlue))
+
         }
     }
 }

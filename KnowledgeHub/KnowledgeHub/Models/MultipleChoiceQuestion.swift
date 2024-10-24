@@ -37,17 +37,17 @@ struct MultipleChoiceQuestion: Question {
 extension MultipleChoiceQuestion {
     static var placeholder: MultipleChoiceQuestion {
         MultipleChoiceQuestion(
-            id: "placeholderQuestionId",
-            profficiency: .basic,
-            question: "Placeholder question",
+            id: "swiftuiQuestionId",
+            profficiency: .intermediate,
+            question: "Which of the following is used to manage state in a SwiftUI view?",
             answers: [
-                "Placeholder answer 1",
-                "Placeholder answer 2",
-                "Placeholder answer 3",
-                "Placeholder answer 4",
+                "@State",
+                "@Binding",
+                "@EnvironmentObject",
+                "All of the above"
             ],
-            correctAnswerIndex: 0,
-            explanation: "Placeholder explanation",
+            correctAnswerIndex: 3,
+            explanation: "In SwiftUI, @State, @Binding, and @EnvironmentObject are all used to manage state in different ways. @State is used for local state, @Binding is used to pass state between views, and @EnvironmentObject is used for shared state across the app.",
             progressTrackingRepository: InMemoryProgressTrackingRepository.placeholderTrackingRepository
         )
     }

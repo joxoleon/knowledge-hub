@@ -35,6 +35,7 @@ public struct ColorTheme {
     var codeBlockLanguageTextColor: Color
     // Border Colors
     var blockquoteBorderColor: Color
+    var explanationBorderColor: Color
 }
 
 extension ColorTheme {
@@ -56,8 +57,10 @@ extension ColorTheme {
         quoteTextColor: Color(#colorLiteral(red: 0.8470588235, green: 0.6663265001, blue: 0.4084971358, alpha: 1)),
         inlineCodeTextColor: Color(#colorLiteral(red: 0.8470588235, green: 0.6663265001, blue: 0.4084971358, alpha: 1)),
         codeBlockLanguageTextColor: Color(#colorLiteral(red: 0.8470588235, green: 0.6663265001, blue: 0.4084971358, alpha: 1)),
+        
         // Border Colors
-        blockquoteBorderColor: Color(#colorLiteral(red: 0.298, green: 0.537, blue: 0.882, alpha: 1))
+        blockquoteBorderColor: Color(#colorLiteral(red: 0.298, green: 0.537, blue: 0.882, alpha: 1)),
+        explanationBorderColor: Color(#colorLiteral(red: 0.8470588235, green: 0.6663265001, blue: 0.4084971358, alpha: 1))
     )
 }
 
