@@ -22,6 +22,7 @@ struct AnswerButton: View {
                 .foregroundColor(.white)
                 .padding()
                 .frame(maxWidth: .infinity, alignment: .leading)
+                .multilineTextAlignment(.leading)
                 .background(
                     ZStack {
                         // Rectangle overlay for glassy appearance
@@ -40,25 +41,13 @@ struct AnswerButton: View {
                         
                         // RoundedRectangle outline for glassy border
                         RoundedRectangle(cornerRadius: 12)
-                            .stroke(Color.white.opacity(0.3), lineWidth: 2)
+                            .stroke(Color.white.opacity(0.3), lineWidth: 3)
                     }
                 )
                 .cornerRadius(12) // Ensures the RoundedRectangle has rounded corners
                 .shadow(color: Color.black.opacity(0.6), radius: 3, x: 3, y: 5) // Add shadow for depth
         }
         .animation(.easeInOut, value: isSelected)
-    }
-}
-
-struct BlurView: UIViewRepresentable {
-    var style: UIBlurEffect.Style
-    
-    func makeUIView(context: Context) -> UIVisualEffectView {
-        return UIVisualEffectView(effect: UIBlurEffect(style: style))
-    }
-    
-    func updateUIView(_ uiView: UIVisualEffectView, context: Context) {
-        uiView.effect = UIBlurEffect(style: style)
     }
 }
 
@@ -90,7 +79,7 @@ struct AnswerButton_Previews: PreviewProvider {
                     onSelected: { selectedAnswer = 2 } // Update the @State variable
                 )
                 AnswerButton(
-                    answerText: "The capital of Spain is Madrid.",
+                    answerText: "The capital of Spain is MOJA KITA.",
                     isCorrect: false,
                     isSelected: selectedAnswer == 3,
                     onSelected: { selectedAnswer = 3 } // Update the @State variable
