@@ -13,7 +13,8 @@
 - [x] Figure out how to have progress tracking done regarding lessons and learning modules
 - [x] Implement progress tracking repository
 - [ ] Write unit tests for question, quiz and progres tracking repository implementations
-- [ ] Figure out how the Quiz UI is going to look like and start implementing it
+- [ ] Implement MultipleChoiceQuestion UI
+- [ ] Implement Quiz UI and navigation flow
 - [ ] Once that model is designed and implemented in a basic way, you need to figure out a good way how that content is going to be fed into the app and formatted in a correct way
 - [ ] Figure out how the LessonView (entire lesson) is going to fit into the rest of the app - is it going to be embedded into something - it needs to be completely fullscreen in order to have the most space for the text
 - [ ] Make that service abstract in such a way that it's API can be used independetly from where the lessons are being fetched, like a LessonService or some shit like that
