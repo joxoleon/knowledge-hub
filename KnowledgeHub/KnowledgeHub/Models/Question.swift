@@ -23,6 +23,7 @@ protocol Question {
     var progressTrackingRepository: ProgressTrackingRepository { get set } // Keeps track of answer state
     func validateAnswer(_ givenAnswer: String) -> Bool // Validates if the answer is correct
     func fetchExplanation() -> String // Returns the explanation for the correct answer
+    func submitAnswer(_ givenAnswer: String)
 }
 
 extension Question {

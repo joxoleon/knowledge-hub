@@ -10,6 +10,7 @@
 		415024322CC6A78F009EE8C3 /* Ink in Frameworks */ = {isa = PBXBuildFile; productRef = 415024312CC6A78F009EE8C3 /* Ink */; };
 		4152A8042CC6AB66009A445D /* MarkdownUI in Frameworks */ = {isa = PBXBuildFile; productRef = 4152A8032CC6AB66009A445D /* MarkdownUI */; };
 		4152A8072CC6F61E009A445D /* Splash in Frameworks */ = {isa = PBXBuildFile; productRef = 4152A8062CC6F61E009A445D /* Splash */; };
+		41D501C22CCB8778004EFDFD /* ProgressIndicatorView in Frameworks */ = {isa = PBXBuildFile; productRef = 41D501C12CCB8778004EFDFD /* ProgressIndicatorView */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -73,6 +74,7 @@
 			files = (
 				415024322CC6A78F009EE8C3 /* Ink in Frameworks */,
 				4152A8042CC6AB66009A445D /* MarkdownUI in Frameworks */,
+				41D501C22CCB8778004EFDFD /* ProgressIndicatorView in Frameworks */,
 				4152A8072CC6F61E009A445D /* Splash in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -137,6 +139,7 @@
 				415024312CC6A78F009EE8C3 /* Ink */,
 				4152A8032CC6AB66009A445D /* MarkdownUI */,
 				4152A8062CC6F61E009A445D /* Splash */,
+				41D501C12CCB8778004EFDFD /* ProgressIndicatorView */,
 			);
 			productName = KnowledgeHub;
 			productReference = 415023FB2CC69A5F009EE8C3 /* KnowledgeHub.app */;
@@ -224,6 +227,7 @@
 				415024302CC6A78F009EE8C3 /* XCRemoteSwiftPackageReference "Ink" */,
 				4152A8022CC6AB66009A445D /* XCRemoteSwiftPackageReference "MarkdownUI" */,
 				4152A8052CC6F61E009A445D /* XCRemoteSwiftPackageReference "Splash" */,
+				41D501C02CCB8778004EFDFD /* XCRemoteSwiftPackageReference "ProgressIndicatorView" */,
 			);
 			preferredProjectObjectVersion = 77;
 			productRefGroup = 415023FC2CC69A5F009EE8C3 /* Products */;
@@ -618,6 +622,14 @@
 				minimumVersion = 0.16.0;
 			};
 		};
+		41D501C02CCB8778004EFDFD /* XCRemoteSwiftPackageReference "ProgressIndicatorView" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/exyte/ProgressIndicatorView";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 1.0.0;
+			};
+		};
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
@@ -635,6 +647,11 @@
 			isa = XCSwiftPackageProductDependency;
 			package = 4152A8052CC6F61E009A445D /* XCRemoteSwiftPackageReference "Splash" */;
 			productName = Splash;
+		};
+		41D501C12CCB8778004EFDFD /* ProgressIndicatorView */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 41D501C02CCB8778004EFDFD /* XCRemoteSwiftPackageReference "ProgressIndicatorView" */;
+			productName = ProgressIndicatorView;
 		};
 /* End XCSwiftPackageProductDependency section */
 	};

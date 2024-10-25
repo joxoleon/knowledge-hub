@@ -65,7 +65,26 @@ extension QuizImpl {
                     correctAnswerIndex: 1,
                     explanation: "Swift is the main programming language for iOS development.",
                     progressTrackingRepository: InMemoryProgressTrackingRepository.placeholderTrackingRepository
-                )
+                ),
+                MultipleChoiceQuestion(
+                    id: "q3",
+                    profficiency: .advanced,
+                    question: "What is the capital of Australia?",
+                    answers: ["Sydney", "Melbourne", "Canberra", "Brisbane"],
+                    correctAnswerIndex: 2,
+                    explanation: "Canberra is the capital of Australia.",
+                    progressTrackingRepository: InMemoryProgressTrackingRepository.placeholderTrackingRepository
+                ),
+                MultipleChoiceQuestion(
+                    id: "q4",
+                    profficiency: .basic,
+                    question: "What is the capital of Japan?",
+                    answers: ["Tokyo", "Kyoto", "Osaka", "Hiroshima"],
+                    correctAnswerIndex: 0,
+                    explanation: "Tokyo is the capital of Japan.",
+                    progressTrackingRepository: InMemoryProgressTrackingRepository.placeholderTrackingRepository
+                ),
+
             ],
             progressTrackingRepository: InMemoryProgressTrackingRepository.placeholderTrackingRepository
         )

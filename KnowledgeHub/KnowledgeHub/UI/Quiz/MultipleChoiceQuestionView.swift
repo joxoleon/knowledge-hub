@@ -8,21 +8,28 @@
 import SwiftUI
 
 struct MultipleChoiceQuestionView: View {
+    
+    // MARK: - Properties
     @EnvironmentObject var colorManager: ColorManager
-    @State private var selectedAnswer: String?
     @State private var buttonStates: [ButtonState]
+    @Binding var selectedAnswer: String? {
+        didSet {
+            updateButtonStates()
+        }
+    }
     
     let question: MultipleChoiceQuestion
     
-    var hasSubmittedAnswer: Bool {
-        selectedAnswer != nil
-    }
+    // MARK: - Initialization
     
-    init(question: MultipleChoiceQuestion) {
+    init(question: MultipleChoiceQuestion, selectedAnswer: Binding<String?>) {
         self.question = question
         _buttonStates = State(initialValue: Array(repeating: .active, count: question.answers.count))
+        _selectedAnswer = selectedAnswer
     }
 
+    // MARK: - UI
+    
     var body: some View {
         VStack(alignment: .leading) {
             Text(question.question)
@@ -35,7 +42,7 @@ struct MultipleChoiceQuestionView: View {
                     answerText: question.answers[index],
                     state: buttonStates[index],
                     onSelected: { answerText in
-                        handleAnswerSelection(index: index, answerText: answerText)
+                        selectedAnswer = answerText
                     }
                 )
                 .padding(.bottom, 8)
@@ -54,40 +61,44 @@ struct MultipleChoiceQuestionView: View {
             }
             .padding([.top, .bottom], 8)
             .padding()
+            .frame(maxWidth: .infinity)
             .background(colorManager.theme.questionExplanationBackgroundColor)
             .cornerRadius(12)
             .overlay(
                 RoundedRectangle(cornerRadius: 16)
                     .stroke(colorManager.theme.questionExplanationBorderColor, lineWidth: 2)
             )
-            .opacity(hasSubmittedAnswer ? 1 : 0)
-            .animation(.easeInOut(duration: 0.5), value: hasSubmittedAnswer)
+            .opacity(selectedAnswer != nil ? 1 : 0)
+            .animation(.easeInOut(duration: 0.5), value: selectedAnswer != nil)
 
         }
         .padding(18)
     }
 
-    // Handle the answer selection and update button states
-    func handleAnswerSelection(index: Int, answerText: String) {
-        // Prevent further selection if an answer has already been submitted
-        if hasSubmittedAnswer { return }
-        selectedAnswer = answerText
 
-        // Update the button states
-        for i in 0..<buttonStates.count {
-            if i == index {
-                buttonStates[i] = question.correctAnswerIndex == index ? .correct : .wrong
-            } else if i == question.correctAnswerIndex {
-                buttonStates[i] = .correct
+    
+    // MARK: - Private methods
+    
+    private func updateButtonStates() {
+        guard let selectedAnswer = selectedAnswer,
+              let selectedIndex = question.answers.firstIndex(of: selectedAnswer) else {
+            return
+        }
+    
+        buttonStates = buttonStates.enumerated().map { index, state in
+            if index == selectedIndex {
+                return question.correctAnswerIndex == index ? .correct : .wrong
+            } else if index == question.correctAnswerIndex {
+                return .correct
             } else {
-                buttonStates[i] = .disabled
+                return .disabled
             }
         }
-
-        question.submitAnswer(answerText)
     }
     
-    func reset() {
+    // MARK: - Preview
+    
+    private func reset() {
         selectedAnswer = nil
         buttonStates = Array(repeating: .active, count: question.answers.count)
     }
@@ -96,13 +107,14 @@ struct MultipleChoiceQuestionView: View {
 struct MultipleChoicePreviewView: View {
     @State private var question: MultipleChoiceQuestion = MultipleChoiceQuestion.placeholder
     @State private var resetTrigger: Bool = false
+    @State private var selectedAnswer: String?
 
     var body: some View {
         VStack {
             Spacer()
 
             // Recreate the MultipleChoiceQuestionView when resetTrigger toggles
-            MultipleChoiceQuestionView(question: question)
+            MultipleChoiceQuestionView(question: question, selectedAnswer: $selectedAnswer)
                 .id(resetTrigger) // Forces the view to reset when this id changes
             
             Spacer()

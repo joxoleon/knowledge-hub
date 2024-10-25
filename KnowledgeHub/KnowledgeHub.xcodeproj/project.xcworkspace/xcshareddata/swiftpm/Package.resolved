@@ -1,5 +1,5 @@
 {
-  "originHash" : "da1bd64122efc4ec3eec3b2e50996b33776f24c6cc39b4daed4ab0325abc0d8c",
+  "originHash" : "65833b6da5df8df5cebfc621ed68b9d1ac77277f4c60ce543242b7ae82ac60de",
   "pins" : [
     {
       "identity" : "ink",
@@ -26,6 +26,15 @@
       "state" : {
         "revision" : "2849f5323265386e200484b0d0f896e73c3411b9",
         "version" : "6.0.1"
+      }
+    },
+    {
+      "identity" : "progressindicatorview",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/exyte/ProgressIndicatorView",
+      "state" : {
+        "revision" : "3c33c42939e5bcbd91e20b2ca32ea4fa1b823653",
+        "version" : "1.0.0"
       }
     },
     {
