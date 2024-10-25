@@ -46,14 +46,17 @@ class QuizViewModel: ObservableObject {
     // MARK: - Methods
     
     func submitAnswer(for question: Question, givenAnswer: String) {
+        print("Submitting answer: \(givenAnswer)")
         question.submitAnswer(givenAnswer)
         isNextButtonEnabled = true
     }
 
     func goToNextQuestion() {
+        print("Going to next question")
         if currentQuestionIndex < quiz.questions.count - 1 {
             currentQuestionIndex += 1
             isNextButtonEnabled = false
+            print("Setting selected answer to nil")
             selectedAnswer = nil
         }
     }
@@ -61,6 +64,7 @@ class QuizViewModel: ObservableObject {
     // MARK: - Private methods
     
     private func calculateProgress() {
+        print("Calculating progress")
         progress = CGFloat(currentQuestionIndex) / CGFloat(quiz.questions.count)
     }
 }

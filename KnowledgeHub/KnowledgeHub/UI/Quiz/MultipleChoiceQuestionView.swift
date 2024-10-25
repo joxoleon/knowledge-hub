@@ -12,11 +12,7 @@ struct MultipleChoiceQuestionView: View {
     // MARK: - Properties
     @EnvironmentObject var colorManager: ColorManager
     @State private var buttonStates: [ButtonState]
-    @Binding var selectedAnswer: String? {
-        didSet {
-            updateButtonStates()
-        }
-    }
+    @Binding var selectedAnswer: String?
     
     let question: MultipleChoiceQuestion
     
@@ -24,83 +20,87 @@ struct MultipleChoiceQuestionView: View {
     
     init(question: MultipleChoiceQuestion, selectedAnswer: Binding<String?>) {
         self.question = question
-        _buttonStates = State(initialValue: Array(repeating: .active, count: question.answers.count))
         _selectedAnswer = selectedAnswer
+        _buttonStates = State(initialValue: Array(repeating: .active, count: question.answers.count))
     }
 
     // MARK: - UI
     
     var body: some View {
-        VStack(alignment: .leading) {
-            Text(question.question)
-                .font(.system(size: 20, weight: .medium))
-                .foregroundColor(colorManager.theme.heading1TextColor)
-                .padding([.top, .bottom], 20)
-
-            ForEach(0..<question.answers.count, id: \.self) { index in
-                KHButton(
-                    answerText: question.answers[index],
-                    state: buttonStates[index],
-                    onSelected: { answerText in
-                        selectedAnswer = answerText
-                    }
-                )
-                .padding(.bottom, 8)
-            }
-
-            VStack {
-                Text("TAKEAWAY")
-                    .font(.system(size: 12, weight: .bold))
-                    .foregroundColor(colorManager.theme.buttonBorderColor)
-                    .padding(.bottom, 8)
-                
-                Text(question.fetchExplanation())
-                    .font(.system(size: 14, weight: .medium))
-                    .background(colorManager.theme.questionExplanationBackgroundColor)
-                    .foregroundColor(colorManager.theme.questionExplanationTextColor)
-            }
-            .padding([.top, .bottom], 8)
-            .padding()
-            .frame(maxWidth: .infinity)
-            .background(colorManager.theme.questionExplanationBackgroundColor)
-            .cornerRadius(12)
-            .overlay(
-                RoundedRectangle(cornerRadius: 16)
-                    .stroke(colorManager.theme.questionExplanationBorderColor, lineWidth: 2)
-            )
-            .opacity(selectedAnswer != nil ? 1 : 0)
-            .animation(.easeInOut(duration: 0.5), value: selectedAnswer != nil)
-
+        VStack(alignment: .leading, spacing: 20) {
+            questionText
+            answerButtons
+            explanationSection
+                .opacity(selectedAnswer != nil ? 1 : 0)
+                .animation(.easeInOut(duration: 0.5), value: selectedAnswer != nil)
         }
         .padding(18)
+        .onChange(of: selectedAnswer) { _ in
+            updateButtonStates()
+        }
     }
 
-
+    // MARK: - Subviews
     
-    // MARK: - Private methods
+    private var questionText: some View {
+        Text(question.question)
+            .font(.system(size: 20, weight: .medium))
+            .foregroundColor(colorManager.theme.heading1TextColor)
+            .padding(.vertical, 20)
+    }
+
+    private var answerButtons: some View {
+        ForEach(0..<question.answers.count, id: \.self) { index in
+            KHButton(
+                state: $buttonStates[index],
+                answerText: question.answers[index],
+                onSelected: { answerText in
+                    selectedAnswer = answerText
+                }
+            )
+            .padding(.bottom, 8)
+        }
+    }
+
+    private var explanationSection: some View {
+        VStack {
+            Text("TAKEAWAY")
+                .font(.system(size: 12, weight: .bold))
+                .foregroundColor(colorManager.theme.buttonBorderColor)
+                .padding(.bottom, 8)
+            
+            Text(question.fetchExplanation())
+                .font(.system(size: 14, weight: .medium))
+                .background(colorManager.theme.questionExplanationBackgroundColor)
+                .foregroundColor(colorManager.theme.questionExplanationTextColor)
+                .padding()
+                .background(colorManager.theme.questionExplanationBackgroundColor)
+                .cornerRadius(12)
+                .overlay(
+                    RoundedRectangle(cornerRadius: 16)
+                        .stroke(colorManager.theme.questionExplanationBorderColor, lineWidth: 2)
+                )
+        }
+        .padding([.top, .bottom], 8)
+    }
+
+    // MARK: - Private Methods
     
     private func updateButtonStates() {
-        guard let selectedAnswer = selectedAnswer,
-              let selectedIndex = question.answers.firstIndex(of: selectedAnswer) else {
+        guard let selectedAnswer = selectedAnswer else {
+            buttonStates = Array(repeating: .active, count: question.answers.count)
             return
         }
-    
-        buttonStates = buttonStates.enumerated().map { index, state in
-            if index == selectedIndex {
-                return question.correctAnswerIndex == index ? .correct : .wrong
+
+        buttonStates = question.answers.indices.map { index in
+            if question.answers[index] == selectedAnswer {
+                return index == question.correctAnswerIndex ? .correct : .wrong
             } else if index == question.correctAnswerIndex {
                 return .correct
             } else {
                 return .disabled
             }
         }
-    }
-    
-    // MARK: - Preview
-    
-    private func reset() {
-        selectedAnswer = nil
-        buttonStates = Array(repeating: .active, count: question.answers.count)
     }
 }
 

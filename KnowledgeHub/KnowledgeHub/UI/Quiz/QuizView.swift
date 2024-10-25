@@ -22,6 +22,7 @@ struct QuizView: View {
 
             // Next Button
             Button(action: {
+                print("Next Button Pressed")
                 viewModel.goToNextQuestion()
             }) {
                 Text("Next")
