@@ -13,17 +13,19 @@ struct ContentView: View {
     @EnvironmentObject var colorManager: ColorManager
 
     var body: some View {
-        let sampleQuiz = QuizImpl.placeholderQuiz
-        let quizViewModel = QuizViewModel(quiz: sampleQuiz)
-        
-        ZStack {
-            colorManager.theme.backgroundColor
-                .edgesIgnoringSafeArea(.all)
+        NavigationView { // Wrap the content in a NavigationView
+            let sampleQuiz = QuizImpl.placeholderQuiz
+            let quizViewModel = QuizViewModel(quiz: sampleQuiz)
             
-            QuizView(viewModel: quizViewModel)
-                .environmentObject(colorManager)
+            ZStack {
+                colorManager.theme.backgroundColor
+                    .edgesIgnoringSafeArea(.all)
+                
+                // Embed QuizView in a NavigationLink if you want to push it onto the stack from here
+                QuizView(viewModel: quizViewModel)
+                    .environmentObject(colorManager)
+            }
         }
-
     }
 }
 
@@ -33,5 +35,3 @@ struct ContentView: View {
         .environmentObject(ColorManager(colorTheme: .midnightBlue))
         .modelContainer(for: Item.self, inMemory: true)
 }
-
-
