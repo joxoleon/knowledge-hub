@@ -51,40 +51,66 @@ extension QuizImpl {
                 MultipleChoiceQuestion(
                     id: "q1",
                     profficiency: .basic,
-                    question: "What is the capital of France?",
-                    answers: ["Berlin", "Madrid", "Paris", "Rome"],
-                    correctAnswerIndex: 2,
-                    explanation: "Paris is the capital of France.",
-                    progressTrackingRepository: InMemoryProgressTrackingRepository.placeholderTrackingRepository
-                ),
-                MultipleChoiceQuestion(
-                    id: "q2",
-                    profficiency: .intermediate,
-                    question: "Which programming language is used for iOS development?",
+                    question: "What is the main programming language used for iOS development?",
                     answers: ["Python", "Swift", "Java", "Kotlin"],
                     correctAnswerIndex: 1,
                     explanation: "Swift is the main programming language for iOS development.",
                     progressTrackingRepository: InMemoryProgressTrackingRepository.placeholderTrackingRepository
                 ),
                 MultipleChoiceQuestion(
+                    id: "q2",
+                    profficiency: .intermediate,
+                    question: "Which framework is used for building user interfaces in iOS?",
+                    answers: ["UIKit", "React Native", "Flutter", "Xamarin"],
+                    correctAnswerIndex: 0,
+                    explanation: "UIKit is the primary framework used for building user interfaces in iOS.",
+                    progressTrackingRepository: InMemoryProgressTrackingRepository.placeholderTrackingRepository
+                ),
+                MultipleChoiceQuestion(
                     id: "q3",
                     profficiency: .advanced,
-                    question: "What is the capital of Australia?",
-                    answers: ["Sydney", "Melbourne", "Canberra", "Brisbane"],
-                    correctAnswerIndex: 2,
-                    explanation: "Canberra is the capital of Australia.",
+                    question: "What is the purpose of the @State property wrapper in SwiftUI?",
+                    answers: ["To manage state in a view", "To create a new view", "To handle network requests", "To manage memory"],
+                    correctAnswerIndex: 0,
+                    explanation: "@State is used to manage state in a SwiftUI view.",
                     progressTrackingRepository: InMemoryProgressTrackingRepository.placeholderTrackingRepository
                 ),
                 MultipleChoiceQuestion(
                     id: "q4",
                     profficiency: .basic,
-                    question: "What is the capital of Japan?",
-                    answers: ["Tokyo", "Kyoto", "Osaka", "Hiroshima"],
+                    question: "What is the file extension for Swift source files?",
+                    answers: [".swift", ".java", ".py", ".js"],
                     correctAnswerIndex: 0,
-                    explanation: "Tokyo is the capital of Japan.",
+                    explanation: "The file extension for Swift source files is .swift.",
                     progressTrackingRepository: InMemoryProgressTrackingRepository.placeholderTrackingRepository
                 ),
-
+                MultipleChoiceQuestion(
+                    id: "q5",
+                    profficiency: .intermediate,
+                    question: "Which tool is used to manage dependencies in Swift projects?",
+                    answers: ["CocoaPods", "npm", "Maven", "Gradle"],
+                    correctAnswerIndex: 0,
+                    explanation: "CocoaPods is a dependency manager for Swift and Objective-C projects.",
+                    progressTrackingRepository: InMemoryProgressTrackingRepository.placeholderTrackingRepository
+                ),
+                MultipleChoiceQuestion(
+                    id: "q6",
+                    profficiency: .advanced,
+                    question: "What is the purpose of the @Published property wrapper in Swift?",
+                    answers: ["To publish a view", "To manage state in a view", "To notify observers of changes", "To handle network requests"],
+                    correctAnswerIndex: 2,
+                    explanation: "@Published is used to notify observers of changes to a property in a Swift class.",
+                    progressTrackingRepository: InMemoryProgressTrackingRepository.placeholderTrackingRepository
+                ),
+                MultipleChoiceQuestion(
+                    id: "q7",
+                    profficiency: .basic,
+                    question: "Which company developed the Swift programming language?",
+                    answers: ["Google", "Microsoft", "Apple", "Facebook"],
+                    correctAnswerIndex: 2,
+                    explanation: "Apple developed the Swift programming language.",
+                    progressTrackingRepository: InMemoryProgressTrackingRepository.placeholderTrackingRepository
+                ),
             ],
             progressTrackingRepository: InMemoryProgressTrackingRepository.placeholderTrackingRepository
         )

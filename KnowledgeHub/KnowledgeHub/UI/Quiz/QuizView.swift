@@ -29,7 +29,7 @@ struct QuizView: View {
             progressSection
             navigationButtonSection
                 .padding(.bottom, 20)
-                .padding(.top)
+                .padding(.top, 4)
         }
     }
     

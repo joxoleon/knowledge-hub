@@ -80,6 +80,7 @@ struct MultipleChoiceQuestionView: View {
                 .overlay(
                     RoundedRectangle(cornerRadius: 16)
                         .stroke(colorManager.theme.questionExplanationBorderColor, lineWidth: 2)
+                        .frame(maxWidth: .infinity)
                 )
         }
         .padding([.top, .bottom], 8)
