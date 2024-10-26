@@ -11,6 +11,7 @@ protocol Quiz {
     var id: String { get }
     var questions: [Question] { get }
     var progressTrackingRepository: ProgressTrackingRepository { get }
+    var lesson: Lesson { get }
 
     func calculateQuizScore() -> Double // Calculate the score as percentage of correct answers
     func isComplete() -> Bool // Check if all questions are answered
@@ -21,8 +22,9 @@ protocol Quiz {
 
 struct QuizImpl: Quiz {
     let id: String
-    var questions: [Question]
-    var progressTrackingRepository: ProgressTrackingRepository
+    let questions: [Question]
+    let progressTrackingRepository: ProgressTrackingRepository
+    let lesson: Lesson
 
     // Calculate score by checking how many questions have been answered correctly
     func calculateQuizScore() -> Double {
@@ -112,7 +114,8 @@ extension QuizImpl {
                     progressTrackingRepository: InMemoryProgressTrackingRepository.placeholderTrackingRepository
                 ),
             ],
-            progressTrackingRepository: InMemoryProgressTrackingRepository.placeholderTrackingRepository
+            progressTrackingRepository: InMemoryProgressTrackingRepository.placeholderTrackingRepository,
+            lesson: .placeholder
         )
     }
 }

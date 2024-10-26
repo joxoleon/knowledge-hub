@@ -11,11 +11,13 @@ struct Lesson: Identifiable {
     let id: UUID
     let title: String
     let sections: [LessonSection]
+//    let quiz: Quiz
     
-    init(id: UUID = UUID(), title: String, sections: [LessonSection]) {
+    init(id: UUID = UUID(), title: String, sections: [LessonSection]) { //, quiz: Quiz) {
         self.id = id
         self.title = title
         self.sections = sections
+//        self.quiz = quiz
     }
 }
 
@@ -31,7 +33,7 @@ struct LessonSection: Identifiable {
 
 
 extension Lesson {
-    static let sampleLesson = Lesson(
+    static let placeholder = Lesson(
         title: "MVC Architecture",
         sections: [
             LessonSection(content: """
@@ -138,5 +140,6 @@ extension Lesson {
             **Important**: For smaller apps, consider the complexity added by MVC and evaluate if simpler architectures might be better suited.
             """)
         ]
+//        quiz: QuizImpl.placeholderQuiz
     )
 }

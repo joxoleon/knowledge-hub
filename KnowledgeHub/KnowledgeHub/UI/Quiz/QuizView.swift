@@ -37,14 +37,20 @@ struct QuizView: View {
     
     private var navigationButtonSection: some View {
         HStack {
-            KHButton(
-                state: $viewModel.readLessonButonState,
-                answerText: "Read Lesson",
-                onSelected: { _ in
-                    print("Read Lesson Button Pressed")
-                }
-            )
-            .animation(.easeIn(duration: 0.5), value: viewModel.readLessonButonState)
+            NavigationLink(
+                destination: LessonOverviewView(viewModel: LessonViewModel(lesson: viewModel.quiz.lesson, colorManager: colorManager)),
+                isActive: $viewModel.shouldShowLessionOverviewView // A @Published var in QuizViewModel
+            ) {
+                KHButton(
+                    state: $viewModel.readLessonButonState,
+                    answerText: "Read Lesson",
+                    onSelected: { _ in
+                        print("Read Lesson Button Pressed")
+                        viewModel.readLesson()
+                    }
+                )
+                .animation(.easeIn(duration: 0.5), value: viewModel.readLessonButonState)
+            }
             
             Spacer(minLength: 30)
             

@@ -24,6 +24,7 @@ class QuizViewModel: ObservableObject {
     @Published var readLessonButonState: ButtonState = .active
     @Published var nextQuestionButtonState: ButtonState = .disabled
     @Published var progress: CGFloat = 0
+    @Published var shouldShowLessionOverviewView: Bool = false
 
     
     var currentQuestion: Question {
@@ -65,6 +66,10 @@ class QuizViewModel: ObservableObject {
             print("Setting selected answer to nil")
             selectedAnswer = nil
         }
+    }
+    
+    func readLesson() {
+        shouldShowLessionOverviewView = true
     }
     
     // MARK: - Private methods

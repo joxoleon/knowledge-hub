@@ -12,20 +12,34 @@ struct ContentView: View {
     @Environment(\.modelContext) private var modelContext
     @EnvironmentObject var colorManager: ColorManager
 
+    init() {
+        let cm = ColorManager(colorTheme: .midnightBlue)
+        let appearance = UINavigationBarAppearance()
+        appearance.configureWithOpaqueBackground()
+        appearance.backgroundColor = UIColor(cm.theme.backgroundColor)
+        appearance.titleTextAttributes = [.foregroundColor: UIColor.white]
+        appearance.largeTitleTextAttributes = [.foregroundColor: UIColor.white]
+        
+        UINavigationBar.appearance().standardAppearance = appearance
+        UINavigationBar.appearance().scrollEdgeAppearance = appearance
+        UINavigationBar.appearance().compactAppearance = appearance
+        UINavigationBar.appearance().tintColor = .white // For back button and icon colors
+    }
+
     var body: some View {
-        NavigationView { // Wrap the content in a NavigationView
-            let sampleQuiz = QuizImpl.placeholderQuiz
-            let quizViewModel = QuizViewModel(quiz: sampleQuiz)
-            
+        NavigationView {
             ZStack {
                 colorManager.theme.backgroundColor
-                    .edgesIgnoringSafeArea(.all)
+                    .edgesIgnoringSafeArea(.all) // Ensures background color covers full screen
                 
-                // Embed QuizView in a NavigationLink if you want to push it onto the stack from here
+                let sampleQuiz = QuizImpl.placeholderQuiz
+                let quizViewModel = QuizViewModel(quiz: sampleQuiz)
+                
                 QuizView(viewModel: quizViewModel)
                     .environmentObject(colorManager)
             }
         }
+        .navigationViewStyle(StackNavigationViewStyle()) // Consistent style for different devices
     }
 }
 

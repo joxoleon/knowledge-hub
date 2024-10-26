@@ -18,20 +18,14 @@ struct LessonOverviewView: View {
             }
         }
         .tabViewStyle(PageTabViewStyle(indexDisplayMode: .automatic))
+        .background(viewModel.colorManager.theme.backgroundColor)
     }
 }
 
 // SwiftUI Preview
 struct LessonOverviewView_Previews: PreviewProvider {
     static var previews: some View {
-        let sampleLesson = Lesson(
-            title: "Sample Lesson",
-            sections: [
-                LessonSection(content: "# Introduction\n\nThis is the intro section."),
-                LessonSection(content: "## Details\n\nHere are the lesson details."),
-                LessonSection(content: "### Conclusion\n\nKey takeaways.")
-            ]
-        )
+        let sampleLesson = Lesson.placeholder
         let colorManager = ColorManager(colorTheme: .midnightBlue)
         let viewModel = LessonViewModel(lesson: sampleLesson, colorManager: colorManager)
         LessonOverviewView(viewModel: viewModel)
