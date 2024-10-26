@@ -44,24 +44,26 @@ struct QuizView: View {
                     print("Read Lesson Button Pressed")
                 }
             )
+            .animation(.easeIn(duration: 0.5), value: viewModel.readLessonButonState)
             
             Spacer(minLength: 30)
             
             KHButton(
                 state: $viewModel.nextQuestionButtonState,
-                answerText: "Next",
+                answerText: viewModel.isLastQuestion ? "Done" : "Next",
                 onSelected: { _ in
                     print("Next Question Button Pressed")
                     viewModel.goToNextQuestion()
                 }
             )
+            .animation(.easeIn(duration: 0.5), value: viewModel.nextQuestionButtonState)
         }
         .padding(.horizontal, 35)
     }
     
     private var progressSection: some View {
         HStack {
-            Text("\(viewModel.currentQuestionIndex) / \(viewModel.questionCount)")
+            Text("\(viewModel.numberOfAnsweredQuestions) / \(viewModel.questionCount)")
                 .font(.system(size: 14, weight: .heavy))
                 .foregroundColor(colorManager.theme.buttonBorderColor)
             
@@ -75,6 +77,7 @@ struct QuizView: View {
             )
             .frame(maxWidth: .infinity, maxHeight: 4)
             .foregroundColor(colorManager.theme.buttonBorderColor)
+            .animation(.easeIn(duration: 0.5), value: viewModel.progress)
         }
         .padding(.horizontal, 40)
     }

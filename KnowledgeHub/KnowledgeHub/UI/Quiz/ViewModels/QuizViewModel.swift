@@ -12,14 +12,11 @@ class QuizViewModel: ObservableObject {
     // MARK: - Properties
     @Published private(set) var quiz: Quiz
     @Published var isProgressIndicatorVisible = true
-    @Published private(set) var currentQuestionIndex: Int {
-        didSet {
-            calculateProgress()
-        }
-    }
+    @Published private(set) var currentQuestionIndex: Int
     @Published var selectedAnswer: String? {
         didSet {
             nextQuestionButtonState = selectedAnswer != nil ? .active : .disabled
+            calculateProgress()
         }
     }
     
@@ -35,6 +32,14 @@ class QuizViewModel: ObservableObject {
     
     var questionCount: Int {
         quiz.questions.count
+    }
+    
+    var isLastQuestion: Bool {
+        currentQuestionIndex == questionCount - 1
+    }
+    
+    var numberOfAnsweredQuestions: Int {
+        currentQuestionIndex + (selectedAnswer != nil ? 1 : 0)
     }
 
     // MARK: - Initializer
@@ -66,6 +71,6 @@ class QuizViewModel: ObservableObject {
     
     private func calculateProgress() {
         print("Calculating progress")
-        progress = CGFloat(currentQuestionIndex) / CGFloat(quiz.questions.count)
+        progress = CGFloat(numberOfAnsweredQuestions) / CGFloat(quiz.questions.count)
     }
 }
