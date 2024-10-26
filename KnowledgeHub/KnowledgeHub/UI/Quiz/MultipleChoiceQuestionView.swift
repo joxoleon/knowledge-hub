@@ -33,9 +33,10 @@ struct MultipleChoiceQuestionView: View {
             explanationSection
                 .opacity(selectedAnswer != nil ? 1 : 0)
                 .animation(.easeInOut(duration: 0.5), value: selectedAnswer != nil)
+                .frame(maxWidth: .infinity)
         }
         .padding(18)
-        .onChange(of: selectedAnswer) { _ in
+        .onChange(of: selectedAnswer) {
             updateButtonStates()
         }
     }
