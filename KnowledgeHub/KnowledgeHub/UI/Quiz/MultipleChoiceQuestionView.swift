@@ -27,7 +27,7 @@ struct MultipleChoiceQuestionView: View {
     // MARK: - UI
     
     var body: some View {
-        VStack(alignment: .leading, spacing: 20) {
+        VStack(alignment: .center, spacing: 20) {
             questionText
             answerButtons
             explanationSection

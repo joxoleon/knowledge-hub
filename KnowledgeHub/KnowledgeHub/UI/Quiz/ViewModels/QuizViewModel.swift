@@ -19,12 +19,13 @@ class QuizViewModel: ObservableObject {
     }
     @Published var selectedAnswer: String? {
         didSet {
-            isNextButtonEnabled = selectedAnswer != nil
+            nextQuestionButtonState = selectedAnswer != nil ? .active : .disabled
         }
     }
     
     // Automatically updated bindings
-    @Published var isNextButtonEnabled = false
+    @Published var readLessonButonState: ButtonState = .active
+    @Published var nextQuestionButtonState: ButtonState = .disabled
     @Published var progress: CGFloat = 0
 
     
@@ -48,14 +49,14 @@ class QuizViewModel: ObservableObject {
     func submitAnswer(for question: Question, givenAnswer: String) {
         print("Submitting answer: \(givenAnswer)")
         question.submitAnswer(givenAnswer)
-        isNextButtonEnabled = true
+        nextQuestionButtonState = .disabled
     }
 
     func goToNextQuestion() {
         print("Going to next question")
         if currentQuestionIndex < quiz.questions.count - 1 {
             currentQuestionIndex += 1
-            isNextButtonEnabled = false
+            nextQuestionButtonState = .active
             print("Setting selected answer to nil")
             selectedAnswer = nil
         }

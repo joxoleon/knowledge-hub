@@ -14,35 +14,49 @@ struct QuizView: View {
     
     var body: some View {
         VStack {
-            if let multipleChoiceQuestion = viewModel.currentQuestion as? MultipleChoiceQuestion {
-                MultipleChoiceQuestionView(
-                    question: multipleChoiceQuestion,
-                    selectedAnswer: $viewModel.selectedAnswer
-                )
-                .padding()
+            ScrollView {
+                if let multipleChoiceQuestion = viewModel.currentQuestion as? MultipleChoiceQuestion {
+                    MultipleChoiceQuestionView(
+                        question: multipleChoiceQuestion,
+                        selectedAnswer: $viewModel.selectedAnswer
+                    )
+                    .padding()
+                }
             }
+            .frame(maxWidth: .infinity, maxHeight: .infinity)
+            .scrollIndicators(.visible)
             
-            nextButton
             progressSection
+            navigationButtonSection
+                .padding(.bottom, 20)
+                .padding(.top)
         }
     }
     
     // MARK: - Subviews
     
-    private var nextButton: some View {
-        Button(action: {
-            print("Next Button Pressed")
-            viewModel.goToNextQuestion()
-        }) {
-            Text("Next")
-                .frame(maxWidth: .infinity)
-                .padding()
-                .background(viewModel.isNextButtonEnabled ? Color.blue : Color.gray)
-                .foregroundColor(.white)
-                .cornerRadius(10)
+    private var navigationButtonSection: some View {
+        HStack {
+            KHButton(
+                state: $viewModel.readLessonButonState,
+                answerText: "Read Lesson",
+                onSelected: { _ in
+                    print("Read Lesson Button Pressed")
+                }
+            )
+            
+            Spacer(minLength: 30)
+            
+            KHButton(
+                state: $viewModel.nextQuestionButtonState,
+                answerText: "Next",
+                onSelected: { _ in
+                    print("Next Question Button Pressed")
+                    viewModel.goToNextQuestion()
+                }
+            )
         }
-        .padding()
-        .disabled(!viewModel.isNextButtonEnabled)
+        .padding(.horizontal, 35)
     }
     
     private var progressSection: some View {
