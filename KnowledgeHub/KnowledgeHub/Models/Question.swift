@@ -16,7 +16,7 @@ enum QuestionProfficiency {
 }
 
 protocol Question {
-    var id: LearningContentId { get }
+    var id: QuestionId { get }
     var profficiency: QuestionProfficiency { get }
     var progressTrackingRepository: ProgressTrackingRepository { get set }
     func validateAnswer(_ givenAnswer: String) -> Bool

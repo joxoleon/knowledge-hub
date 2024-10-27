@@ -7,8 +7,6 @@
 
 import Foundation
 
-public typealias LearningContentId = String
-
 public enum CompletionStatus {
     case notStarted
     case inProgress
@@ -29,7 +27,7 @@ protocol LearningContent {
 
 extension LearningContent {
     var completionStatus: CompletionStatus {
-        quiz.lesson.completionStatus
+        quiz.completionStatus
     }
     
     var completionPercentage: Double {
@@ -38,5 +36,37 @@ extension LearningContent {
     
     var score: Double? {
         quiz.quizScore
+    }
+}
+
+public struct LearningContentId: Hashable {
+    let value: String
+    
+    init(_ value: String) {
+        self.value = value
+    }
+    
+    func toQuizId() -> QuizId {
+        QuizId(value + "Quiz")
+    }
+}
+
+public struct QuizId: Hashable {
+    let value: String
+    
+    init(_ value: String) {
+        self.value = value
+    }
+    
+    func toLearningContentId() -> LearningContentId {
+        LearningContentId(value.replacingOccurrences(of: "Quiz", with: ""))
+    }
+}
+
+public struct QuestionId: Hashable {
+    let value: String
+    
+    init(_ value: String) {
+        self.value = value
     }
 }

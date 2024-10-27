@@ -8,10 +8,9 @@
 import Foundation
 
 protocol Quiz {
-    var id: String { get }
+    var id: QuizId { get }
     var questions: [Question] { get }
     var progressTrackingRepository: ProgressTrackingRepository { get }
-    var lesson: Lesson { get }
     var completionStatus: CompletionStatus { get }
     var completionPercentage: Double { get }
     var quizScore: Double? { get }
@@ -20,10 +19,9 @@ protocol Quiz {
 // MARK: - Concrete Implementation of Quiz
 
 struct QuizImpl: Quiz {
-    let id: String
+    let id: QuizId
     let questions: [Question]
     let progressTrackingRepository: ProgressTrackingRepository
-    let lesson: Lesson
     
     var completionStatus: CompletionStatus {
         let completedQuestionCount = questions.filter(\.self.isComplete).count
@@ -47,23 +45,15 @@ struct QuizImpl: Quiz {
     }
 }
 
-// MARK: - Extensions
-
-extension Quiz {
-    init(learningContentArray: [LearningContent]) {
-        
-    }
-}
-
 // MARK: - Example Usage of GeneralQuiz
 
 extension QuizImpl {
     static var placeholderQuiz: QuizImpl {
         QuizImpl(
-            id: "generalQuizExample",
+            id: QuizId("generalQuizExample"),
             questions: [
                 MultipleChoiceQuestion(
-                    id: "q1",
+                    id: QuestionId("q1"),
                     profficiency: .basic,
                     question: "What is the main programming language used for iOS development?",
                     answers: ["Python", "Swift", "Java", "Kotlin"],
@@ -72,7 +62,7 @@ extension QuizImpl {
                     progressTrackingRepository: InMemoryProgressTrackingRepository.placeholderTrackingRepository
                 ),
                 MultipleChoiceQuestion(
-                    id: "q2",
+                    id: QuestionId("q2"),
                     profficiency: .intermediate,
                     question: "Which framework is used for building user interfaces in iOS?",
                     answers: ["UIKit", "React Native", "Flutter", "Xamarin"],
@@ -81,7 +71,7 @@ extension QuizImpl {
                     progressTrackingRepository: InMemoryProgressTrackingRepository.placeholderTrackingRepository
                 ),
                 MultipleChoiceQuestion(
-                    id: "q3",
+                    id: QuestionId("q3"),
                     profficiency: .advanced,
                     question: "What is the purpose of the @State property wrapper in SwiftUI?",
                     answers: ["To manage state in a view", "To create a new view", "To handle network requests", "To manage memory"],
@@ -90,7 +80,7 @@ extension QuizImpl {
                     progressTrackingRepository: InMemoryProgressTrackingRepository.placeholderTrackingRepository
                 ),
                 MultipleChoiceQuestion(
-                    id: "q4",
+                    id: QuestionId("q4"),
                     profficiency: .basic,
                     question: "What is the file extension for Swift source files?",
                     answers: [".swift", ".java", ".py", ".js"],
@@ -99,7 +89,7 @@ extension QuizImpl {
                     progressTrackingRepository: InMemoryProgressTrackingRepository.placeholderTrackingRepository
                 ),
                 MultipleChoiceQuestion(
-                    id: "q5",
+                    id: QuestionId("q5"),
                     profficiency: .intermediate,
                     question: "Which tool is used to manage dependencies in Swift projects?",
                     answers: ["CocoaPods", "npm", "Maven", "Gradle"],
@@ -108,7 +98,7 @@ extension QuizImpl {
                     progressTrackingRepository: InMemoryProgressTrackingRepository.placeholderTrackingRepository
                 ),
                 MultipleChoiceQuestion(
-                    id: "q6",
+                    id: QuestionId("q6"),
                     profficiency: .advanced,
                     question: "What is the purpose of the @Published property wrapper in Swift?",
                     answers: ["To publish a view", "To manage state in a view", "To notify observers of changes", "To handle network requests"],
@@ -117,7 +107,7 @@ extension QuizImpl {
                     progressTrackingRepository: InMemoryProgressTrackingRepository.placeholderTrackingRepository
                 ),
                 MultipleChoiceQuestion(
-                    id: "q7",
+                    id: QuestionId("q7"),
                     profficiency: .basic,
                     question: "Which company developed the Swift programming language?",
                     answers: ["Google", "Microsoft", "Apple", "Facebook"],
@@ -126,8 +116,7 @@ extension QuizImpl {
                     progressTrackingRepository: InMemoryProgressTrackingRepository.placeholderTrackingRepository
                 ),
             ],
-            progressTrackingRepository: InMemoryProgressTrackingRepository.placeholderTrackingRepository,
-            lesson: .placeholder
+            progressTrackingRepository: InMemoryProgressTrackingRepository.placeholderTrackingRepository
         )
     }
 }

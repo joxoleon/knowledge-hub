@@ -8,9 +8,9 @@
 import Foundation
 
 struct MultipleChoiceQuestion: Question {
-    let id: LearningContentId
+    let id: QuestionId
     let profficiency: QuestionProfficiency
-    let question: LearningContentId
+    let question: String
     let answers: [String]
     let correctAnswerIndex: Int
     let explanation: String
@@ -37,7 +37,7 @@ struct MultipleChoiceQuestion: Question {
 extension MultipleChoiceQuestion {
     static var placeholder: MultipleChoiceQuestion {
         MultipleChoiceQuestion(
-            id: "swiftuiQuestionId",
+            id: QuestionId("swiftuiQuestionId"),
             profficiency: .intermediate,
             question: "Which of the following is used to manage state in a SwiftUI view?",
             answers: [

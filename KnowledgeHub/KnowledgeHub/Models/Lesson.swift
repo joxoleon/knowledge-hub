@@ -29,7 +29,7 @@ struct LessonSection: Identifiable {
 
 extension Lesson {
     static let placeholder = Lesson(
-        id: "placeholderLessonId",
+        id: LearningContentId("placeholderLessonId"),
         title: "MVC Architecture",
         description: "Breakdown of the MVC architecture",
         sections: [
