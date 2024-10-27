@@ -13,11 +13,11 @@ public enum CompletionStatus {
     case completed
 }
 
-protocol LearningContent {
+protocol LearningContent: AnyObject {
     var id: LearningContentId { get }
     var title: String { get }
     var description: String? { get }
-    var allQuestions: [Question] { get }
+    var questions: [Question] { get }
     var quiz: Quiz { get }
     
     var completionStatus: CompletionStatus { get }

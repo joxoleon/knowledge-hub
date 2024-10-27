@@ -31,16 +31,16 @@ class LearningModule: LearningContent {
         .notStarted
     }
     
-    var allQuestions: [any Question] {
+    var questions: [any Question] {
         contents.flatMap { content in
-            content.allQuestions
+            content.questions
         }
     }
     
     lazy var quiz: any Quiz = {
         QuizImpl(
             id: self.id.toQuizId(),
-            questions: self.allQuestions,
+            questions: self.questions,
             progressTrackingRepository: self.progressTrackingRepository
         )
     }()

@@ -7,16 +7,38 @@
 
 import Foundation
 
-struct Lesson: Identifiable, LearningContent {
+class Lesson: Identifiable, LearningContent {
     let id: LearningContentId
     let title: String
     let description: String?
     let sections: [LessonSection]
-    let quiz: Quiz
+    let questions: [Question]
     
     // MARK: - Learning Content Computed Properties
     
-    var allQuestions: [Question] { quiz.questions }
+    lazy var quiz: Quiz = {
+        QuizImpl(
+            id: self.id.toQuizId(),
+            questions: self.questions,
+            progressTrackingRepository: self.quiz.progressTrackingRepository
+        )
+    }()
+    
+    // MARK: - Initialization
+    
+    init(
+        id: LearningContentId,
+        title: String,
+        description: String? = nil,
+        sections: [LessonSection],
+        questions: [Question]
+    ) {
+        self.id = id
+        self.title = title
+        self.description = description
+        self.sections = sections
+        self.questions = questions
+    }
 }
 
 struct LessonSection: Identifiable {
@@ -137,6 +159,6 @@ extension Lesson {
             **Important**: For smaller apps, consider the complexity added by MVC and evaluate if simpler architectures might be better suited.
             """)
         ],
-        quiz: QuizImpl.placeholderQuiz
+        questions: QuizImpl.placeholderQuiz.questions
     )
 }
