@@ -7,18 +7,23 @@
 
 import SwiftUI
 
-struct LessonOverviewView: View {
+struct ReadLessonView: View {
     @ObservedObject var viewModel: LessonViewModel
+    @State private var selectedTabIndex: Int = 0
 
     var body: some View {
-        TabView {
-            ForEach(viewModel.sections) { section in
-                LessonSectionView(section: section)
+        TabView(selection: $selectedTabIndex) {
+            ForEach(viewModel.sections.indices, id: \.self) { index in
+                LessonSectionView(section: viewModel.sections[index], viewModel: viewModel)
                     .environmentObject(viewModel.colorManager)
+                    .tag(index) // Tag each view with its index
             }
         }
         .tabViewStyle(PageTabViewStyle(indexDisplayMode: .automatic))
         .background(viewModel.colorManager.theme.backgroundColor)
+        .onChange(of: selectedTabIndex) {
+            print("Current tab index: \($0)") // Print the current tab index
+        }
     }
 }
 
@@ -28,7 +33,7 @@ struct LessonOverviewView_Previews: PreviewProvider {
         let sampleLesson = Lesson.placeholder
         let colorManager = ColorManager(colorTheme: .midnightBlue)
         let viewModel = LessonViewModel(lesson: sampleLesson, colorManager: colorManager)
-        LessonOverviewView(viewModel: viewModel)
+        ReadLessonView(viewModel: viewModel)
             .environmentObject(ColorManager(colorTheme: .midnightBlue))
     }
 }

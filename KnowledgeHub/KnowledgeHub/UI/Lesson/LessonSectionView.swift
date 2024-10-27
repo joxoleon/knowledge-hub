@@ -12,6 +12,7 @@ import Splash
 struct LessonSectionView: View {
     let section: LessonSection
     @EnvironmentObject var themeManager: ColorManager
+    @ObservedObject var viewModel: LessonViewModel
     
     var body: some View {
         ScrollView {
@@ -130,42 +131,47 @@ struct LessonSectionView: View {
 }
 
 // SwiftUI Preview
-struct LessonSectionView_Previews: PreviewProvider {
-    static var previews: some View {
-        LessonSectionView(
-            section: LessonSection(content:"""
-            # Markdown Showcase
-            
-            
-            **Markdown** is a lightweight markup language that you can use to add formatting elements to plaintext documents. 
-            
-            ## Basic Elements
-            
-            - **Bold** text
-            - *Italic* text
-            - ~~Strikethrough~~
-            - `Code block inline`
-            
-            ```swift
-            struct ContentView: View {
-                var body: some View {
-                    Text("This is a code block example in Swift!")
-                }
-            }
-            ```
-            
-            > "Blockquotes are useful for highlighting key points or quotes."
-            
-            ### Nested List Example
-            - Item 1
-            - Item 2
-              - Sub-item 1
-              - Sub-item 2
-            
-            *Markdown* is often used for documentation, readme files, and more!
-            """
-            )
-        )
-        .environmentObject(ColorManager(colorTheme: .midnightBlue))
-    }
-}
+//struct LessonSectionView_Previews: PreviewProvider {
+//    
+//    static var previews: some View {
+//        let sampleLesson = Lesson.placeholder
+//        let colorManager = ColorManager(colorTheme: .midnightBlue)
+//        let viewModel = LessonViewModel(lesson: sampleLesson, colorManager: colorManager)
+//        LessonSectionView(
+//            section: LessonSection(content:"""
+//            # Markdown Showcase
+//            
+//            
+//            **Markdown** is a lightweight markup language that you can use to add formatting elements to plaintext documents. 
+//            
+//            ## Basic Elements
+//            
+//            - **Bold** text
+//            - *Italic* text
+//            - ~~Strikethrough~~
+//            - `Code block inline`
+//            
+//            ```swift
+//            struct ContentView: View {
+//                var body: some View {
+//                    Text("This is a code block example in Swift!")
+//                }
+//            }
+//            ```
+//            
+//            > "Blockquotes are useful for highlighting key points or quotes."
+//            
+//            ### Nested List Example
+//            - Item 1
+//            - Item 2
+//              - Sub-item 1
+//              - Sub-item 2
+//            
+//            *Markdown* is often used for documentation, readme files, and more!
+//            """,
+//           viewModel: viewModel
+//            )
+//        )
+//        .environmentObject(ColorManager(colorTheme: .midnightBlue))
+//    }
+//}

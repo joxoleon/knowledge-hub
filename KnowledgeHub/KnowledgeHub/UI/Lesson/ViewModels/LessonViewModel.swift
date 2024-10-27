@@ -19,6 +19,4 @@ class LessonViewModel: ObservableObject {
     var sections: [LessonSection] {
         lesson.sections
     }
-
-    // Add any business logic here, such as fetching lessons from a service later on
 }
