@@ -1,0 +1,83 @@
+Title/Topic: [Insert the lesson topic here, e.g., "Dependency Injection in iOS"]
+
+Focus: [Briefly describe the specific focus or goal of this lesson, e.g., "Introduce Dependency Injection and explain how it can be implemented in iOS development with examples."]
+
+Instruction to AI:
+
+You are creating a structured lesson on software engineering concepts for a learning app. This lesson will help users prepare for interviews and deepen their understanding of iOS development, software engineering, and architecture concepts. Later, these lessons will expand beyond interview preparation to cover a broader range of advanced topics, but currently, the focus is on interview preparation for iOS development and software engineering.
+
+Lesson Requirements:
+
+Follow this Rigid Structure and Formatting:
+
+Metadata Section: The lesson must begin with metadata containing:
+id: A unique identifier (use a lowercase, underscore-separated version of the title, e.g., "dependency_injection").
+title: The lesson title.
+description: A brief description of the lesson’s objective.
+Sections:
+Definition and Introduction: Start with a concise definition and brief introduction to the topic, emphasizing its purpose and significance. This section should be brief and to the point.
+Full Lesson: This is the main content section. Provide an in-depth, comprehensive explanation of the topic. Include all necessary details, examples, best practices, and in-depth descriptions. When using code examples, avoid using "```" as it may interfere with the formatting. Instead, indent code blocks with spaces to allow smooth text flow.
+Discussion: Cover the pros, cons, common use cases, or comparisons with similar concepts. This section helps readers understand the broader implications of the topic.
+Key Takeaways: Provide a short list of key points that summarize the lesson. These points should be concise and memorable, suitable for use as flashcards.
+Questions:
+
+At the end of the lesson, include an array of multiple-choice questions in a specific JSON-like format. Each question should:
+Be relevant to the lesson topic.
+Have an id (based on the lesson ID plus a question number, e.g., "dependency_injection_q1").
+Include type, proficiency (e.g., "basic", "intermediate", "advanced"), question text, and answers (an array of answer choices).
+Have a correctAnswerIndex indicating the correct answer's position in the answers array.
+Include an explanation that clarifies why the correct answer is right and why other options are wrong.
+Generate at least 5 questions with detailed, thoughtful options that test understanding of the topic. Ensure questions cover different angles and depth, enhancing retention and comprehension.
+Quality and Readability:
+
+Use clear, professional language suitable for an advanced audience.
+Ensure examples are understandable and demonstrate real-world applicability wherever possible.
+Write concise, high-quality key takeaways for flashcard use.
+Sample Prompt:
+
+Title/Topic: Dependency Injection in iOS
+
+Focus: Introduce the concept of Dependency Injection (DI) and demonstrate how it can improve code modularity and testability in iOS development, including code examples for practical understanding.
+
+Instruction to AI:
+
+Please generate a lesson with the following structure and requirements:
+
+Metadata:
+
+json
+Copy code
+    { 
+        "id": "dependency_injection", 
+        "title": "Dependency Injection in iOS", 
+        "description": "An introductory lesson on Dependency Injection and its benefits in iOS applications."
+    }
+Sections:
+
+Definition and Introduction: Provide a short, concise definition of Dependency Injection, explaining its purpose in software engineering.
+Full Lesson: Describe Dependency Injection in-depth. Cover what it is, why it’s beneficial, and how it can be implemented in iOS. Provide code examples to show how DI can make code more modular and testable. Do not use "```" for code blocks; instead, use indentation to avoid disrupting the generation flow.
+Discussion: Discuss the pros and cons of Dependency Injection, alternative approaches, and real-world applications or situations where DI is especially useful in iOS development.
+Key Takeaways: Summarize the main points with concise, flashcard-friendly statements.
+Questions:
+
+Create at least 5 multiple-choice questions relevant to Dependency Injection. Include an explanation for each answer to reinforce understanding. Follow this format:
+json
+Copy code
+  [
+      {
+          "id": "dependency_injection_q1",
+          "type": "multiple_choice",
+          "proficiency": "basic",
+          "question": "What is Dependency Injection?",
+          "answers": [
+              "A way to protect data within an object",
+              "A method to manage object dependencies",
+              "A programming loop",
+              "A type of data structure"
+          ],
+          "correctAnswerIndex": 1,
+          "explanation": "Dependency Injection is a design pattern that manages dependencies by injecting them, making code more modular and testable."
+      },
+      // Additional questions following the same structure
+  ]
+Ensure all parts of the lesson are well-structured, informative, and cover the topic from multiple angles for comprehensive understanding. This template is meant to guide the AI in generating high-quality, structured content suitable for software engineering and iOS interview preparation.
