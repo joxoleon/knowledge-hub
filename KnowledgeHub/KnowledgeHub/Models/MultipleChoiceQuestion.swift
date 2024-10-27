@@ -8,9 +8,9 @@
 import Foundation
 
 struct MultipleChoiceQuestion: Question {
-    let id: QuestionId
+    let id: LearningContentId
     let profficiency: QuestionProfficiency
-    let question: QuestionId
+    let question: LearningContentId
     let answers: [String]
     let correctAnswerIndex: Int
     let explanation: String

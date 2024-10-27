@@ -12,10 +12,9 @@ protocol Quiz {
     var questions: [Question] { get }
     var progressTrackingRepository: ProgressTrackingRepository { get }
     var lesson: Lesson { get }
-
-    func calculateQuizScore() -> Double // Calculate the score as percentage of correct answers
-    func isComplete() -> Bool // Check if all questions are answered
-    func completenessPercentage() -> Double
+    var completionStatus: CompletionStatus { get }
+    var completionPercentage: Double { get }
+    var quizScore: Double? { get }
 }
 
 // MARK: - Concrete Implementation of Quiz
@@ -25,21 +24,34 @@ struct QuizImpl: Quiz {
     let questions: [Question]
     let progressTrackingRepository: ProgressTrackingRepository
     let lesson: Lesson
-
-    // Calculate score by checking how many questions have been answered correctly
-    func calculateQuizScore() -> Double {
+    
+    var completionStatus: CompletionStatus {
+        let completedQuestionCount = questions.filter(\.self.isComplete).count
+        if completedQuestionCount == questions.count {
+            return .completed
+        } else if completedQuestionCount == 0 {
+            return .notStarted
+        } else {
+            return .inProgress
+        }
+    }
+    
+    var completionPercentage: Double {
+        return Double(questions.filter(\.self.isComplete).count) / Double(questions.count) * 100
+    }
+    
+    var quizScore: Double? {
+        guard completionStatus != .notStarted else { return nil }
         let correctAnswers = questions.filter { $0.answeredState == .correct }.count
         return (Double(correctAnswers) / Double(questions.count)) * 100
     }
+}
 
-    // Check if all questions in the quiz are answered
-    func isComplete() -> Bool {
-        return questions.allSatisfy { $0.answeredState != .none }
-    }
+// MARK: - Extensions
 
-    // Calculate the number of answered questions and return it as a completeness percentage
-    func completenessPercentage() -> Double {
-        return Double(questions.filter(\.self.isComplete).count) / Double(questions.count) * 100
+extension Quiz {
+    init(learningContentArray: [LearningContent]) {
+        
     }
 }
 

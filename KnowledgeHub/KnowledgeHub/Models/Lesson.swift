@@ -7,34 +7,31 @@
 
 import Foundation
 
-struct Lesson: Identifiable {
-    let id: UUID
+struct Lesson: Identifiable, LearningContent {
+    let id: LearningContentId
     let title: String
+    let description: String?
     let sections: [LessonSection]
-//    let quiz: Quiz
+    let quiz: Quiz
     
-    init(id: UUID = UUID(), title: String, sections: [LessonSection]) { //, quiz: Quiz) {
-        self.id = id
-        self.title = title
-        self.sections = sections
-//        self.quiz = quiz
-    }
+    // MARK: - Learning Content Computed Properties
+    
+    var allQuestions: [Question] { quiz.questions }
 }
 
 struct LessonSection: Identifiable {
-    let id: UUID
+    let id: UUID = UUID()
     let content: String // In Markdown
-    
-    init(id: UUID = UUID(), content: String) {
-        self.id = id
-        self.content = content
-    }
 }
+
+// MARK: - Placeholder
 
 
 extension Lesson {
     static let placeholder = Lesson(
+        id: "placeholderLessonId",
         title: "MVC Architecture",
+        description: "Breakdown of the MVC architecture",
         sections: [
             LessonSection(content: """
             # MVC Architecture
@@ -139,7 +136,7 @@ extension Lesson {
 
             **Important**: For smaller apps, consider the complexity added by MVC and evaluate if simpler architectures might be better suited.
             """)
-        ]
-//        quiz: QuizImpl.placeholderQuiz
+        ],
+        quiz: QuizImpl.placeholderQuiz
     )
 }

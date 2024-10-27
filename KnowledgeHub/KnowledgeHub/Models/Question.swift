@@ -7,8 +7,6 @@
 
 import Foundation
 
-public typealias QuestionId = String
-
 enum AnsweredState {
     case none, correct, wrong
 }
@@ -18,11 +16,11 @@ enum QuestionProfficiency {
 }
 
 protocol Question {
-    var id: QuestionId { get } // Unique identifier for the question (module, lesson, etc.)
-    var profficiency: QuestionProfficiency { get } // For determinng the question difficulty
-    var progressTrackingRepository: ProgressTrackingRepository { get set } // Keeps track of answer state
-    func validateAnswer(_ givenAnswer: String) -> Bool // Validates if the answer is correct
-    func fetchExplanation() -> String // Returns the explanation for the correct answer
+    var id: LearningContentId { get }
+    var profficiency: QuestionProfficiency { get }
+    var progressTrackingRepository: ProgressTrackingRepository { get set }
+    func validateAnswer(_ givenAnswer: String) -> Bool
+    func fetchExplanation() -> String
     func submitAnswer(_ givenAnswer: String)
 }
 
