@@ -21,20 +21,30 @@ You are creating a structured lesson on software engineering concepts for a lear
 2. **Follow this Rigid Structure with Delimiters**:
 
    - **Metadata Section**:
-     - Begin with metadata in JSON-like format.
+     - Begin the lesson with metadata in JSON-like format.
      - Include:
         - `id`: A unique identifier in lowercase, underscore-separated format (e.g., `"solid_principles"`).
         - `title`: The lesson title.
         - `description`: A brief description of the lesson’s purpose.
+     - **Wrap the metadata** with delimiters:
+       ```
+       {| metadata |}
+       {
+           "id": "example_lesson",
+           "title": "Example Lesson",
+           "description": "A brief description of the lesson."
+       }
+       {| endmetadata |}
+       ```
 
    - **Sections**:
      - **Definition and Introduction**: 
-        - Use the delimiter `=== Section: [Title] Introduction ===` to start this section (replace `[Title]` with the lesson title).
-        - Start with a clear, descriptive heading for the introduction.
-        - Provide a concise definition and introduction, focusing on the topic’s purpose and significance.
-        - Emphasize key definitions or principles with quotation blocks (e.g., `> Dependency Injection is...`).
-        - Use **bold** formatting to highlight important acronyms, terms, or phrases that should be easily memorable.
-        - End this section with the delimiter `=== EndSection: [Title] Introduction ===`.
+       - Use the delimiter `=== Section: [Title] Introduction ===` to start this section (replace `[Title]` with the lesson title).
+       - Start with a clear, descriptive heading for the introduction.
+       - Provide a concise definition and introduction, focusing on the topic’s purpose and significance.
+       - Emphasize key definitions or principles with quotation blocks (e.g., `> Dependency Injection is...`).
+       - Use **bold** formatting to highlight important acronyms, terms, or phrases that should be easily memorable.
+       - End this section with the delimiter `=== EndSection: [Title] Introduction ===`.
        
      - **Full Lesson**: 
        - Use the delimiter `=== Section: [Title] ===` to begin the main content section.
@@ -57,6 +67,27 @@ You are creating a structured lesson on software engineering concepts for a lear
 
 3. **Questions Section**:
    - Conclude the lesson with a set of multiple-choice questions in JSON-like format.
+   - **Wrap the questions section** with delimiters:
+       ```
+       {| questions |}
+       [
+           {
+               "id": "example_lesson_q1",
+               "type": "multiple_choice",
+               "proficiency": "basic",
+               "question": "What is Dependency Injection?",
+               "answers": [
+                   "A way to protect data within an object",
+                   "A method to manage object dependencies",
+                   "A programming loop",
+                   "A type of data structure"
+               ],
+               "correctAnswerIndex": 1,
+               "explanation": "Dependency Injection is a design pattern that manages dependencies by injecting them, making code more modular and testable."
+           },
+           // Additional questions following the same structure
+       ]
+       {| endquestions |}
    - **Each question should include**:
      - `id`: A unique identifier based on the lesson ID and question number (e.g., `"solid_principles_q1"`).
      - `type`: `"multiple_choice"`.
@@ -92,11 +123,15 @@ You are creating a structured lesson on software engineering concepts for a lear
 Generate a markdown lesson with the following structure:
 
 1. Metadata:
+    ``` 
+    {| metadata |}
     { 
         "id": "dependency_injection", 
         "title": "Dependency Injection in iOS", 
         "description": "An introductory lesson on Dependency Injection and its benefits in iOS applications."
     }
+    {| endmetadata |}
+    ```
 
 2. Sections:
     - `=== Section: Dependency Injection Introduction ===`
@@ -116,7 +151,10 @@ Generate a markdown lesson with the following structure:
       `=== EndSection: Key Takeaways ===`
 
 3. Questions:
-    - Create at least 5 multiple-choice questions relevant to Dependency Injection. Include an explanation for each answer to reinforce understanding. Use the following format:
+    - Create at least 5 multiple-choice questions relevant to Dependency Injection. Include an explanation for each answer to reinforce understanding.
+    - Wrap the question section as follows:
+      ```
+      {| questions |}
       [
           {
               "id": "dependency_injection_q1",
@@ -134,6 +172,8 @@ Generate a markdown lesson with the following structure:
           },
           // Additional questions following the same structure
       ]
+      {| endquestions |}
+      ```
 
 ---
 
