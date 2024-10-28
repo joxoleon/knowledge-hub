@@ -36,15 +36,17 @@ You are creating a structured lesson on software engineering concepts for a lear
         - Use the delimiter `=== Section: [Title] Introduction ===` to start this section (replace `[Title]` with the lesson title).
         - Start with a clear, descriptive heading for the introduction.
         - Provide a concise definition and introduction, focusing on the topic’s purpose and significance.
-        - Emphasize important keywords or concepts using **bold** or other suitable formatting.
+        - Emphasize key definitions or principles with quotation blocks (e.g., `> Dependency Injection is...`).
+        - Use **bold** formatting to highlight important acronyms, terms, or phrases that should be easily memorable.
         - End this section with the delimiter `=== EndSection: [Title] Introduction ===`.
        
      - **Full Lesson**: 
        - Use the delimiter `=== Section: [Title] ===` to begin the main content section.
        - Start with a heading that describes the section appropriately.
        - Provide a thorough, structured explanation of the topic. Include all necessary details, examples, best practices, and relevant code snippets.
+       - **Do not be stingy with examples**: Whenever a concept would benefit from one, provide a clear, relevant example, whether it be a code snippet or an illustrative scenario. Use sensible formatting and indentation for code examples.
        - Avoid using "```" for code blocks; instead, indent code with spaces to ensure smooth text flow.
-       - **Subsections**: If the lesson covers multiple concepts, you may split the Full Lesson into up to 5-6 subsections. Do this sparingly—use additional sections only for distinct concepts that need their own focus.
+       - **Subsections**: If the lesson covers multiple concepts, split the Full Lesson into up to 5-6 subsections only if needed for distinct topics. 
        - End this section with the delimiter `=== EndSection: [Title] ===`.
        
      - **Discussion**: 
@@ -64,9 +66,10 @@ You are creating a structured lesson on software engineering concepts for a lear
      - `type`: `"multiple_choice"`.
      - `proficiency`: The difficulty level (e.g., `"basic"`, `"intermediate"`, or `"advanced"`).
      - `question`: The question text, formatted as a markdown string.
+     - **Complexity and Variability**: While questions can be short, they may also be complex when beneficial for comprehension. For example, questions can include indented code blocks or diagrams for reference.
      - `answers`: An array of answer choices.
      - `correctAnswerIndex`: Index of the correct answer within the `answers` array.
-     - `explanation`: A markdown-formatted explanation that clarifies why the correct answer is correct and why other options are incorrect.
+     - `explanation`: A markdown-formatted explanation that clarifies why the correct answer is right and why other options are incorrect.
    - **Requirements**:
      - Generate at least 5 well-thought-out questions that test different facets of the lesson topic, helping reinforce core concepts.
 
