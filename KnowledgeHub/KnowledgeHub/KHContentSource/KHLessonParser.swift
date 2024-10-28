@@ -35,30 +35,24 @@ enum KHContentSource {
     enum ParsingError: Error {
         case missingMetadata
         case invalidSection
+        case questionsParsingFailed
     }
     
     class LessonParser {
         
-        private let metadataStartDelimiter = "{"
-        private let metadataEndDelimiter = "}"
+        // MARK: - Delimiters
+        private let metadataStartDelimiter = "{| metadata |}"
+        private let metadataEndDelimiter = "{| endmetadata |}"
+        private let questionsStartDelimiter = "{| questions |}"
+        private let questionsEndDelimiter = "{| endquestions |}"
+        private let sectionRegexPattern = #"=== Section: (.*?) ===\n(.*?)=== EndSection: \1 ==="#
         
+        // MARK: - Parse Lesson
         func parseLesson(from fileURL: URL) throws -> Lesson {
             let content = try String(contentsOf: fileURL)
-            var sections: [Section] = []
-            var questions: [Question] = []
-            
-            // Step 1: Parse Metadata
-            guard let metadata = parseMetadata(in: content) else {
-                throw ParsingError.missingMetadata
-            }
-            
-            // Step 2: Parse Sections
-            sections = parseSections(in: content)
-            
-            // Step 3: Parse Questions
-            if let questionsData = extractQuestionsData(from: content) {
-                questions = try parseQuestions(from: questionsData)
-            }
+            let metadata = try parseMetadata(in: content)
+            let sections = parseSections(in: content)
+            let questions = try parseQuestions(from: content)
             
             return Lesson(
                 id: metadata["id"] ?? "",
@@ -69,23 +63,23 @@ enum KHContentSource {
             )
         }
         
-        private func parseMetadata(in content: String) -> [String: String]? {
-            guard let metadataStartRange = content.range(of: metadataStartDelimiter),
-                  let metadataEndRange = content.range(of: metadataEndDelimiter, range: metadataStartRange.upperBound..<content.endIndex) else {
-                return nil
+        // MARK: - Metadata Parsing
+        private func parseMetadata(in content: String) throws -> [String: String] {
+            guard let metadataContent = extractContent(from: content, startDelimiter: metadataStartDelimiter, endDelimiter: metadataEndDelimiter) else {
+                throw ParsingError.missingMetadata
             }
             
-            let metadataContent = String(content[metadataStartRange.lowerBound...metadataEndRange.upperBound])
             guard let metadataData = metadataContent.data(using: .utf8),
                   let metadataDict = try? JSONSerialization.jsonObject(with: metadataData, options: []) as? [String: String] else {
-                return nil
+                throw ParsingError.missingMetadata
             }
+            
             return metadataDict
         }
         
+        // MARK: - Section Parsing
         private func parseSections(in content: String) -> [Section] {
-            let sectionRegex = #"=== Section: (.*?) ===\n(.*?)=== EndSection: \1 ==="#
-            let regex = try? NSRegularExpression(pattern: sectionRegex, options: .dotMatchesLineSeparators)
+            let regex = try? NSRegularExpression(pattern: sectionRegexPattern, options: .dotMatchesLineSeparators)
             let nsContent = content as NSString
             var sections: [Section] = []
             
@@ -102,22 +96,27 @@ enum KHContentSource {
             return sections
         }
         
-        private func extractQuestionsData(from content: String) -> String? {
-            let questionsStartDelimiter = "["
-            let questionsEndDelimiter = "]"
-            guard let startRange = content.range(of: questionsStartDelimiter),
-                  let endRange = content.range(of: questionsEndDelimiter, range: startRange.upperBound..<content.endIndex) else {
+        // MARK: - Questions Parsing
+        private func parseQuestions(from content: String) throws -> [Question] {
+            guard let questionsData = extractContent(from: content, startDelimiter: questionsStartDelimiter, endDelimiter: questionsEndDelimiter) else {
+                throw ParsingError.questionsParsingFailed
+            }
+            
+            guard let data = questionsData.data(using: .utf8) else {
+                throw ParsingError.questionsParsingFailed
+            }
+            
+            return try JSONDecoder().decode([Question].self, from: data)
+        }
+        
+        // MARK: - Helper Methods
+        private func extractContent(from content: String, startDelimiter: String, endDelimiter: String) -> String? {
+            guard let startRange = content.range(of: startDelimiter),
+                  let endRange = content.range(of: endDelimiter, range: startRange.upperBound..<content.endIndex) else {
                 return nil
             }
             
-            return String(content[startRange.lowerBound...endRange.upperBound])
-        }
-        
-        private func parseQuestions(from questionsData: String) throws -> [Question] {
-            guard let data = questionsData.data(using: .utf8) else {
-                return []
-            }
-            return try JSONDecoder().decode([Question].self, from: data)
+            return String(content[startRange.upperBound..<endRange.lowerBound]).trimmingCharacters(in: .whitespacesAndNewlines)
         }
     }
 }

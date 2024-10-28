@@ -47,6 +47,7 @@
 		41786FCB2CCF9AB000B29C35 /* Exceptions for "KnowledgeHub" folder in "KnowledgeHubTests" target */ = {
 			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
 			membershipExceptions = (
+				Resources/ExampleLessons/LessonMVVM.md,
 				Resources/ExampleLessons/LessonProtocol.md,
 				Resources/ExampleLessons/LessonSOLIDPrinciples.md,
 			);
@@ -55,6 +56,7 @@
 		41786FCC2CCF9AB000B29C35 /* Exceptions for "KnowledgeHub" folder in "KnowledgeHubUITests" target */ = {
 			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
 			membershipExceptions = (
+				Resources/ExampleLessons/LessonMVVM.md,
 				Resources/ExampleLessons/LessonProtocol.md,
 				Resources/ExampleLessons/LessonSOLIDPrinciples.md,
 			);

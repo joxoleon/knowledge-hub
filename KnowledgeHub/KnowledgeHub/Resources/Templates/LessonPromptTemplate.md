@@ -1,8 +1,8 @@
 ### Title/Topic:
-*Insert the lesson topic here, e.g., “SOLID Principles for iOS Development”*
+*MVVM Architecture for iOS Development using SwiftUI*
 
 ### Focus:
-*Briefly describe the specific focus or goal of this lesson, e.g., “Introduce the SOLID principles and explain how they can be implemented in iOS development with examples.”*
+*Introduce the MVVM Architecture and explain how it can be implemented in iOS development using Swift/SwiftUI with examples.”*
 
 ---
 

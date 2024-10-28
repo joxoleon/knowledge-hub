@@ -1,8 +1,12 @@
+{| metadata |}
+
 {
     "id": "solid_principles",
     "title": "SOLID Principles for iOS Development",
     "description": "An in-depth lesson on the SOLID principles and their implementation in iOS development to enhance code modularity, maintainability, and scalability."
 }
+
+{| endmetadata |}
 
 === Section: SOLID Principles Introduction ===
 
@@ -179,6 +183,8 @@ Ultimately, SOLID principles should be applied pragmatically, balancing code cla
 
 === EndSection: Key Takeaways ===
 
+{| questions |}
+
 [
     {
         "id": "solid_principles_q1",
@@ -251,3 +257,5 @@ Ultimately, SOLID principles should be applied pragmatically, balancing code cla
         "explanation": "LSP ensures that subclasses can replace a superclass without breaking functionality, maintaining program correctness."
     }
 ]
+
+{| endquestions |}
