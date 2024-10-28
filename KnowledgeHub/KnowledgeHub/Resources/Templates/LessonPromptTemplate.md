@@ -1,7 +1,3 @@
-# Lesson Prompt Template for AI
-
----
-
 ### Title/Topic:
 *Insert the lesson topic here, e.g., “SOLID Principles for iOS Development”*
 
