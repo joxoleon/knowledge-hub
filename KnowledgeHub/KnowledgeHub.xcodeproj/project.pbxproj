@@ -44,6 +44,22 @@
 			);
 			target = 415023FA2CC69A5F009EE8C3 /* KnowledgeHub */;
 		};
+		41786FCB2CCF9AB000B29C35 /* Exceptions for "KnowledgeHub" folder in "KnowledgeHubTests" target */ = {
+			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
+			membershipExceptions = (
+				Resources/ExampleLessons/LessonProtocol.md,
+				Resources/ExampleLessons/LessonSOLIDPrinciples.md,
+			);
+			target = 4150240E2CC69A60009EE8C3 /* KnowledgeHubTests */;
+		};
+		41786FCC2CCF9AB000B29C35 /* Exceptions for "KnowledgeHub" folder in "KnowledgeHubUITests" target */ = {
+			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
+			membershipExceptions = (
+				Resources/ExampleLessons/LessonProtocol.md,
+				Resources/ExampleLessons/LessonSOLIDPrinciples.md,
+			);
+			target = 415024182CC69A60009EE8C3 /* KnowledgeHubUITests */;
+		};
 /* End PBXFileSystemSynchronizedBuildFileExceptionSet section */
 
 /* Begin PBXFileSystemSynchronizedRootGroup section */
@@ -51,6 +67,8 @@
 			isa = PBXFileSystemSynchronizedRootGroup;
 			exceptions = (
 				415024212CC69A60009EE8C3 /* Exceptions for "KnowledgeHub" folder in "KnowledgeHub" target */,
+				41786FCB2CCF9AB000B29C35 /* Exceptions for "KnowledgeHub" folder in "KnowledgeHubTests" target */,
+				41786FCC2CCF9AB000B29C35 /* Exceptions for "KnowledgeHub" folder in "KnowledgeHubUITests" target */,
 			);
 			path = KnowledgeHub;
 			sourceTree = "<group>";
