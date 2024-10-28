@@ -78,6 +78,15 @@ struct LessonSectionView: View {
                             ForegroundColor(themeManager.theme.heading3TextColor)
                         }
                 }
+                .markdownBlockStyle(\.heading4) { configuration in
+                    configuration.label
+                        .padding(.bottom, 6)
+                        .markdownTextStyle {
+                            FontWeight(.bold)
+                            FontSize(.em(1.1))
+                            ForegroundColor(themeManager.theme.heading3TextColor)
+                        }
+                }
                 .padding()
         }
         .background(themeManager.theme.backgroundColor)

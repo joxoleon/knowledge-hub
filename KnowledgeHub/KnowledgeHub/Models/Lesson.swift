@@ -56,107 +56,145 @@ extension Lesson {
         description: "Breakdown of the MVC architecture",
         sections: [
             LessonSection(content: """
-            # MVC Architecture
+            # Protocols in Swift
+            A **Protocol** is a blueprint that defines methods, properties, and requirements that a class, struct, or enum must adopt to conform to a particular behavior. Protocols are integral to Swift's type system, enabling flexible, modular, and reusable code. In **iOS development**, protocols are heavily used in delegation, data sources, and creating adaptable, testable components. They encourage *loose coupling*, making code easier to manage and extend.
 
-            The **Model-View-Controller (MVC)** design pattern is one of the most widely used software architectural patterns, particularly in iOS development.
-
-            In this lesson, we will cover:
-            - The **key components** of MVC
-            - How to implement MVC in an iOS application
-            - The **benefits** and **drawbacks** of using MVC
-
-            ### Overview
-            - **Model**: Responsible for managing the app's data.
-            - **View**: The user interface that displays the data.
-            - **Controller**: Mediates between the Model and the View.
             """),
             LessonSection(content: """
-            # Model-View-Controller Breakdown
+            # Protocols
 
-            ## The Model
-            The **Model** is responsible for:
-            - Storing and managing data.
-            - Providing data to the controller when requested.
+            ### What is a Protocol?
 
-            **Key concept**: The Model does not know anything about the UI or the View.
+            In Swift, a protocol declares requirements for *behavior* or *properties* that a conforming type must implement. Unlike classes or structs, protocols do not include any implementation details but rather act as *contracts* that a type must fulfill, promoting modular code and design.
 
-            Example of a simple `Model` in Swift:
-            ```swift
-            struct User {
-                var name: String
-                var age: Int
-            }
-            ```
+            #### Declaring a Protocol
 
-            ## The View
-            The **View** is responsible for:
-            - Displaying the data managed by the Model.
-            - Reacting to user input and presenting information.
+            To declare a protocol, use the `protocol` keyword, followed by a name and requirements for any conforming types. Here's an example:
 
-            **Important**: The View doesn’t manage data, it just displays it.
+                protocol Drivable {
+                    var speed: Int { get set }
+                    func drive()
+                }
 
-            ```swift
-            struct UserView: View {
-                var user: User
-                
-                var body: some View {
-                    VStack {
-                        Text("Name: \\(user.name)")
-                        Text("Age: \\(user.age)")
+            In the example above, the `Drivable` protocol specifies that any conforming type must implement a `speed` property and a `drive()` method.
+
+            #### Conforming to a Protocol
+
+            A type conforms to a protocol by implementing the required properties and methods, adding the protocol name after the type’s name. For instance:
+
+                struct Car: Drivable {
+                    var speed: Int
+                    func drive() {
+                        print("The car is driving at \\(speed) km/h.")
                     }
                 }
-            }
-            ```
 
-            ## The Controller
-            The **Controller** handles:
-            - Managing communication between the Model and the View.
-            - Taking user input and updating the Model or View accordingly.
+            In this example, the `Car` struct conforms to the `Drivable` protocol by providing its own implementations of `speed` and `drive()`.
 
-            ```swift
-            class UserController {
-                var model: User
-                
-                init(model: User) {
-                    self.model = model
+            #### Protocols with Classes and Structs
+
+            Protocols allow polymorphism by enabling different types to be treated the same way if they conform to the same protocol. Here’s another example with two classes:
+
+                protocol SoundPlayable {
+                    func playSound()
                 }
-                
-                func updateUserName(to newName: String) {
-                    model.name = newName
-                }
-            }
-            ```
 
-            ## How It Works Together
-            The **Controller** updates the **Model**, which then updates the **View**:
-            - User interacts with the **View**.
-            - The **View** sends the interaction to the **Controller**.
-            - The **Controller** updates the **Model**.
-            - The **Model** updates the **View** to reflect changes.
+                class Bird: SoundPlayable {
+                    func playSound() {
+                        print("Tweet tweet!")
+                    }
+                }
+
+                class Dog: SoundPlayable {
+                    func playSound() {
+                        print("Woof woof!")
+                    }
+                }
+
+            Both `Bird` and `Dog` conform to the `SoundPlayable` protocol, so they can both be treated as `SoundPlayable` types, allowing for adaptable code.
+
+            #### Protocols and Delegation
+
+            **Delegation** is a popular design pattern that enables one object to perform tasks on behalf of another. In iOS, protocols are essential for implementing delegation, often for tasks like managing data in a table view.
+
+                protocol TableViewDelegate {
+                    func didSelectRow(at index: Int)
+                }
+
+                class TableView {
+                    var delegate: TableViewDelegate?
+
+                    func selectRow(at index: Int) {
+                        delegate?.didSelectRow(at: index)
+                    }
+                }
+
+                class ViewController: TableViewDelegate {
+                    func didSelectRow(at index: Int) {
+                        print("Row \\(index) was selected.")
+                    }
+                }
+
+            Here, `TableView` uses a delegate of type `TableViewDelegate` to notify `ViewController` when a row is selected. This makes `TableView` flexible and modular, as any class conforming to `TableViewDelegate` can act as the delegate.
+
+            #### Protocol Composition
+
+            Swift allows a type to conform to multiple protocols, which is known as **protocol composition**. Protocol composition can be helpful when defining a type requirement by combining multiple protocols.
+
+                protocol Flyable {
+                    func fly()
+                }
+
+                protocol Drivable {
+                    var speed: Int { get set }
+                    func drive()
+                }
+
+                struct FlyingCar: Flyable, Drivable {
+                    var speed: Int
+
+                    func fly() {
+                        print("Flying at speed \\(speed)")
+                    }
+
+                    func drive() {
+                        print("Driving at speed \\(speed)")
+                    }
+                }
+
+            In this example, `FlyingCar` conforms to both `Flyable` and `Drivable`, showing how a single type can fulfill multiple roles.
+
             """),
             LessonSection(content: """
             # Discussion
 
-            ## Advantages
-            1. **Separation of Concerns**: By separating data (Model), UI (View), and business logic (Controller), your code becomes more modular and maintainable.
-            2. **Reusability**: Since the View and Model are independent, they can be reused in different parts of the app.
-            3. **Testability**: Each component can be tested independently, making unit testing easier.
+            #### Pros of Using Protocols
 
-            ## Drawbacks
-            - **Tight Coupling**: In practice, the View and Controller can become tightly coupled, leading to massive view controllers ("Massive View Controller" problem).
-            - **Complexity**: For small apps, MVC can add unnecessary complexity.
+            - **Modularity**: Protocols allow for modular, reusable code, reducing dependency on specific implementations.
+            - **Loose Coupling**: Protocols promote *loose coupling*, which enhances flexibility and testability by allowing code to interact via abstractions rather than concrete types.
+            - **Adaptability**: Protocols are critical in implementing iOS patterns like *delegation* and *dependency injection*, which allow code to be more adaptable.
 
-            Alternatives like **MVVM (Model-View-ViewModel)** are often considered for better separation in iOS projects.
+            #### Cons of Using Protocols
+
+            - **Complexity**: Overusing protocols can add complexity, as managing multiple conformances can become challenging.
+            - **Performance**: Using protocols can introduce a slight performance overhead due to dynamic dispatch, particularly in complex protocol-oriented code.
+            - **Learning Curve**: Swift’s protocol-oriented approach can be unfamiliar to new developers, requiring a learning curve to use effectively.
+
+            #### Common Use Cases
+
+            - **Delegation**: Frequently used in iOS for managing UI events, such as handling row selection in table views.
+            - **Decoupling Dependencies**: Protocols enable dependency injection by allowing objects to rely on abstractions, not concrete implementations.
+            - **Testing**: Protocols make unit testing easier by allowing mock objects to be substituted for actual dependencies.
+
             """),
             LessonSection(content: """
             # Key Takeaways
 
-            - The **Model** stores and manages data.
-            - The **View** displays data to the user.
-            - The **Controller** coordinates the flow between the Model and the View.
-            - **MVC** helps maintain a clear separation of concerns but can result in large view controllers in practice.
+            - Protocols in Swift define a *contract* for behavior and properties that conforming types must fulfill.
+            - Protocols encourage modularity, flexibility, and testability in iOS development.
+            - Protocol-oriented programming allows for more adaptable and reusable code in Swift.
+            - Protocols are widely used in iOS for *delegation*, *dependency injection*, and *interface abstraction*.
 
-            **Important**: For smaller apps, consider the complexity added by MVC and evaluate if simpler architectures might be better suited.
             """)
         ],
         questions: QuizImpl.placeholderQuiz.questions
