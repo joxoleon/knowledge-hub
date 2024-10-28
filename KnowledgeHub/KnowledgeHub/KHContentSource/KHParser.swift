@@ -33,12 +33,20 @@ enum KHContentSource {
     }
 
     enum ParsingError: Error {
-        case missingMetadata
+        case metadataParsingFailed
         case invalidSection
         case questionsParsingFailed
     }
     
     class LessonParser {
+        
+        // MARK: - Deserialization structs
+        
+        fileprivate struct LessonMetadata: Codable {
+            var id: String
+            var title: String
+            var description: String
+        }
         
         // MARK: - Delimiters
         private let metadataStartDelimiter = "{| metadata |}"
@@ -55,26 +63,25 @@ enum KHContentSource {
             let questions = try parseQuestions(from: content)
             
             return Lesson(
-                id: metadata["id"] ?? "",
-                title: metadata["title"] ?? "",
-                description: metadata["description"] ?? "",
+                id: metadata.id,
+                title: metadata.title,
+                description: metadata.description,
                 sections: sections,
                 questions: questions
             )
         }
         
         // MARK: - Metadata Parsing
-        private func parseMetadata(in content: String) throws -> [String: String] {
+        private func parseMetadata(in content: String) throws -> LessonMetadata  {
             guard let metadataContent = extractContent(from: content, startDelimiter: metadataStartDelimiter, endDelimiter: metadataEndDelimiter) else {
-                throw ParsingError.missingMetadata
+                throw ParsingError.metadataParsingFailed
             }
             
-            guard let metadataData = metadataContent.data(using: .utf8),
-                  let metadataDict = try? JSONSerialization.jsonObject(with: metadataData, options: []) as? [String: String] else {
-                throw ParsingError.missingMetadata
+            guard let data = metadataContent.data(using: .utf8) else {
+                throw ParsingError.metadataParsingFailed
             }
             
-            return metadataDict
+            return try JSONDecoder().decode(LessonMetadata.self, from: data)
         }
         
         // MARK: - Section Parsing
