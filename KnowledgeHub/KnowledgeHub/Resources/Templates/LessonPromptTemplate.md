@@ -1,3 +1,6 @@
+# Lesson Prompt Template for AI
+
+---
 
 ### Title/Topic:
 *Insert the lesson topic here, e.g., “SOLID Principles for iOS Development”*
@@ -30,56 +33,50 @@ You are creating a structured lesson on software engineering concepts for a lear
 
    - **Sections**:
      - **Definition and Introduction**: 
-        - Use the delimiter `=== Section: Title Introduction ===` to start this section (Title is the title of the lesson).
-        - Start with a heading (chose the weight you want to present) naming the introduction title the best way it should be named
-        - Provide a concise definition and introduction to the topic, emphasizing its purpose and significance.
-        - Format it in the most sensible way it should be read, emphasizing the important keywords with bold or other formats.
-        - End this section with the delimiter `=== EndSection: Title Introduction ===`.
+        - Use the delimiter `=== Section: [Title] Introduction ===` to start this section (replace `[Title]` with the lesson title).
+        - Start with a clear, descriptive heading for the introduction.
+        - Provide a concise definition and introduction, focusing on the topic’s purpose and significance.
+        - Emphasize important keywords or concepts using **bold** or other suitable formatting.
+        - End this section with the delimiter `=== EndSection: [Title] Introduction ===`.
        
      - **Full Lesson**: 
-       - Use the delimiter `=== Section: Title ===` to begin the main content section (Title is the title of the lesson).
-       - Start with a heading (chose the weight you want to present) naming the title the most according way
-       - Provide an in-depth, comprehensive explanation of the topic. Include necessary details, examples, and best practices.
-       - When using code examples, avoid using "```" and instead indent code blocks with spaces to maintain text flow.
-       - Split it up into sensible sections and paragraphs, code blocks, quotes, etc.
-       - If you think this needs to be broken down into multiple sections then break it down into as many sections as you deem necessary, there can be let's say up to 5-6 sections the full lesson section can be split up in.
-            - Do not split it up if what you are explaining isn't necessary to be in multiple sections, but if there are multiple concepts that all deserve their own section, then definitely split it up, although sparingly. 
-       - End this section with the delimiter `=== EndSection: Lesson Title ===`.
+       - Use the delimiter `=== Section: [Title] ===` to begin the main content section.
+       - Start with a heading that describes the section appropriately.
+       - Provide a thorough, structured explanation of the topic. Include all necessary details, examples, best practices, and relevant code snippets.
+       - Avoid using "```" for code blocks; instead, indent code with spaces to ensure smooth text flow.
+       - **Subsections**: If the lesson covers multiple concepts, you may split the Full Lesson into up to 5-6 subsections. Do this sparingly—use additional sections only for distinct concepts that need their own focus.
+       - End this section with the delimiter `=== EndSection: [Title] ===`.
        
      - **Discussion**: 
        - Use the delimiter `=== Section: Discussion ===` to start the discussion.
-       - Cover pros, cons, common use cases, or comparisons with similar concepts to provide broader context for the topic.
+       - Cover the topic’s pros, cons, common use cases, or comparisons with related concepts to provide a broader context.
        - End this section with the delimiter `=== EndSection: Discussion ===`.
        
      - **Key Takeaways**: 
        - Use the delimiter `=== Section: Key Takeaways ===`.
-       - Provide a concise list of essential points that summarize the lesson, suitable for flashcards.
+       - Summarize the lesson with concise, flashcard-friendly points.
        - End this section with the delimiter `=== EndSection: Key Takeaways ===`.
 
 3. **Questions Section**:
-   - At the end of the lesson, include an array of multiple-choice questions in JSON-like format.
+   - Conclude the lesson with a set of multiple-choice questions in JSON-like format.
    - **Each question should include**:
-     - `id`: A unique question identifier based on the lesson ID and question number (e.g., `"solid_principles_q1"`).
-     - `type`: Question type (e.g., `"multiple_choice"`).
-     - `proficiency`: Difficulty level (e.g., `"basic"`, `"intermediate"`, or `"advanced"`).
-     - `question`: The text of the question, presented in a markdown string (you can use code blocks or anything the question needs for formatting).
-     - `answers`: An array of possible answers.
+     - `id`: A unique identifier based on the lesson ID and question number (e.g., `"solid_principles_q1"`).
+     - `type`: `"multiple_choice"`.
+     - `proficiency`: The difficulty level (e.g., `"basic"`, `"intermediate"`, or `"advanced"`).
+     - `question`: The question text, formatted as a markdown string.
+     - `answers`: An array of answer choices.
      - `correctAnswerIndex`: Index of the correct answer within the `answers` array.
-     - `explanation`: A brief explanation that clarifies why the correct answer is right and why other options are incorrect. This should also be in markdown.
+     - `explanation`: A markdown-formatted explanation that clarifies why the correct answer is correct and why other options are incorrect.
    - **Requirements**:
-     - Include at least 5 questions with detailed, thoughtful options that cover different aspects of the topic to ensure comprehensive understanding.
+     - Generate at least 5 well-thought-out questions that test different facets of the lesson topic, helping reinforce core concepts.
 
 4. **Quality and Readability**:
     - Use clear, professional language suitable for an advanced audience.
-    - Ensure examples are understandable and demonstrate real-world applicability where possible.
-    - Write high-quality, concise key takeaways that are suitable for flashcard-style review.
-    - Within the lesson, use bold and different formatting styles to emphasize important keywords in all lesson sections. 
-        - But do not highlight keywords like "iOS development", but concepts that need to be emphasized 
-            - e.g. if you are talking about SOLID principles, each of the principles need to be bold.
-            - e.g. if you are talking about Protocols in Swift, highlight the keywords "contract" or "blueprint", highlight the fact that they can have "properties" and "methods", etc.
-        - Be moderate in use of this bold, highlighted, emphasized text, use it sensible but make sure that things that need to be remembered need to be remembered.
-    - Do note give out huge blocks of text all in a single paragraph, format the paragraphs explanations you are outputting to make them very professional but also easy to read. Split it up in a sensible way.
-
+    - Ensure examples are easily understandable and demonstrate real-world applicability.
+    - Write high-quality, concise key takeaways suitable for flashcard-style review.
+    - Emphasize important keywords or concepts using **bold** formatting in all sections of the lesson, but apply sparingly and only to essential terms:
+        - For example, highlight terms like **SOLID principles** in a lesson on SOLID, or emphasize **contract** and **blueprint** when discussing protocols in Swift.
+    - Structure paragraphs and explanations to be professional yet easy to read. Avoid large text blocks by formatting with readable spacing and breaking down complex explanations.
 
 ---
 
@@ -103,13 +100,13 @@ Generate a markdown lesson with the following structure:
     }
 
 2. Sections:
-    - `=== Section: Introduction Title ===`
+    - `=== Section: Dependency Injection Introduction ===`
       Provide a short, concise definition of Dependency Injection, explaining its purpose in software engineering.
-      `=== EndSection: Introduction Title ===`
+      `=== EndSection: Dependency Injection Introduction ===`
 
-    - `=== Section: Title ===`
+    - `=== Section: Dependency Injection ===`
       Provide an in-depth explanation of Dependency Injection, covering what it is, why it’s beneficial, and how it can be implemented in iOS. Include examples to show how DI can make code more modular and testable. Avoid using "```" for code blocks; indent instead to maintain text flow.
-      `=== EndSection: Title ===`
+      `=== EndSection: Dependency Injection ===`
 
     - `=== Section: Discussion ===`
       Discuss the pros and cons of Dependency Injection, alternative approaches, and real-world applications where DI is especially useful in iOS development.
@@ -141,4 +138,4 @@ Generate a markdown lesson with the following structure:
 
 ---
 
-Ensure all parts of the lesson are well-structured, informative, and cover the topic from multiple angles. This template is designed to guide AI in generating high-quality, structured content suitable for software engineering and iOS interview preparation.
+Ensure each part of the lesson is well-structured, informative, and covers the topic from multiple angles for comprehensive understanding. This template is designed to guide AI in generating high-quality, structured content suitable for software engineering and iOS interview preparation.
