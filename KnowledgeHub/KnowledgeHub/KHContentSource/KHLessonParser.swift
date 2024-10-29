@@ -17,18 +17,18 @@ enum KHContentSource {
         let tags: [String]
     }
 
-    struct Lesson {
+    public struct Lesson {
         let metadata: LessonMetadata
         let sections: [LessionContentSection]
         let questions: [Question]
     }
 
-    struct LessionContentSection {
+    public struct LessionContentSection {
         let title: String
         let content: String
     }
 
-    struct Question: Codable {
+    public struct Question: Codable {
         let id: String
         let type: String
         let proficiency: String
@@ -38,7 +38,7 @@ enum KHContentSource {
         let explanation: String
     }
 
-    enum ParsingError: Error {
+    enum LessonParsingError: Error {
         case metadataParsingFailed
         case invalidSection
         case questionsParsingFailed
@@ -73,11 +73,11 @@ enum KHContentSource {
         
         private func parseMetadata(in content: String) throws -> LessonMetadata  {
             guard let metadataContent = extractContent(from: content, startDelimiter: metadataStartDelimiter, endDelimiter: metadataEndDelimiter) else {
-                throw ParsingError.metadataParsingFailed
+                throw LessonParsingError.metadataParsingFailed
             }
             
             guard let data = metadataContent.data(using: .utf8) else {
-                throw ParsingError.metadataParsingFailed
+                throw LessonParsingError.metadataParsingFailed
             }
             
             return try JSONDecoder().decode(LessonMetadata.self, from: data)
@@ -107,11 +107,11 @@ enum KHContentSource {
         
         private func parseQuestions(from content: String) throws -> [Question] {
             guard let questionsData = extractContent(from: content, startDelimiter: questionsStartDelimiter, endDelimiter: questionsEndDelimiter) else {
-                throw ParsingError.questionsParsingFailed
+                throw LessonParsingError.questionsParsingFailed
             }
             
             guard let data = questionsData.data(using: .utf8) else {
-                throw ParsingError.questionsParsingFailed
+                throw LessonParsingError.questionsParsingFailed
             }
             
             return try JSONDecoder().decode([Question].self, from: data)
