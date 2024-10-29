@@ -2,7 +2,8 @@
 {
     "id": "mvvm_architecture_ios",
     "title": "MVVM Architecture for iOS Development using SwiftUI",
-    "description": "An introductory lesson on MVVM architecture and how to implement it in iOS development with SwiftUI, covering key components, benefits, and implementation examples."
+    "description": "An introductory lesson on MVVM architecture and how to implement it in iOS development with SwiftUI, covering key components, benefits, and implementation examples.",
+    "tags": ["mvvm", "model-view-viewmodel", "mvvm architecture", "mvvm design pattern", "design pattern", "ios architectures"]
 }
 {| endmetadata |}
 

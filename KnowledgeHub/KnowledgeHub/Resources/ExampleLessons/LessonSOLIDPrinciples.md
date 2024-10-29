@@ -3,7 +3,8 @@
 {
     "id": "solid_principles",
     "title": "SOLID Principles for iOS Development",
-    "description": "An in-depth lesson on the SOLID principles and their implementation in iOS development to enhance code modularity, maintainability, and scalability."
+    "description": "An in-depth lesson on the SOLID principles and their implementation in iOS development to enhance code modularity, maintainability, and scalability.",
+    "tags": ["solid", "solid principles", "clean", "clean architecture", "software architecture", "architecture", "software design"]
 }
 
 {| endmetadata |}

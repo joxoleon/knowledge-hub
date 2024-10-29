@@ -48,7 +48,6 @@
 			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
 			membershipExceptions = (
 				Resources/ExampleLessons/LessonMVVM.md,
-				Resources/ExampleLessons/LessonProtocol.md,
 				Resources/ExampleLessons/LessonSOLIDPrinciples.md,
 			);
 			target = 4150240E2CC69A60009EE8C3 /* KnowledgeHubTests */;
@@ -57,7 +56,6 @@
 			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
 			membershipExceptions = (
 				Resources/ExampleLessons/LessonMVVM.md,
-				Resources/ExampleLessons/LessonProtocol.md,
 				Resources/ExampleLessons/LessonSOLIDPrinciples.md,
 			);
 			target = 415024182CC69A60009EE8C3 /* KnowledgeHubUITests */;

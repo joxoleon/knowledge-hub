@@ -29,9 +29,9 @@ struct LessonParserTest {
             let lesson = try parser.parseLesson(from: fileURL)
             
             // Assert Metadata
-            #expect(lesson.id == "solid_principles", "Expected id 'solid_principles', got \(lesson.id)")
-            #expect(lesson.title == "SOLID Principles for iOS Development", "Expected title 'SOLID Principles for iOS Development', got \(lesson.title)")
-            #expect(lesson.description == "An in-depth lesson on the SOLID principles and their implementation in iOS development to enhance code modularity, maintainability, and scalability.", "Unexpected description")
+            #expect(lesson.metadata.id == "solid_principles", "Expected id 'solid_principles', got \(lesson.metadata.id)")
+            #expect(lesson.metadata.title == "SOLID Principles for iOS Development", "Expected title 'SOLID Principles for iOS Development', got \(lesson.metadata.title)")
+            #expect(lesson.metadata.description == "An in-depth lesson on the SOLID principles and their implementation in iOS development to enhance code modularity, maintainability, and scalability.", "Unexpected description")
 
             // Assert Sections
             #expect(lesson.sections.count == 4, "Expected 4 sections, got \(lesson.sections.count)")
@@ -77,9 +77,9 @@ struct LessonParserTest {
                 let lesson = try parser.parseLesson(from: fileURL)
                 
                 // Assert Metadata
-                #expect(lesson.id == "mvvm_architecture_ios", "Expected id 'mvvm_architecture_ios', got \(lesson.id)")
-                #expect(lesson.title == "MVVM Architecture for iOS Development using SwiftUI", "Expected title 'MVVM Architecture for iOS Development using SwiftUI', got \(lesson.title)")
-                #expect(lesson.description == "An introductory lesson on MVVM architecture and how to implement it in iOS development with SwiftUI, covering key components, benefits, and implementation examples.", "Unexpected description")
+                #expect(lesson.metadata.id == "mvvm_architecture_ios", "Expected id 'mvvm_architecture_ios', got \(lesson.metadata.id)")
+                #expect(lesson.metadata.title == "MVVM Architecture for iOS Development using SwiftUI", "Expected title 'MVVM Architecture for iOS Development using SwiftUI', got \(lesson.metadata.title)")
+                #expect(lesson.metadata.description == "An introductory lesson on MVVM architecture and how to implement it in iOS development with SwiftUI, covering key components, benefits, and implementation examples.", "Unexpected description")
 
                 // Assert Sections
                 #expect(lesson.sections.count == 4, "Expected 4 sections, got \(lesson.sections.count)")

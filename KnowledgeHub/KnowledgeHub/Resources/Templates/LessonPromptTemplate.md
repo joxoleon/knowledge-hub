@@ -26,13 +26,15 @@ You are creating a structured lesson on software engineering concepts for a lear
         - `id`: A unique identifier in lowercase, underscore-separated format (e.g., `"solid_principles"`).
         - `title`: The lesson title.
         - `description`: A brief description of the lesson’s purpose.
+        - `tags:`: An array of keywords/tags related to the lessions topic (e.g., ["solid", "solid principles", "clean", "clean architecture", "software architecture", "architecture", "software design"])
      - **Wrap the metadata** with delimiters:
        ```
        {| metadata |}
        {
            "id": "example_lesson",
            "title": "Example Lesson",
-           "description": "A brief description of the lesson."
+           "description": "A brief description of the lesson.",
+           "tags": ["solid", "solid principles", "clean", "clean architecture", "software architecture", "architecture", "software design"]
        }
        {| endmetadata |}
        ```
@@ -128,7 +130,8 @@ Generate a markdown lesson with the following structure:
     { 
         "id": "dependency_injection", 
         "title": "Dependency Injection in iOS", 
-        "description": "An introductory lesson on Dependency Injection and its benefits in iOS applications."
+        "description": "An introductory lesson on Dependency Injection and its benefits in iOS applications.",
+        "tags": ["dependency injection", "di", "software architecture", "design pattern", "dependency", "dependencies"]
     }
     {| endmetadata |}
     ```
