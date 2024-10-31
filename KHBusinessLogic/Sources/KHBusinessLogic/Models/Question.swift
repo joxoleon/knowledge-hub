@@ -7,29 +7,36 @@
 
 import Foundation
 
-enum AnsweredState {
-    case none, correct, wrong
+enum AnswerState: String {
+    case none, correct, incorrect
 }
 
-enum QuestionProfficiency {
+enum QuestionProficiency {
     case basic, intermediate, advanced
 }
 
 protocol Question {
     var id: String { get }
-    var profficiency: QuestionProfficiency { get }
-    var progressTrackingRepository: ProgressTrackingRepository { get set }
+    var proficiency: QuestionProficiency { get }
+    var progressTrackingRepository: ProgressTrackingRepository? { get set }
+    
     func validateAnswer(_ givenAnswer: String) -> Bool
     func fetchExplanation() -> String
-    func submitAnswer(_ givenAnswer: String)
+    func submitAnswer(_ givenAnswer: String) -> Bool // Returns if the answer was correct
 }
 
 extension Question {
-    var answeredState: AnsweredState {
-        progressTrackingRepository.fetchTracking(for: id).answeredState
+    var answerState: AnswerState {
+        progressTrackingRepository?.fetchTracking(for: id).answerState ?? .none
     }
     
     var isComplete: Bool {
-        progressTrackingRepository.fetchTracking(for: id).answeredState != .none
+        answerState != .none
+    }
+    
+    func submitAnswer(_ givenAnswer: String) -> Bool {
+        let isCorrect = validateAnswer(givenAnswer)
+        progressTrackingRepository?.updateTracking(for: id, with: QuestionTrackingData(answerState: isCorrect ? .correct : .incorrect))
+        return isCorrect
     }
 }

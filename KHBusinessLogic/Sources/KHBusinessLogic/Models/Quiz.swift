@@ -40,7 +40,7 @@ struct QuizImpl: Quiz {
     
     var quizScore: Double? {
         guard completionStatus != .notStarted else { return nil }
-        let correctAnswers = questions.filter { $0.answeredState == .correct }.count
+        let correctAnswers = questions.filter { $0.answerState == .correct }.count
         return (Double(correctAnswers) / Double(questions.count)) * 100
     }
 }

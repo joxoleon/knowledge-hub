@@ -9,24 +9,29 @@ import Foundation
 
 struct MultipleChoiceQuestion: Question {
     let id: String
-    let profficiency: QuestionProfficiency
+    let proficiency: QuestionProficiency
     let question: String
     let answers: [String]
     let correctAnswerIndex: Int
     let explanation: String
-    var progressTrackingRepository: ProgressTrackingRepository
-
+    var progressTrackingRepository: ProgressTrackingRepository?
+    
     func validateAnswer(_ givenAnswer: String) -> Bool {
-        return answers[correctAnswerIndex] == givenAnswer
+        return answers.indices.contains(correctAnswerIndex) && answers[correctAnswerIndex] == givenAnswer
     }
-
+    
     func fetchExplanation() -> String {
         return explanation
     }
+}
 
-    func submitAnswer(_ givenAnswer: String) {
-        var questionTrackingDataContainer = progressTrackingRepository.fetchTracking(for: id)
-        questionTrackingDataContainer.answeredState = validateAnswer(givenAnswer) ? .correct : .wrong
-        progressTrackingRepository.updateTracking(for: id, newState: questionTrackingDataContainer)
+extension MultipleChoiceQuestion {
+    func submitAnswer(_ givenAnswer: String) -> Bool {
+        let isCorrect = validateAnswer(givenAnswer)
+        progressTrackingRepository?.updateTracking(
+            for: id,
+            with: QuestionTrackingData(answerState: isCorrect ? .correct : .incorrect)
+        )
+        return isCorrect
     }
 }
