@@ -7,6 +7,7 @@ let package = Package(
     name: "KHBusinessLogic",
     platforms: [
         .iOS(.v15),
+        .macOS(.v10_15),
     ],
     products: [
         // Products define the executables and libraries a package produces, making them visible to other packages.
@@ -15,7 +16,7 @@ let package = Package(
             targets: ["KHBusinessLogic"]),
     ],
     dependencies: [
-        .package(path: "./../kh-content/Packages/KHContentSource"),
+        .package(path: "../../kh-content/Packages/KHContentSource"),
     ],
     targets: [
         // Targets are the basic building blocks of a package, defining a module or a test suite.
