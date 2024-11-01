@@ -6,17 +6,18 @@
 //
 
 import Foundation
+import KHContentSource
 
-class LearningModule: LearningContent {
+public class LearningModule: LearningContent {
 
     // MARK: - Properties
 
-    let id: String
-    let title: String
-    let description: String
-    let contents: [LearningContent]
-    let progressTrackingRepository: ProgressTrackingRepository
-    lazy var quiz: any Quiz = {
+    public let id: String
+    public let title: String
+    public let description: String
+    public let learningContents: [any LearningContent]
+    public let progressTrackingRepository: ProgressTrackingRepository
+    public lazy var quiz: any Quiz = {
         QuizImpl(
             id: self.id + "_quiz",
             questions: self.questions,
@@ -26,15 +27,15 @@ class LearningModule: LearningContent {
 
     // MARK: - Learning Content Computed Properties
 
-    var questions: [any Question] {
-        contents.flatMap { content in
+    public var questions: [any Question] {
+        learningContents.flatMap { content in
             content.questions
         }
     }
 
     // MARK: - Initialization
 
-    init(
+    public init(
         id: String, 
         title: String, 
         description: String, 
@@ -44,7 +45,22 @@ class LearningModule: LearningContent {
         self.id = id
         self.title = title
         self.description = description
-        self.contents = contents
+        self.learningContents = contents
         self.progressTrackingRepository = progressTrackingRepository
+    }
+
+    public init(from dtoModule: KHContentSource.LearningModule, contentProvider: any KHDomainContentProviderProtocol) {
+        self.id = dtoModule.id
+        self.title = dtoModule.title
+        self.description = dtoModule.description
+        self.progressTrackingRepository = contentProvider.progressTrackingRepository
+
+        let subModules = dtoModule.subModules.map { LearningModule(from: $0, contentProvider: contentProvider) }
+        let lessons: [Lesson] = dtoModule.lessons.compactMap { lessonId -> Lesson? in
+            contentProvider.getLesson(by: lessonId) 
+        }
+
+        self.learningContents = subModules + lessons
+
     }
 }

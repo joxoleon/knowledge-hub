@@ -11,14 +11,14 @@ public enum AnswerState: String {
     case none, correct, incorrect
 }
 
-public enum QuestionProficiency {
+public enum QuestionProficiency: String {
     case basic, intermediate, advanced
 }
 
 public protocol Question {
     var id: String { get }
     var proficiency: QuestionProficiency { get }
-    var progressTrackingRepository: ProgressTrackingRepository? { get set }
+    var progressTrackingRepository: ProgressTrackingRepository { get }
     
     func validateAnswer(_ givenAnswer: String) -> Bool
     func fetchExplanation() -> String
@@ -27,7 +27,7 @@ public protocol Question {
 
 public extension Question {
     var answerState: AnswerState {
-        progressTrackingRepository?.fetchTracking(for: id).answerState ?? .none
+        progressTrackingRepository.fetchTracking(for: id).answerState
     }
     
     var isComplete: Bool {
@@ -36,7 +36,7 @@ public extension Question {
     
     func submitAnswer(_ givenAnswer: String) -> Bool {
         let isCorrect = validateAnswer(givenAnswer)
-        progressTrackingRepository?.updateTracking(for: id, with: QuestionTrackingData(answerState: isCorrect ? .correct : .incorrect))
+        progressTrackingRepository.updateTracking(for: id, with: QuestionTrackingData(answerState: isCorrect ? .correct : .incorrect))
         return isCorrect
     }
 }

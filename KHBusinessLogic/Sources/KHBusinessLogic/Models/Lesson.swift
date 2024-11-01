@@ -6,24 +6,25 @@
 //
 
 import Foundation
+import KHContentSource
 
-class Lesson: Identifiable, LearningContent {
+public class Lesson: Identifiable, LearningContent {
 
     // MARK: - Properties
 
-    let id: String
-    let title: String
-    let description: String
-    let questions: [Question]
-    let sections: [LessonSection]
+    public let id: String
+    public let title: String
+    public let description: String
+    public let questions: [Question]
+    public let sections: [LessonSection]
 
     // MARK: - Services
 
-    let progressTrackingRepository: any ProgressTrackingRepository
+    public let progressTrackingRepository: any ProgressTrackingRepository
 
     // MARK: - Learning Content Computed Properties
 
-    lazy var quiz: Quiz = {
+    public lazy var quiz: Quiz = {
         QuizImpl(
             id: self.id + "_quiz",
             questions: self.questions,
@@ -33,7 +34,7 @@ class Lesson: Identifiable, LearningContent {
 
     // MARK: - Initialization
 
-    init(
+    public init(
         id: String,
         title: String,
         description: String,
@@ -48,9 +49,29 @@ class Lesson: Identifiable, LearningContent {
         self.questions = questions
         self.progressTrackingRepository = progressTrackingRepository
     }
+
+    public init(from dtoLesson: KHContentSource.Lesson, progressTrackingRepository: any ProgressTrackingRepository) {
+        self.id = dtoLesson.metadata.id
+        self.title = dtoLesson.metadata.title
+        self.description = dtoLesson.metadata.description
+        self.sections = dtoLesson.sections.map { LessonSection(from: $0) }
+        self.questions = dtoLesson.questions.map { MultipleChoiceQuestion(from: $0, progressTrackingRepository: progressTrackingRepository) }
+        self.progressTrackingRepository = progressTrackingRepository
+    }
 }
 
-struct LessonSection: Identifiable {
-    let id: UUID = UUID()
-    let content: String  // In Markdown
+public struct LessonSection: Identifiable {
+    public let id: UUID = UUID()
+    public let title: String
+    public let content: String
+
+    public init(content: String, title: String) {
+        self.content = content
+        self.title = title
+    }
+
+    public init(from dtoSection: KHContentSource.LessionContentSection) {
+        self.title = dtoSection.title
+        self.content = dtoSection.content
+    }
 }

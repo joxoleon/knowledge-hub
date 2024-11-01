@@ -26,7 +26,7 @@ public protocol LearningContent: AnyObject {
     var score: Double? { get }
 }
 
-extension LearningContent {
+public extension LearningContent {
     var completionStatus: CompletionStatus {
         quiz.completionStatus
     }
