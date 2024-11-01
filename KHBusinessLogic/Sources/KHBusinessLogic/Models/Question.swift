@@ -7,15 +7,15 @@
 
 import Foundation
 
-enum AnswerState: String {
+public enum AnswerState: String {
     case none, correct, incorrect
 }
 
-enum QuestionProficiency {
+public enum QuestionProficiency {
     case basic, intermediate, advanced
 }
 
-protocol Question {
+public protocol Question {
     var id: String { get }
     var proficiency: QuestionProficiency { get }
     var progressTrackingRepository: ProgressTrackingRepository? { get set }
@@ -25,7 +25,7 @@ protocol Question {
     func submitAnswer(_ givenAnswer: String) -> Bool // Returns if the answer was correct
 }
 
-extension Question {
+public extension Question {
     var answerState: AnswerState {
         progressTrackingRepository?.fetchTracking(for: id).answerState ?? .none
     }

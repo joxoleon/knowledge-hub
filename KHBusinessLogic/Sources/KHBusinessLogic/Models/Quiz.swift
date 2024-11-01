@@ -7,7 +7,8 @@
 
 import Foundation
 
-protocol Quiz {
+
+public protocol Quiz {
     var id: String { get }
     var questions: [Question] { get }
     var progressTrackingRepository: ProgressTrackingRepository { get }
@@ -18,12 +19,12 @@ protocol Quiz {
 
 // MARK: - Concrete Implementation of Quiz
 
-struct QuizImpl: Quiz {
-    let id: String
-    let questions: [Question]
-    let progressTrackingRepository: ProgressTrackingRepository
+public struct QuizImpl: Quiz {
+    public let id: String
+    public let questions: [Question]
+    public let progressTrackingRepository: ProgressTrackingRepository
     
-    var completionStatus: CompletionStatus {
+    public var completionStatus: CompletionStatus {
         let completedQuestionCount = questions.filter(\.self.isComplete).count
         if completedQuestionCount == questions.count {
             return .completed
@@ -34,11 +35,11 @@ struct QuizImpl: Quiz {
         }
     }
     
-    var completionPercentage: Double {
+    public var completionPercentage: Double {
         return Double(questions.filter(\.self.isComplete).count) / Double(questions.count) * 100
     }
     
-    var quizScore: Double? {
+    public var quizScore: Double? {
         guard completionStatus != .notStarted else { return nil }
         let correctAnswers = questions.filter { $0.answerState == .correct }.count
         return (Double(correctAnswers) / Double(questions.count)) * 100

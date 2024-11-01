@@ -1,3 +1,10 @@
+//
+//  LearningContent.swift
+//  KnowledgeHub
+//
+//  Created by Jovan Radivojsa on 23.10.24..
+//
+
 import Foundation
 
 public enum CompletionStatus {
@@ -6,15 +13,16 @@ public enum CompletionStatus {
     case completed
 }
 
-protocol LearningContent: AnyObject {
+public protocol LearningContent: AnyObject {
     var id: String { get }
     var title: String { get }
-    var description: String? { get }
+    var description: String { get }
     var questions: [Question] { get }
-    var quiz: Quiz { get }
-    
+    var quiz: any Quiz { get }
+
     var completionStatus: CompletionStatus { get }
     var completionPercentage: Double { get }
+    var isComplete: Bool { get }
     var score: Double? { get }
 }
 
@@ -22,11 +30,15 @@ extension LearningContent {
     var completionStatus: CompletionStatus {
         quiz.completionStatus
     }
-    
+
     var completionPercentage: Double {
         quiz.completionPercentage
     }
-    
+
+    var isComplete: Bool {
+        return completionStatus == .completed
+    }
+
     var score: Double? {
         quiz.quizScore
     }

@@ -8,35 +8,14 @@
 import Foundation
 
 class LearningModule: LearningContent {
+
+    // MARK: - Properties
+
     let id: String
     let title: String
-    let description: String?
+    let description: String
     let contents: [LearningContent]
     let progressTrackingRepository: ProgressTrackingRepository
-    
-    // MARK: - Initialization
-
-    init(id: String, title: String, description: String?, contents: [LearningContent], progressTrackingRepository: ProgressTrackingRepository) {
-        self.id = id
-        self.title = title
-        self.description = description
-        self.contents = contents
-        self.progressTrackingRepository = progressTrackingRepository
-    }
-    
-    // MARK: - Learning Content Computed Properties
-    
-    var completionStatus: CompletionStatus {
-        // TODO: - Update with recursive progress
-        .notStarted
-    }
-    
-    var questions: [any Question] {
-        contents.flatMap { content in
-            content.questions
-        }
-    }
-    
     lazy var quiz: any Quiz = {
         QuizImpl(
             id: self.id + "_quiz",
@@ -44,4 +23,28 @@ class LearningModule: LearningContent {
             progressTrackingRepository: self.progressTrackingRepository
         )
     }()
+
+    // MARK: - Learning Content Computed Properties
+
+    var questions: [any Question] {
+        contents.flatMap { content in
+            content.questions
+        }
+    }
+
+    // MARK: - Initialization
+
+    init(
+        id: String, 
+        title: String, 
+        description: String, 
+        contents: [LearningContent],
+        progressTrackingRepository: ProgressTrackingRepository
+    ) {
+        self.id = id
+        self.title = title
+        self.description = description
+        self.contents = contents
+        self.progressTrackingRepository = progressTrackingRepository
+    }
 }
