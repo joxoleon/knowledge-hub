@@ -24,14 +24,3 @@ struct MultipleChoiceQuestion: Question {
         return explanation
     }
 }
-
-extension MultipleChoiceQuestion {
-    func submitAnswer(_ givenAnswer: String) -> Bool {
-        let isCorrect = validateAnswer(givenAnswer)
-        progressTrackingRepository?.updateTracking(
-            for: id,
-            with: QuestionTrackingData(answerState: isCorrect ? .correct : .incorrect)
-        )
-        return isCorrect
-    }
-}

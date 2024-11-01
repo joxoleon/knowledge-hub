@@ -36,11 +36,12 @@ public struct QuizImpl: Quiz {
     }
     
     public var completionPercentage: Double {
+        guard !questions.isEmpty else { return 0.0 }
         return Double(questions.filter(\.self.isComplete).count) / Double(questions.count) * 100
     }
     
     public var quizScore: Double? {
-        guard completionStatus != .notStarted else { return nil }
+        guard completionStatus != .notStarted, !questions.isEmpty else { return nil }
         let correctAnswers = questions.filter { $0.answerState == .correct }.count
         return (Double(correctAnswers) / Double(questions.count)) * 100
     }
