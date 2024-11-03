@@ -6,6 +6,7 @@
 //
 
 import Foundation
+import KHContentSource
 
 public enum AnswerState: String {
     case none, correct, incorrect

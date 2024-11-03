@@ -19,14 +19,17 @@ public class Lesson: Identifiable, LearningContent {
     public let sections: [LessonSection]
     public let contentProvider: any KHDomainContentProviderProtocol
 
-    // MARK: - Learning Content Computed Properties
-
     public lazy var quiz: Quiz = {
         QuizImpl(
             id: self.id + "_quiz",
             questions: self.questions,
             contentProvider: self.contentProvider
         )
+    }()
+
+    public lazy var estimatedReadTimeSeconds: Double = {
+        let lessonTextContent = sections.map { $0.content }.joined()
+        return ComputationUtility.estimateReadTime(for: lessonTextContent)
     }()
 
     // MARK: - Initialization

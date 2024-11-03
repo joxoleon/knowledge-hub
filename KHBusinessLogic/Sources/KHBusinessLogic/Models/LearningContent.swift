@@ -25,6 +25,7 @@ public protocol LearningContent: AnyObject {
     var completionPercentage: Double { get }
     var isComplete: Bool { get }
     var score: Double? { get }
+    var estimatedReadTimeSeconds: Double { get }
 }
 
 public extension LearningContent {

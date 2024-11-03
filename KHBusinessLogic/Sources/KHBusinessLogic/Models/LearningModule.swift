@@ -17,6 +17,7 @@ public class LearningModule: LearningContent {
     public let description: String
     public let learningContents: [any LearningContent]
     public let contentProvider: any KHDomainContentProviderProtocol
+
     public lazy var quiz: any Quiz = {
         QuizImpl(
             id: self.id + "_quiz",
@@ -24,6 +25,11 @@ public class LearningModule: LearningContent {
             contentProvider: self.contentProvider
         )
     }()
+
+    public lazy var estimatedReadTimeSeconds: Double = {
+        learningContents.reduce(0) { $0 + $1.estimatedReadTimeSeconds }
+    }()
+
 
     // MARK: - Learning Content Computed Properties
 
