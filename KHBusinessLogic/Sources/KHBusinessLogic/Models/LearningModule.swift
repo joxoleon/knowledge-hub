@@ -16,12 +16,12 @@ public class LearningModule: LearningContent {
     public let title: String
     public let description: String
     public let learningContents: [any LearningContent]
-    public let progressTrackingRepository: ProgressTrackingRepository
+    public let contentProvider: any KHDomainContentProviderProtocol
     public lazy var quiz: any Quiz = {
         QuizImpl(
             id: self.id + "_quiz",
             questions: self.questions,
-            progressTrackingRepository: self.progressTrackingRepository
+            contentProvider: self.contentProvider
         )
     }()
 
@@ -40,20 +40,20 @@ public class LearningModule: LearningContent {
         title: String, 
         description: String, 
         contents: [LearningContent],
-        progressTrackingRepository: ProgressTrackingRepository
+        contentProvider: any KHDomainContentProviderProtocol
     ) {
         self.id = id
         self.title = title
         self.description = description
         self.learningContents = contents
-        self.progressTrackingRepository = progressTrackingRepository
+        self.contentProvider = contentProvider
     }
 
     public init(from dtoModule: KHContentSource.LearningModule, contentProvider: any KHDomainContentProviderProtocol) {
         self.id = dtoModule.id
         self.title = dtoModule.title
         self.description = dtoModule.description
-        self.progressTrackingRepository = contentProvider.progressTrackingRepository
+        self.contentProvider = contentProvider
 
         let subModules = dtoModule.subModules.map { LearningModule(from: $0, contentProvider: contentProvider) }
         let lessons: [Lesson] = dtoModule.lessons.compactMap { lessonId -> Lesson? in

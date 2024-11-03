@@ -17,10 +17,7 @@ public class Lesson: Identifiable, LearningContent {
     public let description: String
     public let questions: [Question]
     public let sections: [LessonSection]
-
-    // MARK: - Services
-
-    public let progressTrackingRepository: any ProgressTrackingRepository
+    public let contentProvider: any KHDomainContentProviderProtocol
 
     // MARK: - Learning Content Computed Properties
 
@@ -28,7 +25,7 @@ public class Lesson: Identifiable, LearningContent {
         QuizImpl(
             id: self.id + "_quiz",
             questions: self.questions,
-            progressTrackingRepository: self.progressTrackingRepository
+            contentProvider: self.contentProvider
         )
     }()
 
@@ -40,23 +37,23 @@ public class Lesson: Identifiable, LearningContent {
         description: String,
         sections: [LessonSection],
         questions: [Question],
-        progressTrackingRepository: any ProgressTrackingRepository
+        contentProvider: any KHDomainContentProviderProtocol
     ) {
         self.id = id
         self.title = title
         self.description = description
         self.sections = sections
         self.questions = questions
-        self.progressTrackingRepository = progressTrackingRepository
+        self.contentProvider = contentProvider
     }
 
-    public init(from dtoLesson: KHContentSource.Lesson, progressTrackingRepository: any ProgressTrackingRepository) {
+    public init(from dtoLesson: KHContentSource.Lesson, contentProvider: any KHDomainContentProviderProtocol) {
         self.id = dtoLesson.metadata.id
         self.title = dtoLesson.metadata.title
         self.description = dtoLesson.metadata.description
         self.sections = dtoLesson.sections.map { LessonSection(from: $0) }
-        self.questions = dtoLesson.questions.map { MultipleChoiceQuestion(from: $0, progressTrackingRepository: progressTrackingRepository) }
-        self.progressTrackingRepository = progressTrackingRepository
+        self.questions = dtoLesson.questions.map { MultipleChoiceQuestion(from: $0, contentProvider: contentProvider ) }
+        self.contentProvider = contentProvider
     }
 }
 

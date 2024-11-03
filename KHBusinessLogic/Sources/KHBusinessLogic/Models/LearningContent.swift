@@ -19,6 +19,7 @@ public protocol LearningContent: AnyObject {
     var description: String { get }
     var questions: [Question] { get }
     var quiz: any Quiz { get }
+    var contentProvider: any KHDomainContentProviderProtocol { get }
 
     var completionStatus: CompletionStatus { get }
     var completionPercentage: Double { get }

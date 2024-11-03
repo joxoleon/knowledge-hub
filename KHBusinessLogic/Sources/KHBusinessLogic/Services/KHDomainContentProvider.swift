@@ -3,7 +3,7 @@ import KHContentSource
 
 public protocol KHDomainContentProviderProtocol {
 
-    var progressTrackingRepository: ProgressTrackingRepository { get }
+    var progressTrackingRepository: any ProgressTrackingRepository { get }
 
     func initializeContent() async throws    
     
@@ -42,7 +42,7 @@ public class KHDomainContentProvider: KHDomainContentProviderProtocol {
         // Fetch lessons DTOs from the ContentRepository and transform them to domain models
         let lessonIds = contentRepository.fetchLessonIdCatalog()
         let dtoLessons = contentRepository.fetchLessons(by: lessonIds)
-        let domainLessons = dtoLessons.map { Lesson(from: $0, progressTrackingRepository: progressTrackingRepository) }
+        let domainLessons = dtoLessons.map { Lesson(from: $0, contentProvider: self) }
         domainLessons.forEach { lessonDictionary[$0.id] = $0 }
 
         // Fetch modules DTOs from the ContentRepository and transform them to domain models

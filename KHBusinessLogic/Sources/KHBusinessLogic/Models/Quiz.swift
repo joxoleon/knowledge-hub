@@ -7,11 +7,10 @@
 
 import Foundation
 
-
 public protocol Quiz {
     var id: String { get }
     var questions: [Question] { get }
-    var progressTrackingRepository: ProgressTrackingRepository { get }
+    var contentProvider: any KHDomainContentProviderProtocol { get }
     var completionStatus: CompletionStatus { get }
     var completionPercentage: Double { get }
     var quizScore: Double? { get }
@@ -22,7 +21,7 @@ public protocol Quiz {
 public struct QuizImpl: Quiz {
     public let id: String
     public let questions: [Question]
-    public let progressTrackingRepository: ProgressTrackingRepository
+    public let contentProvider: any KHDomainContentProviderProtocol
     
     public var completionStatus: CompletionStatus {
         let completedQuestionCount = questions.filter(\.self.isComplete).count
