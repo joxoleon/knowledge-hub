@@ -20,6 +20,8 @@ public struct QuestionTrackingData {
 
 public class InMemoryProgressTrackingRepository: ProgressTrackingRepository {
     private var questionTrackingData: [String: QuestionTrackingData] = [:]
+
+    public init() {}
     
     public func fetchTracking(for id: String) -> QuestionTrackingData {
         return questionTrackingData[id] ?? .default
@@ -30,11 +32,11 @@ public class InMemoryProgressTrackingRepository: ProgressTrackingRepository {
     }
 }
 
-class UserDefaultsProgressTrackingRepository: ProgressTrackingRepository {
+public class UserDefaultsProgressTrackingRepository: ProgressTrackingRepository {
     private let userDefaults: UserDefaults
     private let storageKey = "ProgressTrackingData"
     
-    init(userDefaults: UserDefaults = .standard) {
+    public init(userDefaults: UserDefaults = .standard) {
         self.userDefaults = userDefaults
     }
     

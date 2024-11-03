@@ -17,10 +17,9 @@ public class KHDomainContentProvider: KHDomainContentProviderProtocol {
 
     public let progressTrackingRepository: ProgressTrackingRepository
 
-    private let contentRepository: ContentRepository
-
+    private let contentRepository: KHContentSource.ContentRepository
     private var topLevelLearningModules: [LearningModule] = []
-    private var lessonDictionary: [String: Lesson] = [:]
+    private var lessonsById: [String: Lesson] = [:]
     
     // MARK: - Initialization
 
@@ -43,7 +42,7 @@ public class KHDomainContentProvider: KHDomainContentProviderProtocol {
         let lessonIds = contentRepository.fetchLessonIdCatalog()
         let dtoLessons = contentRepository.fetchLessons(by: lessonIds)
         let domainLessons = dtoLessons.map { Lesson(from: $0, contentProvider: self) }
-        domainLessons.forEach { lessonDictionary[$0.id] = $0 }
+        domainLessons.forEach { lessonsById[$0.id] = $0 }
 
         // Fetch modules DTOs from the ContentRepository and transform them to domain models
         let moduleIds = contentRepository.fetchModuleIdCatalog()
@@ -53,17 +52,17 @@ public class KHDomainContentProvider: KHDomainContentProviderProtocol {
     }
 
     public func getLesson(by id: String) -> Lesson? {
-        return lessonDictionary[id]
+        return lessonsById[id]
     }
 
     public func getTopLevelModules() -> [LearningModule] {
         return topLevelLearningModules
     }
 
-    // MARK: - Private Helper Functions
+    // MARK: - Private Helper Methods
 
     private func clearAllData() {
-        lessonDictionary.removeAll()
+        lessonsById.removeAll()
         topLevelLearningModules.removeAll()
     }
 }
