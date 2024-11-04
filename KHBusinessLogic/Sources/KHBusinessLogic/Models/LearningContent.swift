@@ -22,55 +22,84 @@ public protocol LearningContent: AnyObject {
     var questions: [Question] { get }
     var quiz: any Quiz { get }
     var contentProvider: any KHDomainContentProviderProtocol { get }
+    var isStarred: Bool { get }
 
     var completionStatus: CompletionStatus { get }
     var completionPercentage: Double { get }
     var isComplete: Bool { get }
     var score: Double? { get }
     var estimatedReadTimeSeconds: Double { get }
+
+    func star()
+    func unstar()
+    func starContentsRecursively()
+    func unstarContentsRecursively()
 }
 
-public extension LearningContent {
-    var completionStatus: CompletionStatus {
+extension LearningContent {
+    public var completionStatus: CompletionStatus {
         quiz.completionStatus
     }
 
-    var completionPercentage: Double {
+    public var completionPercentage: Double {
         quiz.completionPercentage
     }
 
-    var isComplete: Bool {
+    public var isComplete: Bool {
         return completionStatus == .completed
     }
 
-    var score: Double? {
+    public var score: Double? {
         quiz.quizScore
     }
 
-    var debugDescription: String {
+    public var isStarred: Bool {
+        return contentProvider.starTrackingRepository.isStarred(id: id)
+    }
+
+    public func star() {
+        contentProvider.starTrackingRepository.star(id: id)
+    }
+
+    public func unstar() {
+        contentProvider.starTrackingRepository.unstar(id: id)
+    }
+
+    public func starContentsRecursively() {
+        star()
+        learningContents.forEach { $0.starContentsRecursively() }
+    }
+
+    public func unstarContentsRecursively() {
+        unstar()
+        learningContents.forEach { $0.unstarContentsRecursively() }
+    }
+
+    public var debugDescription: String {
         let type = type(of: self)
-        let contentString = learningContents.isEmpty 
-        ?  "" 
-        : """
-        contents: {
-        \(learningContents.map { $0.debugDescription.indented(by: 4) }.joined(separator: "\n"))
-        }
-        """
+        let contentString =
+            learningContents.isEmpty
+            ? ""
+            : """
+            contents: {
+            \(learningContents.map { $0.debugDescription.indented(by: 4) }.joined(separator: "\n"))
+            }
+            """
         return """
-        \(type)
-        title: \(title)
-        completionStatus: \(completionStatus)
-        completionPercentage: \(completionPercentage)
-        isComplete: \(isComplete)
-        score: \(score.map { "\($0)" } ?? "nil")
-        estimatedReadTimeSeconds: \(estimatedReadTimeSeconds)
-        \(contentString)
-        """
+            \(type)
+            title: \(title)
+            completionStatus: \(completionStatus)
+            completionPercentage: \(completionPercentage)
+            isComplete: \(isComplete)
+            score: \(score.map { "\($0)" } ?? "nil")
+            estimatedReadTimeSeconds: \(estimatedReadTimeSeconds)
+            \(contentString)
+            """
     }
 }
 
-private extension String {
-    func indented(by spaces: Int) -> String {
+extension String {
+    fileprivate func indented(by spaces: Int) -> String {
         let indent = String(repeating: " ", count: spaces)
         return self.split(separator: "\n").map { indent + $0 }.joined(separator: "\n")
     }

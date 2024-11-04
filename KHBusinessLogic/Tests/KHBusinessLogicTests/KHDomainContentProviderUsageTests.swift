@@ -9,9 +9,11 @@ class KHDomainContentProviderTests: XCTestCase {
         let contentRepository = ContentRepository(
             fetcher: GitHubContentFetcher(), storage: FileContentStorage())
         let progressTrackingRepository = InMemoryProgressTrackingRepository.placeholder
+        let starTrackingRepository = InMemoryStarTrackingRepository.placeholder
         return KHDomainContentProvider(
             contentRepository: contentRepository,
-            progressTrackingRepository: progressTrackingRepository)
+            progressTrackingRepository: progressTrackingRepository,
+            starTrackingRepository: starTrackingRepository)
     }
 
     func testKHDomainContentProviderUsage() async throws {
@@ -24,6 +26,8 @@ class KHDomainContentProviderTests: XCTestCase {
         let topLevelModules = contentProvider.getTopLevelModules()
         XCTAssertFalse(topLevelModules.isEmpty)
         let iOSModule = topLevelModules.first!
+
+        // MARK: - Progress Tests
 
         // Assert learning module properties (isComplete, completionPercentage, score)
         XCTAssertFalse(iOSModule.isComplete)
@@ -56,6 +60,18 @@ class KHDomainContentProviderTests: XCTestCase {
         XCTAssertTrue(iOSModule.isComplete)
         XCTAssertEqual(iOSModule.completionPercentage, 100.0)
         XCTAssertEqual(iOSModule.score, 0.0)
+
+        // MARK: - Star Tests
+
+        // Star top level module recursively
+        iOSModule.starContentsRecursively()
+        XCTAssertTrue(iOSModule.isStarred)
+        iOSModule.learningContents.forEach { XCTAssertTrue($0.isStarred) }
+
+        // Unstar top level module recursively
+        iOSModule.unstarContentsRecursively()
+        XCTAssertFalse(iOSModule.isStarred)
+        iOSModule.learningContents.forEach { XCTAssertFalse($0.isStarred) }        
     }
 
     private func answerModuleQuestions(

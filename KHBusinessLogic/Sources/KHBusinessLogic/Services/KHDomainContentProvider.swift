@@ -2,11 +2,10 @@ import Foundation
 import KHContentSource
 
 public protocol KHDomainContentProviderProtocol {
-
     var progressTrackingRepository: any ProgressTrackingRepository { get }
+    var starTrackingRepository: any StarTrackingRepository { get }
 
     func initializeContent() async throws    
-    
     func getLesson(by id: String) -> Lesson?
     func getTopLevelModules() -> [LearningModule]
 }
@@ -16,6 +15,7 @@ public class KHDomainContentProvider: KHDomainContentProviderProtocol {
     // MARK: - Properties
 
     public let progressTrackingRepository: ProgressTrackingRepository
+    public let starTrackingRepository: StarTrackingRepository
 
     private let contentRepository: KHContentSource.ContentRepository
     private var topLevelLearningModules: [LearningModule] = []
@@ -23,9 +23,10 @@ public class KHDomainContentProvider: KHDomainContentProviderProtocol {
     
     // MARK: - Initialization
 
-    public init(contentRepository: ContentRepository, progressTrackingRepository: ProgressTrackingRepository) {
+    public init(contentRepository: ContentRepository, progressTrackingRepository: ProgressTrackingRepository, starTrackingRepository: StarTrackingRepository) {
         self.contentRepository = contentRepository
         self.progressTrackingRepository = progressTrackingRepository
+        self.starTrackingRepository = starTrackingRepository
     }
 
     // MARK: - KHDomainContentProviderProtocol Methods
