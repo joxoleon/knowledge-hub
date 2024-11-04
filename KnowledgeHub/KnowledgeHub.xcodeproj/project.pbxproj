@@ -11,6 +11,7 @@
 		4152A8042CC6AB66009A445D /* MarkdownUI in Frameworks */ = {isa = PBXBuildFile; productRef = 4152A8032CC6AB66009A445D /* MarkdownUI */; };
 		4152A8072CC6F61E009A445D /* Splash in Frameworks */ = {isa = PBXBuildFile; productRef = 4152A8062CC6F61E009A445D /* Splash */; };
 		41786FE82CD0D23E00B29C35 /* Yams in Frameworks */ = {isa = PBXBuildFile; productRef = 41786FE72CD0D23E00B29C35 /* Yams */; };
+		417D42022CD8CBAC0056139B /* KHBusinessLogic in Frameworks */ = {isa = PBXBuildFile; productRef = 417D42012CD8CBAC0056139B /* KHBusinessLogic */; };
 		41D501C22CCB8778004EFDFD /* ProgressIndicatorView in Frameworks */ = {isa = PBXBuildFile; productRef = 41D501C12CCB8778004EFDFD /* ProgressIndicatorView */; };
 /* End PBXBuildFile section */
 
@@ -45,24 +46,6 @@
 			);
 			target = 415023FA2CC69A5F009EE8C3 /* KnowledgeHub */;
 		};
-		41786FCB2CCF9AB000B29C35 /* Exceptions for "KnowledgeHub" folder in "KnowledgeHubTests" target */ = {
-			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
-			membershipExceptions = (
-				Resources/ExampleLessons/LessonMVVM.md,
-				Resources/ExampleLessons/LessonSOLIDPrinciples.md,
-				Resources/ExampleModules/LearningModule.yaml,
-			);
-			target = 4150240E2CC69A60009EE8C3 /* KnowledgeHubTests */;
-		};
-		41786FCC2CCF9AB000B29C35 /* Exceptions for "KnowledgeHub" folder in "KnowledgeHubUITests" target */ = {
-			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
-			membershipExceptions = (
-				Resources/ExampleLessons/LessonMVVM.md,
-				Resources/ExampleLessons/LessonSOLIDPrinciples.md,
-				Resources/ExampleModules/LearningModule.yaml,
-			);
-			target = 415024182CC69A60009EE8C3 /* KnowledgeHubUITests */;
-		};
 /* End PBXFileSystemSynchronizedBuildFileExceptionSet section */
 
 /* Begin PBXFileSystemSynchronizedRootGroup section */
@@ -70,8 +53,6 @@
 			isa = PBXFileSystemSynchronizedRootGroup;
 			exceptions = (
 				415024212CC69A60009EE8C3 /* Exceptions for "KnowledgeHub" folder in "KnowledgeHub" target */,
-				41786FCB2CCF9AB000B29C35 /* Exceptions for "KnowledgeHub" folder in "KnowledgeHubTests" target */,
-				41786FCC2CCF9AB000B29C35 /* Exceptions for "KnowledgeHub" folder in "KnowledgeHubUITests" target */,
 			);
 			path = KnowledgeHub;
 			sourceTree = "<group>";
@@ -93,6 +74,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				417D42022CD8CBAC0056139B /* KHBusinessLogic in Frameworks */,
 				415024322CC6A78F009EE8C3 /* Ink in Frameworks */,
 				41786FE82CD0D23E00B29C35 /* Yams in Frameworks */,
 				4152A8042CC6AB66009A445D /* MarkdownUI in Frameworks */,
@@ -163,6 +145,7 @@
 				4152A8062CC6F61E009A445D /* Splash */,
 				41D501C12CCB8778004EFDFD /* ProgressIndicatorView */,
 				41786FE72CD0D23E00B29C35 /* Yams */,
+				417D42012CD8CBAC0056139B /* KHBusinessLogic */,
 			);
 			productName = KnowledgeHub;
 			productReference = 415023FB2CC69A5F009EE8C3 /* KnowledgeHub.app */;
@@ -251,7 +234,7 @@
 				4152A8022CC6AB66009A445D /* XCRemoteSwiftPackageReference "MarkdownUI" */,
 				4152A8052CC6F61E009A445D /* XCRemoteSwiftPackageReference "Splash" */,
 				41D501C02CCB8778004EFDFD /* XCRemoteSwiftPackageReference "ProgressIndicatorView" */,
-				41786FE62CD0D19400B29C35 /* XCRemoteSwiftPackageReference "Yams" */,
+				417D42002CD8CBAC0056139B /* XCLocalSwiftPackageReference "../KHBusinessLogic" */,
 			);
 			preferredProjectObjectVersion = 77;
 			productRefGroup = 415023FC2CC69A5F009EE8C3 /* Products */;
@@ -621,6 +604,13 @@
 		};
 /* End XCConfigurationList section */
 
+/* Begin XCLocalSwiftPackageReference section */
+		417D42002CD8CBAC0056139B /* XCLocalSwiftPackageReference "../KHBusinessLogic" */ = {
+			isa = XCLocalSwiftPackageReference;
+			relativePath = ../KHBusinessLogic;
+		};
+/* End XCLocalSwiftPackageReference section */
+
 /* Begin XCRemoteSwiftPackageReference section */
 		415024302CC6A78F009EE8C3 /* XCRemoteSwiftPackageReference "Ink" */ = {
 			isa = XCRemoteSwiftPackageReference;
@@ -644,14 +634,6 @@
 			requirement = {
 				kind = upToNextMajorVersion;
 				minimumVersion = 0.16.0;
-			};
-		};
-		41786FE62CD0D19400B29C35 /* XCRemoteSwiftPackageReference "Yams" */ = {
-			isa = XCRemoteSwiftPackageReference;
-			repositoryURL = "https://github.com/jpsim/Yams.git";
-			requirement = {
-				kind = upToNextMajorVersion;
-				minimumVersion = 5.1.3;
 			};
 		};
 		41D501C02CCB8778004EFDFD /* XCRemoteSwiftPackageReference "ProgressIndicatorView" */ = {
@@ -683,6 +665,10 @@
 		41786FE72CD0D23E00B29C35 /* Yams */ = {
 			isa = XCSwiftPackageProductDependency;
 			productName = Yams;
+		};
+		417D42012CD8CBAC0056139B /* KHBusinessLogic */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = KHBusinessLogic;
 		};
 		41D501C12CCB8778004EFDFD /* ProgressIndicatorView */ = {
 			isa = XCSwiftPackageProductDependency;

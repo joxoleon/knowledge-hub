@@ -6,6 +6,7 @@
 //
 
 import Foundation
+import KHBusinessLogic
 
 class LessonViewModel: ObservableObject {
     @Published var lesson: Lesson

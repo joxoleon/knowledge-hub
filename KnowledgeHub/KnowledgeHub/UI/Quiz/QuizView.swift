@@ -7,6 +7,7 @@
 
 import SwiftUI
 import ProgressIndicatorView
+import KHBusinessLogic
 
 struct QuizView: View {
     @EnvironmentObject var colorManager: ColorManager

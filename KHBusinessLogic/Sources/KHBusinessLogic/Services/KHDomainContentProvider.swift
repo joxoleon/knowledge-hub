@@ -67,3 +67,25 @@ public class KHDomainContentProvider: KHDomainContentProviderProtocol {
         topLevelLearningModules.removeAll()
     }
 }
+
+
+// MARK: - Testing
+
+public extension KHDomainContentProvider {
+    static var testingContentProvider: KHDomainContentProvider = {
+        let contentProvider = KHDomainContentProvider(
+            contentRepository: KHContentSource.ContentRepository(fetcher: GitHubContentFetcher(), storage: FileContentStorage()),
+            progressTrackingRepository: InMemoryProgressTrackingRepository(),
+            starTrackingRepository: InMemoryStarTrackingRepository()
+        )
+        return contentProvider
+    }()
+
+    static func initializeTestingContentProvider() async {
+        do {
+            try await testingContentProvider.initializeContent()
+        } catch {
+            print("Failed to initialize content: \(error)")
+        }
+    }
+}
