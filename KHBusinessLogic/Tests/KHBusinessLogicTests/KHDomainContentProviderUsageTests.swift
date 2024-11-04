@@ -27,6 +27,14 @@ class KHDomainContentProviderTests: XCTestCase {
         XCTAssertFalse(topLevelModules.isEmpty)
         let iOSModule = topLevelModules.first!
 
+        // MARK: - Ordering Tests
+        
+        let levelOrderModules = iOSModule.levelOrderModules
+        print(levelOrderModules.map { $0.title })
+
+        let preOrderLessons = iOSModule.preOrderLessons
+        print(preOrderLessons.map { $0.title })
+
         // MARK: - Progress Tests
 
         // Assert learning module properties (isComplete, completionPercentage, score)
