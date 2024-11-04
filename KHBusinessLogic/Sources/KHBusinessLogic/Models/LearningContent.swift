@@ -17,6 +17,8 @@ public protocol LearningContent: AnyObject {
     var id: String { get }
     var title: String { get }
     var description: String { get }
+    var learningContents: [any LearningContent] { get }
+    var debugDescription: String { get }
     var questions: [Question] { get }
     var quiz: any Quiz { get }
     var contentProvider: any KHDomainContentProviderProtocol { get }
@@ -43,5 +45,33 @@ public extension LearningContent {
 
     var score: Double? {
         quiz.quizScore
+    }
+
+    var debugDescription: String {
+        let type = type(of: self)
+        let contentString = learningContents.isEmpty 
+        ?  "" 
+        : """
+        contents: {
+        \(learningContents.map { $0.debugDescription.indented(by: 4) }.joined(separator: "\n"))
+        }
+        """
+        return """
+        \(type)
+        title: \(title)
+        completionStatus: \(completionStatus)
+        completionPercentage: \(completionPercentage)
+        isComplete: \(isComplete)
+        score: \(score.map { "\($0)" } ?? "nil")
+        estimatedReadTimeSeconds: \(estimatedReadTimeSeconds)
+        \(contentString)
+        """
+    }
+}
+
+private extension String {
+    func indented(by spaces: Int) -> String {
+        let indent = String(repeating: " ", count: spaces)
+        return self.split(separator: "\n").map { indent + $0 }.joined(separator: "\n")
     }
 }

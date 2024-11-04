@@ -32,6 +32,8 @@ public class Lesson: Identifiable, LearningContent {
         return ComputationUtility.estimateReadTime(for: lessonTextContent)
     }()
 
+    public var learningContents: [any LearningContent] { [] }
+
     // MARK: - Initialization
 
     public init(
