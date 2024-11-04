@@ -60,13 +60,14 @@ public class LearningModule: LearningContent {
         self.title = dtoModule.title
         self.description = dtoModule.description
         self.contentProvider = contentProvider
-
+    
+        // Convert submodules to LearningModule instances
         let subModules = dtoModule.subModules.map { LearningModule(from: $0, contentProvider: contentProvider) }
-        let lessons: [Lesson] = dtoModule.lessons.compactMap { lessonId -> Lesson? in
-            contentProvider.getLesson(by: lessonId) 
-        }
-
+    
+        // Convert lesson IDs to Lesson instances, filtering out any nil results
+        let lessons = dtoModule.lessons.compactMap { contentProvider.getLesson(by: $0) }
+    
+        // Combine submodules and lessons into learningContents
         self.learningContents = subModules + lessons
-
     }
 }

@@ -4,6 +4,7 @@ import KHContentSource
 public protocol KHDomainContentProviderProtocol {
     var progressTrackingRepository: any ProgressTrackingRepository { get }
     var starTrackingRepository: any StarTrackingRepository { get }
+    var activeTopModule: LearningModule { get }
 
     func initializeContent() async throws    
     func getLesson(by id: String) -> Lesson?
@@ -16,6 +17,9 @@ public class KHDomainContentProvider: KHDomainContentProviderProtocol {
 
     public let progressTrackingRepository: ProgressTrackingRepository
     public let starTrackingRepository: StarTrackingRepository
+    public var activeTopModule: LearningModule {
+        topLevelLearningModules.first!
+    }
 
     private let contentRepository: KHContentSource.ContentRepository
     private var topLevelLearningModules: [LearningModule] = []
@@ -65,27 +69,5 @@ public class KHDomainContentProvider: KHDomainContentProviderProtocol {
     private func clearAllData() {
         lessonsById.removeAll()
         topLevelLearningModules.removeAll()
-    }
-}
-
-
-// MARK: - Testing
-
-public extension KHDomainContentProvider {
-    static var testingContentProvider: KHDomainContentProvider = {
-        let contentProvider = KHDomainContentProvider(
-            contentRepository: KHContentSource.ContentRepository(fetcher: GitHubContentFetcher(), storage: FileContentStorage()),
-            progressTrackingRepository: InMemoryProgressTrackingRepository(),
-            starTrackingRepository: InMemoryStarTrackingRepository()
-        )
-        return contentProvider
-    }()
-
-    static func initializeTestingContentProvider() async {
-        do {
-            try await testingContentProvider.initializeContent()
-        } catch {
-            print("Failed to initialize content: \(error)")
-        }
     }
 }

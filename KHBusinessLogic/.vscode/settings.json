@@ -3,5 +3,11 @@
     "swift.buildPath": "${workspaceFolder}/.build",
     "swift.swiftEnvironmentVariables": {
         "DEVELOPER_DIR": "/Applications/Xcode.app"
+    },
+    "files.exclude": {
+        "**/.build": true
+    },
+    "search.exclude": {
+        "**/.build": true
     }
 }
