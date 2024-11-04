@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import KHBusinessLogic
 
 struct ReadLessonView: View {
     @ObservedObject var viewModel: LessonViewModel
@@ -30,7 +31,8 @@ struct ReadLessonView: View {
 // SwiftUI Preview
 struct LessonOverviewView_Previews: PreviewProvider {
     static var previews: some View {
-        let sampleLesson = Lesson.placeholder
+        let testingContentProvider = TestingKHDomainContentProvider()
+        let sampleLesson = testingContentProvider.activeTopModule.preOrderLessons.first!
         let colorManager = ColorManager(colorTheme: .midnightBlue)
         let viewModel = LessonViewModel(lesson: sampleLesson, colorManager: colorManager)
         ReadLessonView(viewModel: viewModel)

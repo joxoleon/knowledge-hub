@@ -40,7 +40,7 @@ struct QuizView: View {
         HStack {
             NavigationLink(
                 // TODO: Change lesson placeholder to something sensible
-                destination: ReadLessonView(viewModel: LessonViewModel(lesson: Lesson.placeholder, colorManager: colorManager)),
+                destination: ReadLessonView(viewModel: LessonViewModel(lesson: Testing.testLesson, colorManager: colorManager)),
                 isActive: $viewModel.shouldShowLessionOverviewView // A @Published var in QuizViewModel
             ) {
                 KHButton(
@@ -94,11 +94,10 @@ struct QuizView: View {
 // MARK: - Preview
 
 #Preview {
-    let sampleQuiz = QuizImpl.placeholderQuiz
-    let quizViewModel = QuizViewModel(quiz: sampleQuiz)
+    let quizViewModel = QuizViewModel(quiz: Testing.testQuiz)
     let colorManager = ColorManager(colorTheme: .midnightBlue)
     
-    return ZStack {
+    ZStack {
         colorManager.theme.backgroundColor
             .edgesIgnoringSafeArea(.all)
         

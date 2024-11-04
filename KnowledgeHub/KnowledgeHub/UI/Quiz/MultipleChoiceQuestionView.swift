@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import KHBusinessLogic
 
 struct MultipleChoiceQuestionView: View {
     
@@ -31,7 +32,7 @@ struct MultipleChoiceQuestionView: View {
             questionText
             answerButtons
             explanationSection
-//                .opacity(selectedAnswer != nil ? 1 : 0)
+                .opacity(selectedAnswer != nil ? 1 : 0)
                 .animation(.easeInOut(duration: 0.5), value: selectedAnswer != nil)
                 .frame(maxWidth: .infinity)
         }
@@ -107,7 +108,7 @@ struct MultipleChoiceQuestionView: View {
 }
 
 struct MultipleChoicePreviewView: View {
-    @State private var question: MultipleChoiceQuestion = MultipleChoiceQuestion.placeholder
+    @State private var question: MultipleChoiceQuestion = Testing.testQuiz.questions.first as! MultipleChoiceQuestion
     @State private var resetTrigger: Bool = false
     @State private var selectedAnswer: String?
 

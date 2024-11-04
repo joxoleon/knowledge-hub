@@ -32,8 +32,7 @@ struct ContentView: View {
                 colorManager.theme.backgroundColor
                     .edgesIgnoringSafeArea(.all) // Ensures background color covers full screen
                 
-                let sampleQuiz = QuizImpl.placeholderQuiz
-                let quizViewModel = QuizViewModel(quiz: sampleQuiz)
+                let quizViewModel = QuizViewModel(quiz: Testing.testQuiz)
                 
                 QuizView(viewModel: quizViewModel)
                     .environmentObject(colorManager)
