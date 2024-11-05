@@ -55,7 +55,7 @@ class QuizViewModel: ObservableObject {
     
     func submitAnswer(for question: Question, givenAnswer: String) {
         print("Submitting answer: \(givenAnswer)")
-        question.submitAnswer(givenAnswer)
+        let _ = question.submitAnswer(givenAnswer)
         nextQuestionButtonState = .disabled
     }
 

@@ -33,9 +33,9 @@ struct LearningContentCellView: View {
                         Image(systemName: "clock")
                         Text(viewModel.estimatedReadTimeString)
                     }
-                    .foregroundColor(colorManager.theme.heading2TextColor)
+                    .foregroundColor(colorManager.theme.textColor)
                     .font(.subheadline)
-                    .fontWeight(.semibold)
+                    .fontWeight(.bold)
 
                     // Score and Progress
                     HStack(spacing: 30) {

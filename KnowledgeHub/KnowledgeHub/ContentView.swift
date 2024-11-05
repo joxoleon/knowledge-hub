@@ -13,10 +13,9 @@ struct ContentView: View {
     @EnvironmentObject var colorManager: ColorManager
 
     init() {
-        let cm = ColorManager(colorTheme: .midnightBlue)
         let appearance = UINavigationBarAppearance()
         appearance.configureWithOpaqueBackground()
-        appearance.backgroundColor = UIColor(cm.theme.backgroundColor)
+        appearance.backgroundColor = UIColor(.black)
         appearance.titleTextAttributes = [.foregroundColor: UIColor.white]
         appearance.largeTitleTextAttributes = [.foregroundColor: UIColor.white]
         
