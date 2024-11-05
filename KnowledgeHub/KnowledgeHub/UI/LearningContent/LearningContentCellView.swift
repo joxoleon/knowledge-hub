@@ -1,5 +1,5 @@
 //
-//  LessonCellView.swift
+//  LearningContentCellView.swift
 //  KnowledgeHub
 //
 //  Created by Jovan Radivojsa on 5.11.24..
@@ -14,28 +14,28 @@ fileprivate enum Constants {
     static let starSize: CGFloat = 20 // Adjust this value as needed to control the size
 }
 
-struct LessonCellView: View {
-    let lesson: Lesson
+struct LearningContentCellView: View {
+    let learningContent: LearningContent
     @EnvironmentObject var colorManager: ColorManager
 
     var body: some View {
         VStack(alignment: .leading, spacing: 8) {
             // Title
-            Text(lesson.title)
+            Text(learningContent.title)
                 .font(.title3)
                 .fontWeight(.bold)
-                .foregroundColor(colorManager.theme.heading1TextColor)
+                .foregroundColor(learningContent.titleColor)
                 .padding(.vertical, 8)
             
             HStack {
                 
-                VStack(alignment: .leading, spacing: 6) {
+                VStack(alignment: .leading, spacing: 8) {
                     // Read Time
                     HStack(spacing: 8) {
                         Image(systemName: "clock")
                             .foregroundColor(colorManager.theme.heading2TextColor)
                         
-                        Text("\(lesson.estimatedReadTimeSeconds / 60, specifier: "%.0f") min")
+                        Text("\(learningContent.estimatedReadTimeSeconds / 60, specifier: "%.0f") min")
                             .font(.subheadline)
                             .fontWeight(.semibold)
                             .foregroundColor(colorManager.theme.heading2TextColor)
@@ -43,23 +43,23 @@ struct LessonCellView: View {
                     
                     HStack(spacing: 8) {
                         // Score Icon (without score text when nil)
-                        lesson.icon
+                        learningContent.icon
                         
-                        Text("\(lesson.score ?? 0.0, specifier: "%.2f")%")
+                        Text("\(learningContent.score ?? 0.0, specifier: "%.2f")%")
                             .font(.subheadline)
                             .fontWeight(.semibold)
                     }
-                    .foregroundColor(lesson.scoreColor)
+                    .foregroundColor(learningContent.scoreColor)
 
                 }
                 
                 Spacer()
                 
                 Button(action: {
-                    lesson.toggleStar()
+                    learningContent.toggleStar()
                 }) {
-                    Image(systemName: lesson.isStarred ? "star.fill" : "star")
-                        .foregroundColor(lesson.isStarred ? colorManager.theme.heading1TextColor : .gray)
+                    Image(systemName: learningContent.isStarred ? "star.fill" : "star")
+                        .foregroundColor(learningContent.isStarred ? colorManager.theme.heading1TextColor : .gray)
                         .font(.system(size: Constants.starSize)) // Doubling the star size
                 }
                 .buttonStyle(PlainButtonStyle()) // to remove default button appearance
@@ -77,8 +77,12 @@ struct LessonCellView: View {
     ZStack {
         Color.black
             .edgesIgnoringSafeArea(.all)
-        
-        LessonCellView(lesson: Testing.testLesson)
-            .environmentObject(colorManager)
+        VStack(spacing: 2) {
+            LearningContentCellView(learningContent: Testing.testLesson)
+                .environmentObject(colorManager)
+            LearningContentCellView(learningContent: Testing.testModule)
+                .environmentObject(colorManager)
+        }
+
     }
 }

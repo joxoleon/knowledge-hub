@@ -12,6 +12,10 @@ enum Testing {
     
     public static var contentProvider = TestingKHDomainContentProvider()
     
+    public static var testModule: LearningModule = {
+        contentProvider.activeTopModule
+    }()
+    
     public static var testLesson: Lesson = {
         contentProvider.activeTopModule.preOrderLessons.first!
     }()
