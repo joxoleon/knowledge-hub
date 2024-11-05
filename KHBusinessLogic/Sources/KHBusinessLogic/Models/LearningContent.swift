@@ -71,6 +71,10 @@ public extension LearningContent {
     var isStarred: Bool {
         return contentProvider.starTrackingRepository.isStarred(id: id)
     }
+    
+    func toggleStar() {
+        isStarred ? unstar() : star()
+    }
 
     func star() {
         contentProvider.starTrackingRepository.star(id: id)
