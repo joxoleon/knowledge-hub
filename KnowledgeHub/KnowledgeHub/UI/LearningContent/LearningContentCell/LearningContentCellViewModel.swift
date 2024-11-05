@@ -9,7 +9,7 @@ import SwiftUI
 import Combine
 import KHBusinessLogic
 
-class LearningContentCellViewModel: ObservableObject {
+class LearningContentCellViewModel: ObservableObject, Identifiable {
     private let content: LearningContent
 
     // Published properties for UI updates
@@ -20,6 +20,10 @@ class LearningContentCellViewModel: ObservableObject {
     @Published var estimatedReadTimeString: String = .empty
 
     // Colors for title and score
+    
+    var id: String {
+        content.id
+    }
     var titleColor: Color {
         content is Lesson ? .titleGold : .titlePurple
     }
