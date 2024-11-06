@@ -11,7 +11,7 @@ import SwiftUI
 fileprivate enum Constants {
     static let backgroundGradient = LinearGradient(colors: [.darkBlue, .deepPurple], startPoint: .topLeading, endPoint: .bottomTrailing)
     static let squareBackgroundColor = Color.deeperPurple
-    static let squareBorderColor = Color.titleGold.opacity(0.7)
+    static let squareBorderColor = Color.titleGold.opacity(0.4)
     static let squareCornerRadius: CGFloat = 15
     static let squarePadding: CGFloat = 8 // Reduced padding for tighter spacing
 }
@@ -43,37 +43,47 @@ struct LearningContentMetadataView: View {
                         MetadataSquareView(
                             iconName: "clock",
                             title: "Read Time",
-                            value: viewModel.estimatedReadTimeString,
-                            color: .titleGold
+                            value: viewModel.estimatedReadTimeString
                         )
                         .frame(width: squareSize, height: squareSize)
                         MetadataSquareView(
-                            iconName: viewModel.isStarred ? "star.fill" : "star",
-                            title: viewModel.isStarred ? "Press to unstar Content" :"Press to star Content",
-                            color: viewModel.isStarred ? .titleGold : .placeholderGray,
-                            onToggleFavorite: viewModel.toggleStar
+                            iconName: "flag.fill",
+                            title: "Level",
+                            value: viewModel.proficiencyString
                         )
                         .frame(width: squareSize, height: squareSize)
                         MetadataSquareView(
-                            iconName: "gauge",
-                            title: "Progress",
-                            value: viewModel.progressPercentageString,
-                            color: viewModel.progressColor
+                            iconName: "questionmark.circle",
+                            title: "Quiz Size",
+                            value: viewModel.questionCountString
                         )
                         .frame(width: squareSize, height: squareSize)
                     }
                     HStack(spacing: Constants.squarePadding) {
                         MetadataSquareView(
-                            iconName: "chart.bar.fill",
-                            title: "Score",
-                            value: viewModel.scoreString,
-                            color: viewModel.scoreColor
+                            iconName: "checkmark.circle",
+                            title: "Completion",
+                            titleColor: viewModel.progressColor,
+                            value: viewModel.progressPercentageString
                         )
                         .frame(width: squareSize, height: squareSize)
-                        MetadataSquareView(iconName: "calendar", title: "Completion", value: "75%", color: .titleGold) // Example for another metric
-                            .frame(width: squareSize, height: squareSize)
-                        MetadataSquareView(iconName: "bolt.circle", title: "Energy", value: "120kJ", color: .titleGold) // Example for another metric
-                            .frame(width: squareSize, height: squareSize)
+                        MetadataSquareView(
+                            iconName: "rosette",
+                            title: "Score",
+                            titleColor: viewModel.scoreColor,
+                            value: viewModel.scoreString,
+                            valueColor: viewModel.scoreColor
+                        )
+                        .frame(width: squareSize, height: squareSize)
+                        MetadataSquareView(
+                            iconName: viewModel.isStarred ? "star.fill" : "star",
+                            iconColor: viewModel.isStarred ? .titleGold : .placeholderGray,
+                            title: viewModel.isStarred ? "Press to unstar Content" :"Press to star Content",
+                            titleColor: viewModel.isStarred ? .titleGold : .placeholderGray,
+                            onToggleFavorite: viewModel.toggleStar
+                        )
+                        .frame(width: squareSize, height: squareSize)
+
                     }
                 }
                 .padding(.vertical, 10)
@@ -90,9 +100,11 @@ struct LearningContentMetadataView: View {
 
 struct MetadataSquareView: View {
     let iconName: String
+    var iconColor: Color = .titleGold
     let title: String
+    var titleColor: Color = .titleGold
     var value: String? = nil
-    var color: Color = .white
+    var valueColor: Color = .titleGold
     var onToggleFavorite: (() -> Void)? = nil
     
     var body: some View {
@@ -108,25 +120,25 @@ struct MetadataSquareView: View {
                 if let onToggleFavorite = onToggleFavorite {
                     Button(action: onToggleFavorite) {
                         Image(systemName: iconName)
-                            .foregroundColor(color)
+                            .foregroundColor(iconColor)
                             .font(.system(size: 20)) // Smaller icon size
                     }
                 } else {
                     Image(systemName: iconName)
                         .font(.system(size: 24)) // Smaller icon size
-                        .foregroundColor(color)
+                        .foregroundColor(iconColor)
                 }
                 
                 Text(title)
                     .font(.caption2)
                     .fontWeight(.bold)
-                    .foregroundColor(color)
+                    .foregroundColor(titleColor)
                     .multilineTextAlignment(.center)
                 
                 if let value = value {
                     Text(value)
                         .font(.footnote) // Smaller text for values
-                        .foregroundColor(color)
+                        .foregroundColor(titleColor)
                         .fontWeight(.bold)
                 }
             }
@@ -142,7 +154,7 @@ struct LearningContentMetadataView_Previews: PreviewProvider {
             Color.black
                 .ignoresSafeArea()
             
-            LearningContentMetadataView(viewModel: LearningContentViewModelBase(content: Testing.testModule))
+            LearningContentMetadataView(viewModel: LearningContentViewModelBase(content: Testing.testLesson))
                 .previewLayout(.sizeThatFits)
                 .padding()
         }

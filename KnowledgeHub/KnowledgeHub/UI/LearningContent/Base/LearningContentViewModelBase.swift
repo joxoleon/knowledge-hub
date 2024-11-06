@@ -18,6 +18,7 @@ class LearningContentViewModelBase: ObservableObject, Identifiable {
     @Published var estimatedReadTimeString: String = .empty
     @Published var progressPercentage: Double = 0.0
     @Published var scorePercentage: Double = 0.0
+    
 
     private var content: LearningContent
     private var cancellables = Set<AnyCancellable>()
@@ -33,6 +34,15 @@ class LearningContentViewModelBase: ObservableObject, Identifiable {
     
     var progressColor: Color {
         Color.interpolate(from: .placeholderGray, to: .lightGreen, fraction: content.completionPercentage / 100.0)
+    }
+    
+    var proficiencyString: String {
+        // TODO: Add proficiency to business logic
+        return "Intermediate"
+    }
+    
+    var questionCountString: String {
+        return "\(content.questions.count)"
     }
 
     // Initializer that sets up properties based on `LearningContent`

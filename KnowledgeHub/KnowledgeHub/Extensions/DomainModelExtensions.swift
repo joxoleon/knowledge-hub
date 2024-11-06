@@ -15,7 +15,7 @@ public extension Color {
     static let darkBlue = Color(#colorLiteral(red: 0, green: 0.08854200691, blue: 0.2434067726, alpha: 1))
     static let lightGreen = Color(#colorLiteral(red: 0.6, green: 0.97, blue: 0.6, alpha: 1))
     static let lightYellow = Color(#colorLiteral(red: 0.8, green: 0.8, blue: 0.5, alpha: 1))
-    static let lightRed = Color(#colorLiteral(red: 0.97, green: 0.3, blue: 0.3, alpha: 1))
+    static let lightRed = Color(#colorLiteral(red: 0.8631109595, green: 0.3246425986, blue: 0.3595300913, alpha: 1))
     static let placeholderGray = Color(#colorLiteral(red: 0.5489625335, green: 0.5489625335, blue: 0.5489625335, alpha: 0.5999811178))
     static let textColor = Color(#colorLiteral(red: 0.839, green: 0.851, blue: 0.882, alpha: 1))
 
