@@ -22,8 +22,8 @@ class QuizViewModel: ObservableObject {
     }
     
     // Automatically updated bindings
-    @Published var readLessonButonState: ButtonState = .active
-    @Published var nextQuestionButtonState: ButtonState = .disabled
+    @Published var readLessonButonState: KHQuizAnswerButtonState = .active
+    @Published var nextQuestionButtonState: KHQuizAnswerButtonState = .disabled
     @Published var progress: CGFloat = 0
     @Published var shouldShowLessionOverviewView: Bool = false
 

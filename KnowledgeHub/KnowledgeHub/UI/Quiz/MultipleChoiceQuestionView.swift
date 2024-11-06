@@ -12,7 +12,7 @@ struct MultipleChoiceQuestionView: View {
     
     // MARK: - Properties
     @EnvironmentObject var colorManager: ColorManager
-    @State private var buttonStates: [ButtonState]
+    @State private var buttonStates: [KHQuizAnswerButtonState]
     @Binding var selectedAnswer: String?
     
     let question: MultipleChoiceQuestion
@@ -53,7 +53,7 @@ struct MultipleChoiceQuestionView: View {
 
     private var answerButtons: some View {
         ForEach(0..<question.answers.count, id: \.self) { index in
-            KHButton(
+            KHQuizAnswerButton(
                 state: $buttonStates[index],
                 answerText: question.answers[index],
                 onSelected: { answerText in

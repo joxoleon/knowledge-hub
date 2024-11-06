@@ -43,7 +43,7 @@ struct QuizView: View {
                 destination: ReadLessonView(viewModel: LessonViewModel(lesson: Testing.testLesson, colorManager: colorManager)),
                 isActive: $viewModel.shouldShowLessionOverviewView // A @Published var in QuizViewModel
             ) {
-                KHButton(
+                KHQuizAnswerButton(
                     state: $viewModel.readLessonButonState,
                     answerText: "Read Lesson",
                     onSelected: { _ in
@@ -56,7 +56,7 @@ struct QuizView: View {
             
             Spacer(minLength: 30)
             
-            KHButton(
+            KHQuizAnswerButton(
                 state: $viewModel.nextQuestionButtonState,
                 answerText: viewModel.isLastQuestion ? "Done" : "Next",
                 onSelected: { _ in

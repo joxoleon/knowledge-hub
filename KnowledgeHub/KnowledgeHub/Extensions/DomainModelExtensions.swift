@@ -9,6 +9,11 @@ import Foundation
 import KHBusinessLogic
 import SwiftUI
 
+public enum ThemeConstants {
+    static let verticalGradient = LinearGradient(colors: [.darkBlue, .deepPurple], startPoint: .topLeading, endPoint: .bottomTrailing)
+    static let horizontalGradient = LinearGradient(colors: [.darkBlue, .deepPurple], startPoint: .leading, endPoint: .trailing)
+}
+
 public extension Color {
     static let deepPurple = Color(#colorLiteral(red: 0.2461335659, green: 0.02346310765, blue: 0.2728917301, alpha: 1))
     static let deeperPurple = Color(#colorLiteral(red: 0.09602113813, green: 0.001058581518, blue: 0.1699076891, alpha: 1))

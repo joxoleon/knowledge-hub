@@ -1,5 +1,5 @@
 //
-//  AnswerButton.swift
+//  KHQuizAnswerButton.swift
 //  KnowledgeHub
 //
 //  Created by Jovan Radivojsa on 24.10.24..
@@ -7,13 +7,13 @@
 
 import SwiftUI
 
-enum ButtonState {
+enum KHQuizAnswerButtonState {
     case active, disabled, correct, wrong
 }
 
-struct KHButton: View {
+struct KHQuizAnswerButton: View {
     @EnvironmentObject var colorManager: ColorManager
-    @Binding var state: ButtonState
+    @Binding var state: KHQuizAnswerButtonState
     let answerText: String
     let onSelected: (String) -> Void
     
@@ -42,7 +42,7 @@ struct KHButton: View {
     }
 }
 
-fileprivate extension KHButton {
+fileprivate extension KHQuizAnswerButton {
     
     var font: Font {
         return state == .correct ? .system(size: 18, weight: .bold) : .system(size: 16, weight: .semibold)
@@ -71,7 +71,7 @@ fileprivate extension KHButton {
 }
 
 struct AnswerButton_Previews: PreviewProvider {
-    @State static var buttonState: ButtonState = .active
+    @State static var buttonState: KHQuizAnswerButtonState = .active
     static var colorManager = ColorManager(colorTheme: .midnightBlue)
     
     static var previews: some View {
@@ -79,7 +79,7 @@ struct AnswerButton_Previews: PreviewProvider {
             colorManager.theme.backgroundColor.edgesIgnoringSafeArea(.all)
             VStack(spacing: 12) {
                 ForEach(0..<4) { index in
-                    KHButton(
+                    KHQuizAnswerButton(
                         state: $buttonState,
                         answerText: "Answer \(index + 1)",
                         onSelected: { _ in buttonState = .correct }
