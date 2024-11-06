@@ -18,7 +18,7 @@ fileprivate enum Constants {
 
 // Main Metadata View
 struct LearningContentMetadataView: View {
-    @ObservedObject var viewModel: LearningContentViewModelBase
+    @ObservedObject var viewModel: LearningContentMetadataViewModel
     
     var body: some View {
         VStack(spacing: 20) {
@@ -63,14 +63,13 @@ struct LearningContentMetadataView: View {
                         MetadataSquareView(
                             iconName: "checkmark.circle",
                             title: "Completion",
-                            titleColor: viewModel.progressColor,
-                            value: viewModel.progressPercentageString
+                            value: viewModel.progressPercentageString,
+                            valueColor: viewModel.progressColor
                         )
                         .frame(width: squareSize, height: squareSize)
                         MetadataSquareView(
                             iconName: "rosette",
                             title: "Score",
-                            titleColor: viewModel.scoreColor,
                             value: viewModel.scoreString,
                             valueColor: viewModel.scoreColor
                         )
@@ -78,7 +77,7 @@ struct LearningContentMetadataView: View {
                         MetadataSquareView(
                             iconName: viewModel.isStarred ? "star.fill" : "star",
                             iconColor: viewModel.isStarred ? .titleGold : .placeholderGray,
-                            title: viewModel.isStarred ? "Press to unstar Content" :"Press to star Content",
+                            title: viewModel.isStarred ? "Press to unstar Content" :"Press to STAR Content",
                             titleColor: viewModel.isStarred ? .titleGold : .placeholderGray,
                             onToggleFavorite: viewModel.toggleStar
                         )
@@ -121,11 +120,11 @@ struct MetadataSquareView: View {
                     Button(action: onToggleFavorite) {
                         Image(systemName: iconName)
                             .foregroundColor(iconColor)
-                            .font(.system(size: 20)) // Smaller icon size
+                            .font(.system(size: 20))
                     }
                 } else {
                     Image(systemName: iconName)
-                        .font(.system(size: 24)) // Smaller icon size
+                        .font(.system(size: 24))
                         .foregroundColor(iconColor)
                 }
                 
@@ -137,8 +136,8 @@ struct MetadataSquareView: View {
                 
                 if let value = value {
                     Text(value)
-                        .font(.footnote) // Smaller text for values
-                        .foregroundColor(titleColor)
+                        .font(.footnote)
+                        .foregroundColor(valueColor)
                         .fontWeight(.bold)
                 }
             }
@@ -154,7 +153,7 @@ struct LearningContentMetadataView_Previews: PreviewProvider {
             Color.black
                 .ignoresSafeArea()
             
-            LearningContentMetadataView(viewModel: LearningContentViewModelBase(content: Testing.testLesson))
+            LearningContentMetadataView(viewModel: LearningContentMetadataViewModel(content: Testing.testLesson))
                 .previewLayout(.sizeThatFits)
                 .padding()
         }

@@ -1,5 +1,5 @@
 //
-//  LearningContentViewModelBase.swift
+//  LearningContentMetadataViewModel.swift
 //  KnowledgeHub
 //
 //  Created by Jovan Radivojsa on 5.11.24..
@@ -9,7 +9,7 @@ import SwiftUI
 import Combine
 import KHBusinessLogic
 
-class LearningContentViewModelBase: ObservableObject, Identifiable {
+class LearningContentMetadataViewModel: ObservableObject, Identifiable {
     @Published var title: String = .empty
     @Published var description: String = .empty
     @Published var scoreString: String = .empty

@@ -9,7 +9,7 @@ import SwiftUI
 import Combine
 import KHBusinessLogic
 
-class LessonDetailsViewModel: LearningContentViewModelBase {
+class LessonDetailsViewModel: LearningContentMetadataViewModel {
     private var lesson: Lesson
 
     init(lesson: Lesson) {

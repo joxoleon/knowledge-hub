@@ -14,7 +14,7 @@ fileprivate enum Constants {
 }
 
 struct LearningContentCellView: View {
-    @ObservedObject var viewModel: LearningContentCellViewModel
+    @ObservedObject var viewModel: LearningContentMetadataViewModel
     @EnvironmentObject var colorManager: ColorManager
 
     var body: some View {
@@ -40,13 +40,13 @@ struct LearningContentCellView: View {
                     // Score and Progress
                     HStack(spacing: 30) {
                         HStack(spacing: 8) {
-                            Image(systemName: "gauge")
+                            Image(systemName: "checkmark.circle")
                             Text(viewModel.progressPercentageString)
                         }
                         .foregroundColor(viewModel.progressColor)
 
                         HStack(spacing: 8) {
-                            Image(systemName: "medal.fill")
+                            Image(systemName: "rosette")
                             Text(viewModel.scoreString)
                         }
                         .foregroundColor(viewModel.scoreColor)
@@ -85,9 +85,9 @@ struct LearningContentCellView: View {
         Color.black
             .edgesIgnoringSafeArea(.all)
         VStack(spacing: 2) {
-            LearningContentCellView(viewModel: LearningContentCellViewModel(content: Testing.testLesson))
+            LearningContentCellView(viewModel: LearningContentMetadataViewModel(content: Testing.testLesson))
                 .environmentObject(colorManager)
-            LearningContentCellView(viewModel: LearningContentCellViewModel(content: Testing.testModule))
+            LearningContentCellView(viewModel: LearningContentMetadataViewModel(content: Testing.testModule))
                 .environmentObject(colorManager)
         }
     }

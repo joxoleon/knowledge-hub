@@ -10,13 +10,13 @@ import KHBusinessLogic
 import Combine
 
 class LearningContentListViewModel: ObservableObject {
-    @Published var cellViewModels: [LearningContentCellViewModel] = []
+    @Published var cellViewModels: [LearningContentMetadataViewModel] = []
     private var learningContents: [any LearningContent]
     private var cancellables = Set<AnyCancellable>()
 
     init(learningContents: [any LearningContent]) {
         self.learningContents = learningContents
-        self.cellViewModels = learningContents.map { LearningContentCellViewModel(content: $0) }
+        self.cellViewModels = learningContents.map { LearningContentMetadataViewModel(content: $0) }
     }
     
     func refreshLearningContents() {
