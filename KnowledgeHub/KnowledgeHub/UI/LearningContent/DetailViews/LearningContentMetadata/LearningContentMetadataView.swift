@@ -7,16 +7,14 @@
 
 import SwiftUI
 
-// Constants for colors and styles
 fileprivate enum Constants {
     static let backgroundGradient = LinearGradient(colors: [.darkBlue, .deepPurple], startPoint: .topLeading, endPoint: .bottomTrailing)
     static let squareBackgroundColor = Color.deeperPurple
     static let squareBorderColor = Color.titleGold.opacity(0.4)
     static let squareCornerRadius: CGFloat = 15
-    static let squarePadding: CGFloat = 8 // Reduced padding for tighter spacing
+    static let squarePadding: CGFloat = 8
 }
 
-// Main Metadata View
 struct LearningContentMetadataView: View {
     @ObservedObject var viewModel: LearningContentMetadataViewModel
     
@@ -89,9 +87,6 @@ struct LearningContentMetadataView: View {
             }
         }
         .padding()
-        .background(Constants.backgroundGradient)
-        .cornerRadius(20)
-        .shadow(radius: 10)
     }
 }
 

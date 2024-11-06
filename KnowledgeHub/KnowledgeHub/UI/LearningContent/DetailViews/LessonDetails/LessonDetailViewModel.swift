@@ -9,27 +9,46 @@ import SwiftUI
 import Combine
 import KHBusinessLogic
 
-class LessonDetailsViewModel: LearningContentMetadataViewModel {
+class LessonDetailsViewModel: ObservableObject {
+    
+    // MARK: - Public Properties
+    
+    @Published var learningContentMetadataViewModel: LearningContentMetadataViewModel
+    
+    // MARK: - Private Properties
+    
     private var lesson: Lesson
 
+    // MARK: - Initializers
+    
     init(lesson: Lesson) {
         self.lesson = lesson
-        super.init(content: lesson)
+        self.learningContentMetadataViewModel = LearningContentMetadataViewModel(content: lesson)
     }
+    
+    // MARK: - Public Methods
 
-    func navigateToReadLesson() {
+    public func navigateToReadLesson() {
         print("Read lesson")
         // TODO: Implement navigation
     }
 
-    func navigateToQuiz() {
+    public func navigateToQuiz() {
         print("Start quiz")
         // TODO: Implement navigation
     }
 
-    func navigateToFlashcards() {
+    public func navigateToFlashcards() {
         print("FLASH ME!")
         // TODO: Implement navigation
+    }
+    
+    public func navigateToPreviousLesson() {
+        print("Previous lesson")
+    }
+    
+    public func navigateToNextLesson() {
+        print("Next lesson")
     }
 }
 

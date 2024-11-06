@@ -44,6 +44,14 @@ class LearningContentMetadataViewModel: ObservableObject, Identifiable {
     var questionCountString: String {
         return "\(content.questions.count)"
     }
+    
+    var isLesson: Bool {
+        content is Lesson
+    }
+    
+    var isLearningModule: Bool {
+        content is LearningModule
+    }
 
     // Initializer that sets up properties based on `LearningContent`
     init(content: LearningContent) {
