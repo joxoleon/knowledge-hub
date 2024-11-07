@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import KHBusinessLogic
 
 fileprivate enum Constants {
     static let primaryIconSize: CGFloat = 55.0
@@ -18,7 +19,7 @@ struct LearningModuleDetailView: View {
     
     var body: some View {
         ScrollView {
-            VStack() {
+            VStack {
                 // Metadata View
                 LearningContentMetadataView(viewModel: learningContentMetadataViewModel)
                     .padding(.vertical)
@@ -32,24 +33,26 @@ struct LearningModuleDetailView: View {
                 
                 SeparatorView()
                 
-                // Contents List
+                // Contents List with NavigationLink
                 VStack(alignment: .leading, spacing: 3) {
                     ForEach(viewModel.contentListViewModel.cellViewModels, id: \.id) { cellViewModel in
-                        LearningContentCellView(viewModel: cellViewModel)
-                            .background(Color.black.opacity(0.5)) // Adjust background as needed
-                            .cornerRadius(8)
+                        NavigationLink(destination: destinationView(for: cellViewModel)) {
+                            LearningContentCellView(viewModel: cellViewModel)
+                                .background(Color.black.opacity(0.5)) // Adjust background as needed
+                                .cornerRadius(8)
+                        }
+                        .buttonStyle(PlainButtonStyle()) // Ensures no additional button styling
                     }
                 }
                 
                 SeparatorView()
-                
                 
                 // Action Buttons Row
                 HStack {
                     KHActionButton(
                         iconName: "bolt.circle.fill",
                         iconSize: Constants.regularIconSize,
-                        title: "Flashcard",
+                        title: "Flashcards",
                         fontColor: .titleGold
                     ) {
                         viewModel.navigateToFlashcards()
@@ -76,7 +79,6 @@ struct LearningModuleDetailView: View {
                     ) {
                         viewModel.navigateToQuiz()
                     }
-                    
                 }
                 .padding(.horizontal, 30)
                 .padding(.vertical, 40)
@@ -85,7 +87,23 @@ struct LearningModuleDetailView: View {
         .padding(10)
         .background(ThemeConstants.verticalGradient.ignoresSafeArea())
     }
+    
+    @ViewBuilder
+    private func destinationView(for cellViewModel: LearningContentMetadataViewModel) -> some View {
+        if cellViewModel.isLesson {
+            LessonDetailView(
+                learningContentMetadataViewModel: cellViewModel,
+                viewModel: LessonDetailsViewModel(lesson: cellViewModel.content as! Lesson)
+            )
+        } else {
+            LearningModuleDetailView(
+                learningContentMetadataViewModel: cellViewModel,
+                viewModel: LearningModuleDetailsViewModel(module: cellViewModel.content as! LearningModule)
+            )
+        }
+    }
 }
+
 
 struct LearningModuleDetailView_Previews: PreviewProvider {
     static var previews: some View {

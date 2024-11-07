@@ -15,8 +15,7 @@ class LearningContentMetadataViewModel: ObservableObject, Identifiable {
     @Published var isStarred: Bool = false
     @Published var metadataItems: [MetadataItem] = []
     
-    private var content: LearningContent
-    private var cancellables = Set<AnyCancellable>()
+    public var content: LearningContent
 
     var id: String { content.id }
     var titleColor: Color { content is Lesson ? .titleGold : .titleGold }

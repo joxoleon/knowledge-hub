@@ -12,7 +12,7 @@ import SwiftUI
 public enum ThemeConstants {
     static let verticalGradient = LinearGradient(colors: [.black, .deepPurple2], startPoint: .topLeading, endPoint: .bottomTrailing)
     static let verticalGradient2 = LinearGradient(colors: [.deepPurple2, .black], startPoint: .topLeading, endPoint: .bottomTrailing)
-    static let cellGradient = LinearGradient(colors: [.deepPurple2, .black, .deepPurple2], startPoint: .topLeading, endPoint: .bottomTrailing)
+    static let cellGradient = LinearGradient(colors: [.deepPurple2, .black], startPoint: .topLeading, endPoint: .bottomTrailing)
     static let horizontalGradient = LinearGradient(colors: [.darkBlue, .deepPurple], startPoint: .leading, endPoint: .trailing)
 }
 
@@ -22,6 +22,9 @@ public enum IconConstants {
     static let score = "rosette"
     static let lesson = "book.circle.fill"
     static let learningModule = "books.vertical.fill"
+    static let searchIcon = "magnifyingglass.circle.fill"
+    static let browseIcon = "list.dash.circle.fill"
+    static let statsIcon = "chart.bar.xaxis"
 }
 
 public extension Color {

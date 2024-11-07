@@ -39,7 +39,7 @@ struct LearningContentMetadataView: View {
                         Image(systemName: viewModel.isStarred ? "star.fill" : "star")
                             .font(.system(size: Constants.starButtonSize))
                             .foregroundColor(viewModel.isStarred ? .titleGold : .placeholderGray)
-                            .shadow(color: viewModel.isStarred ? Color.yellow.opacity(0.6) : Color.clear, radius: 4, x: 0, y: 0)
+                            .shadow(color: viewModel.isStarred ? Color.titleGold.opacity(0.6) : Color.clear, radius: 4, x: 0, y: 0)
                     }
                 }
                 .padding(.horizontal, 8)

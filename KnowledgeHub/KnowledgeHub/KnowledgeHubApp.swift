@@ -10,26 +10,51 @@ import SwiftData
 
 @main
 struct KnowledgeHubApp: App {
-    @StateObject private var themeManager = ColorManager(colorTheme: .midnightBlue)
-
+    
+    init() {
+        configureAppearance()
+    }
+    
     var sharedModelContainer: ModelContainer = {
         let schema = Schema([
             Item.self,
         ])
         let modelConfiguration = ModelConfiguration(schema: schema, isStoredInMemoryOnly: false)
-
+        
         do {
             return try ModelContainer(for: schema, configurations: [modelConfiguration])
         } catch {
             fatalError("Could not create ModelContainer: \(error)")
         }
     }()
-
+    
     var body: some Scene {
         WindowGroup {
             ContentView()
-                .environmentObject(themeManager)
         }
         .modelContainer(sharedModelContainer)
+    }
+    
+    private func configureAppearance() {
+        // Navigation Bar Appearance
+        let navAppearance = UINavigationBarAppearance()
+        navAppearance.configureWithTransparentBackground()
+        navAppearance.titleTextAttributes = [.foregroundColor: UIColor(Color.titleGold)]
+        
+        UINavigationBar.appearance().standardAppearance = navAppearance
+        UINavigationBar.appearance().scrollEdgeAppearance = navAppearance
+        UINavigationBar.appearance().compactAppearance = navAppearance
+//        UINavigationBar.appearance().tintColor = .white
+        
+        // Tab Bar Appearance
+//        let tabBarAppearance = UITabBarAppearance()
+//        tabBarAppearance.configureWithOpaqueBackground()
+//        tabBarAppearance.backgroundColor = UIColor.black
+//        tabBarAppearance.stackedLayoutAppearance.selected.iconColor = UIColor(Color.titleGold)
+//        tabBarAppearance.stackedLayoutAppearance.selected.titleTextAttributes = [.foregroundColor: UIColor(Color.titleGold)]
+        
+//        UITabBar.appearance().standardAppearance = tabBarAppearance
+//        UITabBar.appearance().scrollEdgeAppearance = tabBarAppearance
+//        UITabBar.appearance().tintColor = UIColor(Color.titleGold)
     }
 }

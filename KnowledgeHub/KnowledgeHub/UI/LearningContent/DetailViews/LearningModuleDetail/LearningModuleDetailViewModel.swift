@@ -47,4 +47,9 @@ class LearningModuleDetailsViewModel: ObservableObject {
         print("Open flashcards for module")
         // TODO: Implement flashcard navigation
     }
+    
+    public func navigateToContent(learningContent: any LearningContent) {
+        print("Navigate to content")
+        // TODO: Implement navigation to content
+    }
 }

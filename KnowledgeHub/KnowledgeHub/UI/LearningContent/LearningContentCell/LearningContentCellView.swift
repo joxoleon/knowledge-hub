@@ -56,7 +56,6 @@ struct LearningContentCellView: View {
         .padding(.horizontal, 18)
         .background(ThemeConstants.cellGradient)
         .cornerRadius(12)
-        // Add a border overlay
         .overlay(
             RoundedRectangle(cornerRadius: 12)
                 .stroke(Color.titleGold.opacity(0.2), lineWidth: 1)

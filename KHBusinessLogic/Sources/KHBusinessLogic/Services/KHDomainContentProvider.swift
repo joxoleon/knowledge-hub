@@ -33,9 +33,18 @@ public class KHDomainContentProvider: KHDomainContentProviderProtocol {
         self.starTrackingRepository = starTrackingRepository
     }
 
+    public init() {
+        let fetcher = GitHubContentFetcher()
+        let contentStorage = FileContentStorage()
+        self.contentRepository = KHContentSource.ContentRepository(fetcher: fetcher, storage: contentStorage)
+        self.progressTrackingRepository = UserDefaultsProgressTrackingRepository()
+        self.starTrackingRepository = UserDefaultsStarTrackingRepository()
+    }
+
     // MARK: - KHDomainContentProviderProtocol Methods
 
     public func initializeContent() async throws {
+        print("*** initialize content invoked *** ")
         
         // Initialize content repository and clear local data if it was stale
         let contentRepositoryUpdated = try await contentRepository.updateDataIfNeeded()
@@ -47,7 +56,14 @@ public class KHDomainContentProvider: KHDomainContentProviderProtocol {
         let lessonIds = contentRepository.fetchLessonIdCatalog()
         let dtoLessons = contentRepository.fetchLessons(by: lessonIds)
         let domainLessons = dtoLessons.map { Lesson(from: $0, contentProvider: self) }
-        domainLessons.forEach { lessonsById[$0.id] = $0 }
+        print("Fetched \(domainLessons.count) lessons")
+        domainLessons.forEach { lesson in
+            print("Lesson: \(lesson.title)")
+            print("Lesson ID: \(lesson.id)")
+            self.lessonsById[lesson.id] = lesson
+            print("Map contents: \(self.lessonsById[lesson.id]?.title ?? "nil")")
+            print("Keys in lessonsById: \(self.lessonsById.keys)")
+        }
 
         // Fetch modules DTOs from the ContentRepository and transform them to domain models
         let moduleIds = contentRepository.fetchModuleIdCatalog()

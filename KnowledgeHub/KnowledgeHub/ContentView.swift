@@ -6,44 +6,30 @@
 //
 
 import SwiftUI
-import SwiftData
+import KHBusinessLogic
 
 struct ContentView: View {
-    @Environment(\.modelContext) private var modelContext
-    @EnvironmentObject var colorManager: ColorManager
-
-    init() {
-        let appearance = UINavigationBarAppearance()
-        appearance.configureWithOpaqueBackground()
-        appearance.backgroundColor = UIColor(.black)
-        appearance.titleTextAttributes = [.foregroundColor: UIColor.white]
-        appearance.largeTitleTextAttributes = [.foregroundColor: UIColor.white]
-        
-        UINavigationBar.appearance().standardAppearance = appearance
-        UINavigationBar.appearance().scrollEdgeAppearance = appearance
-        UINavigationBar.appearance().compactAppearance = appearance
-        UINavigationBar.appearance().tintColor = .white // For back button and icon colors
-    }
-
+    @StateObject private var splashScreenViewModel = SplashScreenViewModel(contentProvider: KHDomainContentProvider())
+    
     var body: some View {
-        NavigationView {
-            ZStack {
-                colorManager.theme.backgroundColor
-                    .edgesIgnoringSafeArea(.all) // Ensures background color covers full screen
-                
-                let quizViewModel = QuizViewModel(quiz: Testing.testQuiz)
-                
-                QuizView(viewModel: quizViewModel)
-                    .environmentObject(colorManager)
+        Group {
+            if splashScreenViewModel.isInitialized {
+                MainTabView(viewModel: MainTabViewModel(contentProvider: splashScreenViewModel.contentProvider))
+            } else {
+                SplashScreenView()
             }
         }
-        .navigationViewStyle(StackNavigationViewStyle()) // Consistent style for different devices
+        .environmentObject(splashScreenViewModel)
+        .onAppear {
+            Task {
+                await splashScreenViewModel.initializeContent()
+            }
+        }
     }
 }
 
 // SwiftUI Preview
 #Preview {
     ContentView()
-        .environmentObject(ColorManager(colorTheme: .midnightBlue))
         .modelContainer(for: Item.self, inMemory: true)
 }

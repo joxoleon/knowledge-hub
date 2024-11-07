@@ -18,9 +18,4 @@ class LearningContentListViewModel: ObservableObject {
         self.learningContents = learningContents
         self.cellViewModels = learningContents.map { LearningContentMetadataViewModel(content: $0) }
     }
-    
-    func refreshLearningContents() {
-        // Here you can add code to fetch or refresh learning contents if needed.
-        // Currently, Nothing will be done until I figure out what is necessary
-    }
 }
