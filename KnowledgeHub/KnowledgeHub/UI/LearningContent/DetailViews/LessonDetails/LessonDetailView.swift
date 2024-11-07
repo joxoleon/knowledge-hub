@@ -10,7 +10,7 @@ import SwiftUI
 fileprivate enum Constants {
     static let primaryIconSize: CGFloat = 65.0
     static let regularIconSize: CGFloat = 50.0
-    static let navigationIconSize: CGFloat = 35.0
+    static let navigationIconSize: CGFloat = 36.0
     
 }
 
@@ -23,7 +23,7 @@ struct LessonDetailView: View {
             VStack(spacing: 20) {
                 // Metadata View
                 LearningContentMetadataView(viewModel: learningContentMetadataViewModel)
-                    .padding(.horizontal)
+                    .padding(.vertical)
                 
                 Spacer()
                 
@@ -46,7 +46,7 @@ struct LessonDetailView: View {
                     ) {
                         viewModel.navigateToReadLesson()
                     }
-                    .offset(y: -Constants.primaryIconSize * 1.3)
+                    .offset(y: -Constants.primaryIconSize * 1.2)
                     
                     
                     KHActionButton(
@@ -60,7 +60,7 @@ struct LessonDetailView: View {
                     
                 }
                 .padding(.horizontal, 10)
-                .padding(.bottom, 10)
+                .padding(.bottom, 2)
                 
                 // Bottom Navigation Buttons
                 HStack {
@@ -85,11 +85,11 @@ struct LessonDetailView: View {
                         viewModel.navigateToNextLesson()
                     }
                 }
-                .padding(.bottom, 20)
-                .padding(.horizontal, 45)
+                .padding(.bottom, 12)
+                .padding(.horizontal, 50)
             }
             .frame(maxWidth: .infinity)
-            .padding(.horizontal, 30)
+            .padding(.horizontal, 5)
         }
         .background(ThemeConstants.verticalGradient.ignoresSafeArea())
     }
@@ -117,7 +117,7 @@ struct KHActionButton: View {
                 Image(systemName: iconName)
                     .font(.system(size: self.iconSize))
                     .foregroundColor(.titleGold)
-                    .shadow(color: .titleGold.opacity(0.4), radius: self.iconSize / 5)
+                    .shadow(color: .titleGold.opacity(0.4), radius: self.iconSize / 8)
                 
                 Text(title)
                     .font(.system(size: iconSize / 5))

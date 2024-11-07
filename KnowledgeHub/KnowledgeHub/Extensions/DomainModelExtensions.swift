@@ -11,13 +11,14 @@ import SwiftUI
 
 public enum ThemeConstants {
     static let verticalGradient = LinearGradient(colors: [.black, .deepPurple2], startPoint: .topLeading, endPoint: .bottomTrailing)
+    static let verticalGradient2 = LinearGradient(colors: [.deepPurple2, .black], startPoint: .topLeading, endPoint: .bottomTrailing)
     static let horizontalGradient = LinearGradient(colors: [.darkBlue, .deepPurple], startPoint: .leading, endPoint: .trailing)
 }
 
 public extension Color {
     static let deepPurple = Color(#colorLiteral(red: 0.2461335659, green: 0.02346310765, blue: 0.2728917301, alpha: 1))
     static let deepPurple2 = Color(#colorLiteral(red: 0.1855854094, green: 0, blue: 0.2303968966, alpha: 1))
-    static let deeperPurple = Color(#colorLiteral(red: 0.09602113813, green: 0.001058581518, blue: 0.1699076891, alpha: 1))
+    static let deeperPurple = Color(#colorLiteral(red: 0.04155740887, green: 0.001098917914, blue: 0.07130322605, alpha: 1))
     static let darkBlue = Color(#colorLiteral(red: 0, green: 0.08854200691, blue: 0.2434067726, alpha: 1))
     static let lightGreen = Color(#colorLiteral(red: 0.6, green: 0.97, blue: 0.6, alpha: 1))
     static let lightYellow = Color(#colorLiteral(red: 0.8, green: 0.8, blue: 0.5, alpha: 1))

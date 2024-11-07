@@ -12,14 +12,9 @@ import KHBusinessLogic
 class LearningContentMetadataViewModel: ObservableObject, Identifiable {
     @Published var title: String = .empty
     @Published var description: String = .empty
-    @Published var scoreString: String = .empty
-    @Published var progressPercentageString: String = .empty
     @Published var isStarred: Bool = false
-    @Published var estimatedReadTimeString: String = .empty
-    @Published var progressPercentage: Double = 0.0
-    @Published var scorePercentage: Double = 0.0
+    @Published var metadataItems: [MetadataItem] = []
     
-
     private var content: LearningContent
     private var cancellables = Set<AnyCancellable>()
 
@@ -27,32 +22,6 @@ class LearningContentMetadataViewModel: ObservableObject, Identifiable {
     var id: String { content.id }
     var titleColor: Color { content is Lesson ? .titleGold : .titlePurple }
     
-    var scoreColor: Color {
-        guard let score = content.score else { return .placeholderGray }
-        return score >= 80.0 ? .lightGreen : score >= 60.0 ? .lightYellow : .lightRed
-    }
-    
-    var progressColor: Color {
-        Color.interpolate(from: .placeholderGray, to: .lightGreen, fraction: content.completionPercentage / 100.0)
-    }
-    
-    var proficiencyString: String {
-        // TODO: Add proficiency to business logic
-        return "Intermediate"
-    }
-    
-    var questionCountString: String {
-        return "\(content.questions.count)"
-    }
-    
-    var isLesson: Bool {
-        content is Lesson
-    }
-    
-    var isLearningModule: Bool {
-        content is LearningModule
-    }
-
     // Initializer that sets up properties based on `LearningContent`
     init(content: LearningContent) {
         self.content = content
@@ -69,13 +38,32 @@ class LearningContentMetadataViewModel: ObservableObject, Identifiable {
     func refreshValues() {
         title = content.title
         description = content.description
-        scoreString = content.score?.percentageString ?? "0%"
-        progressPercentageString = content.completionPercentage.percentageString
-        progressPercentage = content.completionPercentage
         isStarred = content.isStarred
-        estimatedReadTimeString = content.estimatedReadTimeSeconds.timeString
-        scorePercentage = content.score ?? 0.0
+        metadataItems = [
+            MetadataItem(iconName: "clock", title: "Read Time", value: content.estimatedReadTimeSeconds.timeString),
+            MetadataItem(iconName: "checkmark.circle", title: "Completion", value: content.completionPercentage.percentageString, valueColor: progressColor),
+            MetadataItem(iconName: "rosette", title: "Score", value: content.score?.percentageString ?? "0%", valueColor: scoreColor)
+        ]
     }
+    
+    // Computed Properties for Colors
+    var scoreColor: Color {
+        guard let score = content.score else { return .placeholderGray }
+        return score >= 80.0 ? .lightGreen : score >= 60.0 ? .lightYellow : .lightRed
+    }
+    
+    var progressColor: Color {
+        Color.interpolate(from: .placeholderGray, to: .lightGreen, fraction: content.completionPercentage / 100.0)
+    }
+}
+
+// MARK: - MetadataItem Struct
+
+struct MetadataItem {
+    let iconName: String
+    let title: String
+    let value: String
+    var valueColor: Color = .titleGold
 }
 
 // MARK: - Extensions
