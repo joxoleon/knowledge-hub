@@ -9,9 +9,8 @@ import SwiftUI
 
 fileprivate enum Constants {
     static let backgroundGradient = LinearGradient(colors: [.darkBlue, .deepPurple], startPoint: .topLeading, endPoint: .bottomTrailing)
-    static let squareBackgroundColor = Color.deeperPurple
-    static let squareBorderColor = Color.titleGold.opacity(0.4)
-    static let squareCornerRadius: CGFloat = 15
+    static let squareBackgroundGradient = LinearGradient(colors: [.deeperPurple.opacity(0.6), .deepPurple.opacity(0.8)], startPoint: .top, endPoint: .bottom)
+    static let squareCornerRadius: CGFloat = 12
     static let squarePadding: CGFloat = 8
 }
 
@@ -19,10 +18,10 @@ struct LearningContentMetadataView: View {
     @ObservedObject var viewModel: LearningContentMetadataViewModel
     
     var body: some View {
-        VStack(spacing: 20) {
+        VStack(spacing: 16) {
             // Title and Description
             Text(viewModel.title)
-                .font(.title)
+                .font(.title2)
                 .fontWeight(.bold)
                 .foregroundColor(viewModel.titleColor)
                 .padding(.bottom, 4)
@@ -30,6 +29,8 @@ struct LearningContentMetadataView: View {
             Text(viewModel.description)
                 .font(.body)
                 .foregroundColor(.textColor)
+                .multilineTextAlignment(.center)
+                .padding(.horizontal)
                 .padding(.bottom, 8)
             
             // 3x2 Grid of Metadata Squares
@@ -44,12 +45,14 @@ struct LearningContentMetadataView: View {
                             value: viewModel.estimatedReadTimeString
                         )
                         .frame(width: squareSize, height: squareSize)
+                        
                         MetadataSquareView(
                             iconName: "flag.fill",
                             title: "Level",
                             value: viewModel.proficiencyString
                         )
                         .frame(width: squareSize, height: squareSize)
+                        
                         MetadataSquareView(
                             iconName: "questionmark.circle",
                             title: "Quiz Size",
@@ -65,6 +68,7 @@ struct LearningContentMetadataView: View {
                             valueColor: viewModel.progressColor
                         )
                         .frame(width: squareSize, height: squareSize)
+                        
                         MetadataSquareView(
                             iconName: "rosette",
                             title: "Score",
@@ -72,15 +76,15 @@ struct LearningContentMetadataView: View {
                             valueColor: viewModel.scoreColor
                         )
                         .frame(width: squareSize, height: squareSize)
+                        
                         MetadataSquareView(
                             iconName: viewModel.isStarred ? "star.fill" : "star",
                             iconColor: viewModel.isStarred ? .titleGold : .placeholderGray,
-                            title: viewModel.isStarred ? "Press to unstar Content" :"Press to STAR Content",
+                            title: viewModel.isStarred ? "Unstar" : "Star",
                             titleColor: viewModel.isStarred ? .titleGold : .placeholderGray,
                             onToggleFavorite: viewModel.toggleStar
                         )
                         .frame(width: squareSize, height: squareSize)
-
                     }
                 }
                 .padding(.vertical, 10)
@@ -104,28 +108,24 @@ struct MetadataSquareView: View {
     var body: some View {
         ZStack {
             RoundedRectangle(cornerRadius: Constants.squareCornerRadius)
-                .fill(Constants.squareBackgroundColor)
-                .overlay(
-                    RoundedRectangle(cornerRadius: Constants.squareCornerRadius)
-                        .stroke(Constants.squareBorderColor, lineWidth: 1)
-                )
+                .fill(Color.deeperPurple.opacity(0.8))
             
-            VStack(spacing: 6) { // Reduced spacing for compactness
+            VStack(spacing: 4) {
                 if let onToggleFavorite = onToggleFavorite {
                     Button(action: onToggleFavorite) {
                         Image(systemName: iconName)
                             .foregroundColor(iconColor)
-                            .font(.system(size: 20))
+                            .font(.system(size: 22))
                     }
                 } else {
                     Image(systemName: iconName)
-                        .font(.system(size: 24))
+                        .font(.system(size: 22))
                         .foregroundColor(iconColor)
                 }
                 
                 Text(title)
-                    .font(.caption2)
-                    .fontWeight(.bold)
+                    .font(.caption)
+                    .fontWeight(.semibold)
                     .foregroundColor(titleColor)
                     .multilineTextAlignment(.center)
                 
@@ -136,7 +136,7 @@ struct MetadataSquareView: View {
                         .fontWeight(.bold)
                 }
             }
-            .padding(6)
+            .padding(8)
         }
     }
 }
@@ -145,7 +145,7 @@ struct MetadataSquareView: View {
 struct LearningContentMetadataView_Previews: PreviewProvider {
     static var previews: some View {
         ZStack {
-            Color.black
+            ThemeConstants.verticalGradient
                 .ignoresSafeArea()
             
             LearningContentMetadataView(viewModel: LearningContentMetadataViewModel(content: Testing.testLesson))
@@ -154,7 +154,3 @@ struct LearningContentMetadataView_Previews: PreviewProvider {
         }
     }
 }
-
-
-
-
