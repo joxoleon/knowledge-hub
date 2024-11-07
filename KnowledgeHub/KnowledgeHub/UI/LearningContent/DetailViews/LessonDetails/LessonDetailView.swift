@@ -12,64 +12,69 @@ struct LessonDetailView: View {
     @ObservedObject var viewModel: LessonDetailsViewModel
     
     var body: some View {
-        VStack(spacing: 20) {
-            // Metadata View at the top
+        VStack {
             LearningContentMetadataView(viewModel: learningContentMetadataViewModel)
-                .padding(.horizontal)
-                .padding(.top, 20)
-
-            // Primary Actions Row
-            HStack(spacing: 20) {
-                KHButtonView(
-                    state: .constant(.active),
-                    iconName: "book.circle.fill",
-                    title: "Read",
-                    titleFont: .system(size: 12),
-                    onSelected: viewModel.navigateToReadLesson
-                )
-                
-                KHButtonView(
-                    state: .constant(.active),
-                    iconName: "bolt.circle.fill",
-                    title: viewModel.learningContentMetadataViewModel.isLesson ? "Flashcard" : "Flashcards",
-                    titleFont: .system(size: 12),
-                    onSelected: viewModel.navigateToFlashcards
-                )
-                
-                KHButtonView(
-                    state: .constant(.active),
-                    iconName: "questionmark.circle.fill",
-                    title: "Quiz",
-                    titleFont: .system(size: 12),
-                    onSelected: viewModel.navigateToQuiz
-                )
-            }
-            .padding(.horizontal)
+                .padding()
             
-            // Navigation Row at the Bottom
-            HStack(spacing: 40) {
-                KHButtonView(
-                    state: .constant(.active),
-                    iconName: "arrow.left.circle.fill",
-                    title: "Previous Lesson",
-                    titleFont: .system(size: 12),
-                    onSelected: viewModel.navigateToPreviousLesson
-                )
+            // Primary Action Buttons Row
+            HStack(spacing: 20) {
+                IconButton(iconName: "book.circle.fill", title: "Read") {
+                    viewModel.navigateToReadLesson()
+                }
+                
+                IconButton(iconName: "bolt.circle.fill", title: viewModel.learningContentMetadataViewModel.isLesson ? "Flashcard" : "Flashcards") {
+                    viewModel.navigateToFlashcards()
+                }
+                
+                IconButton(iconName: "questionmark.circle.fill", title: "Quiz") {
+                    viewModel.navigateToQuiz()
+                }
+            }
+            .padding(.vertical, 16)
+            
+            Spacer()
+            
+            // Bottom Navigation Bar with Icon-Only Buttons
+            HStack {
+                Button(action: viewModel.navigateToPreviousLesson) {
+                    Image(systemName: "arrow.left")
+                        .font(.title2)
+                        .foregroundColor(.titleGold)
+                }
                 
                 Spacer()
                 
-                KHButtonView(
-                    state: .constant(.active),
-                    iconName: "arrow.right.circle.fill",
-                    title: "Next Lesson",
-                    titleFont: .system(size: 12),
-                    onSelected: viewModel.navigateToNextLesson
-                )
+                Button(action: viewModel.navigateToNextLesson) {
+                    Image(systemName: "arrow.right")
+                        .font(.title2)
+                        .foregroundColor(.titleGold)
+                }
             }
-            .padding(.horizontal)
+            .padding(.horizontal, 30)
             .padding(.bottom, 20)
+            .background(Color.deeperPurple.opacity(0.7).edgesIgnoringSafeArea(.bottom))
         }
-        .background(ThemeConstants.verticalGradient.edgesIgnoringSafeArea(.all))
+    }
+}
+
+// Simple icon-only button with optional label
+struct IconButton: View {
+    let iconName: String
+    let title: String
+    let action: () -> Void
+    
+    var body: some View {
+        Button(action: action) {
+            VStack {
+                Image(systemName: iconName)
+                    .font(.title2)
+                    .foregroundColor(.titleGold)
+                Text(title)
+                    .font(.caption)
+                    .foregroundColor(.titleGold)
+            }
+        }
+        .padding(.horizontal, 10)
     }
 }
 
@@ -79,5 +84,6 @@ struct LessonDetailView_Previews: PreviewProvider {
             learningContentMetadataViewModel: LearningContentMetadataViewModel(content: Testing.testLesson),
             viewModel: LessonDetailsViewModel(lesson: Testing.testLesson)
         )
+        .background(ThemeConstants.verticalGradient.edgesIgnoringSafeArea(.all))
     }
 }
