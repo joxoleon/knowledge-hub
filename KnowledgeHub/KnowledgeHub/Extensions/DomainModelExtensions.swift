@@ -11,6 +11,7 @@ import SwiftUI
 
 public enum ThemeConstants {
     static let verticalGradient = LinearGradient(colors: [.black, .deepPurple2], startPoint: .topLeading, endPoint: .bottomTrailing)
+    static let verticalGradientDarker = LinearGradient(colors: [.black, .deepPurple3], startPoint: .topLeading, endPoint: .bottomTrailing)
     static let verticalGradient2 = LinearGradient(colors: [.deepPurple2, .black], startPoint: .topLeading, endPoint: .bottomTrailing)
     static let cellGradient = LinearGradient(colors: [.deepPurple2, .black], startPoint: .topLeading, endPoint: .bottomTrailing)
     static let horizontalGradient = LinearGradient(colors: [.darkBlue, .deepPurple], startPoint: .leading, endPoint: .trailing)
@@ -27,17 +28,25 @@ public enum IconConstants {
     static let statsIcon = "chart.bar.xaxis"
 }
 
+public enum LessonSectionTheme {
+    static let textColor = Color(#colorLiteral(red: 0.7476351857, green: 0.7833244205, blue: 0.8772838116, alpha: 1))
+    static let gold1 = Color(#colorLiteral(red: 0.8470588235, green: 0.6663265001, blue: 0.4084971358, alpha: 1))
+    static let gold2 = Color(#colorLiteral(red: 0.8470588235, green: 0.6663265001, blue: 0.4084971358, alpha: 1))
+    static let codeBackground = Color.deepPurple3
+}
+
 public extension Color {
     static let deepPurple = Color(#colorLiteral(red: 0.2461335659, green: 0.02346310765, blue: 0.2728917301, alpha: 1))
     static let deepPurple2 = Color(#colorLiteral(red: 0.1855854094, green: 0, blue: 0.2303968966, alpha: 1))
+    static let deepPurple3 = Color(#colorLiteral(red: 0.0856006667, green: 0.0002626918431, blue: 0.1521573663, alpha: 1))
     static let deeperPurple = Color(#colorLiteral(red: 0.04155740887, green: 0.001098917914, blue: 0.07130322605, alpha: 1))
+    static let deeperPurple2 = Color(#colorLiteral(red: 0.07679689676, green: 0.001972509548, blue: 0.1394259036, alpha: 1))
     static let darkBlue = Color(#colorLiteral(red: 0, green: 0.08854200691, blue: 0.2434067726, alpha: 1))
     static let lightGreen = Color(#colorLiteral(red: 0.6, green: 0.97, blue: 0.6, alpha: 1))
     static let lightYellow = Color(#colorLiteral(red: 0.8, green: 0.8, blue: 0.5, alpha: 1))
     static let lightRed = Color(#colorLiteral(red: 0.8631109595, green: 0.3246425986, blue: 0.3595300913, alpha: 1))
     static let placeholderGray = Color(#colorLiteral(red: 0.5489625335, green: 0.5489625335, blue: 0.5489625335, alpha: 0.5999811178))
     static let textColor = Color(#colorLiteral(red: 0.7476351857, green: 0.7833244205, blue: 0.8772838116, alpha: 1))
-
 
     static let titleGold = Color(#colorLiteral(red: 0.8470588235, green: 0.6663265001, blue: 0.4084971358, alpha: 1))
     static let titlePurple = Color(#colorLiteral(red: 0.6484809518, green: 0.5859546065, blue: 0.9822049737, alpha: 1))

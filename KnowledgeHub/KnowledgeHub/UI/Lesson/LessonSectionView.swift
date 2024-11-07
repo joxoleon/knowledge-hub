@@ -10,30 +10,28 @@ import MarkdownUI
 import Splash
 import KHBusinessLogic
 
-struct LessonSectionView: View {
-    let section: LessonSection
-    @EnvironmentObject var themeManager: ColorManager
-    @ObservedObject var viewModel: LessonViewModel
+struct MarkdownPresentationView: View {
+    let markdownString: String
     
     var body: some View {
         ScrollView {
-            Markdown(section.content)
+            Markdown(markdownString)
                 .markdownTextStyle(\.text) {
-                    ForegroundColor(themeManager.theme.textColor)
+                    ForegroundColor(LessonSectionTheme.textColor)
                 }
                 .markdownTextStyle(\.strong) {
                     FontWeight(.bold)
-                    ForegroundColor(themeManager.theme.strongTextColor)
+                    ForegroundColor(LessonSectionTheme.gold1)
                 }
                 .markdownTextStyle(\.emphasis) {
                     FontStyle(.italic)
-                    ForegroundColor(themeManager.theme.emphasisTextColor)
+                    ForegroundColor(LessonSectionTheme.gold1)
                 }
                 .markdownTextStyle(\.code) {
                     FontFamilyVariant(.monospaced)
                     FontSize(.em(0.85))
-                    ForegroundColor(themeManager.theme.inlineCodeTextColor)
-                    BackgroundColor(themeManager.theme.codeBlockInlineBackgroundColor)
+                    ForegroundColor(LessonSectionTheme.gold1)
+                    BackgroundColor(LessonSectionTheme.codeBackground)
                 }
                 .markdownBlockStyle(\.codeBlock) { configuration in
                     codeBlock(configuration)
@@ -41,15 +39,15 @@ struct LessonSectionView: View {
                 .markdownBlockStyle(\.blockquote) { configuration in
                     configuration.label
                         .padding()
-                        .background(themeManager.theme.blockquoteBackgroundColor)
+                        .background(LessonSectionTheme.codeBackground)
                         .overlay(
                             RoundedRectangle(cornerRadius: 10)
-                                .stroke(themeManager.theme.blockquoteBorderColor, lineWidth: 2)  // Border with rounded corners
+                                .stroke(LessonSectionTheme.gold1.opacity(0.4), lineWidth: 1)  // Border with rounded corners
                         )
                         .markdownTextStyle {
                             FontWeight(.semibold)
                             FontSize(.em(0.9))
-                            ForegroundColor(themeManager.theme.quoteTextColor)
+                            ForegroundColor(LessonSectionTheme.gold1)
                         }
                 }
                 .markdownBlockStyle(\.heading1) { configuration in
@@ -58,7 +56,7 @@ struct LessonSectionView: View {
                         .markdownTextStyle {
                             FontWeight(.bold)
                             FontSize(.em(1.4))
-                            ForegroundColor(themeManager.theme.heading1TextColor)
+                            ForegroundColor(LessonSectionTheme.gold1)
                         }
                 }
                 .markdownBlockStyle(\.heading2) { configuration in
@@ -67,7 +65,7 @@ struct LessonSectionView: View {
                         .markdownTextStyle {
                             FontWeight(.bold)
                             FontSize(.em(1.2))
-                            ForegroundColor(themeManager.theme.heading2TextColor)
+                            ForegroundColor(LessonSectionTheme.gold1)
                         }
                 }
                 .markdownBlockStyle(\.heading3) { configuration in
@@ -76,7 +74,7 @@ struct LessonSectionView: View {
                         .markdownTextStyle {
                             FontWeight(.bold)
                             FontSize(.em(1.1))
-                            ForegroundColor(themeManager.theme.heading3TextColor)
+                            ForegroundColor(LessonSectionTheme.gold1)
                         }
                 }
                 .markdownBlockStyle(\.heading4) { configuration in
@@ -85,46 +83,57 @@ struct LessonSectionView: View {
                         .markdownTextStyle {
                             FontWeight(.bold)
                             FontSize(.em(1.1))
-                            ForegroundColor(themeManager.theme.heading3TextColor)
+                            ForegroundColor(LessonSectionTheme.gold1)
                         }
                 }
                 .padding()
         }
-        .background(themeManager.theme.backgroundColor)
-        .frame(maxWidth: .infinity)
     }
     
     
     @ViewBuilder
     private func codeBlock(_ configuration: CodeBlockConfiguration) -> some View {
         VStack(spacing: 0) {
+            // Header with language label and copy button
             HStack {
                 Text(configuration.language ?? "plain text")
                     .font(.system(.caption, design: .monospaced))
                     .fontWeight(.bold)
-                    .foregroundColor(themeManager.theme.codeBlockLanguageTextColor)
+                    .foregroundColor(LessonSectionTheme.gold1)
                 Spacer()
                 
                 Image(systemName: "clipboard")
                     .onTapGesture {
                         copyToClipboard(configuration.content)
                     }
+                    .foregroundColor(LessonSectionTheme.gold1)
             }
             .padding(.horizontal)
             .padding(.vertical, 8)
-            .background(themeManager.theme.backgroundLighterColor)
+            .background(ThemeConstants.cellGradient)
             
+            // Divider line
             Divider()
+                .background(LessonSectionTheme.gold1.opacity(0.5))
             
+            // Scrollable code content
             ScrollView(.horizontal) {
                 highlightCode(configuration.content, language: configuration.language)
                     .padding()
             }
+            .background(LessonSectionTheme.codeBackground)
         }
-        .background(themeManager.theme.blockquoteBackgroundColor)
-        .clipShape(RoundedRectangle(cornerRadius: 8))
+        .background(LessonSectionTheme.codeBackground)
+        .clipShape(
+            RoundedRectangle(cornerRadius: 8) // Full rounded rectangle for outer corners
+        )
+        .overlay(
+            RoundedRectangle(cornerRadius: 8)
+                .stroke(LessonSectionTheme.gold1.opacity(0.5), lineWidth: 1)
+        )
         .markdownMargin(top: .zero, bottom: .em(0.8))
     }
+
     
     private var theme: Splash.Theme {
         .sundellsColors(withFont: .init(size: 13))
@@ -140,49 +149,64 @@ struct LessonSectionView: View {
     }
 }
 
+struct RoundedCorner: Shape {
+    var radius: CGFloat = .infinity
+    var corners: UIRectCorner = .allCorners
+    
+    func path(in rect: CGRect) -> Path {
+        let path = UIBezierPath(
+            roundedRect: rect,
+            byRoundingCorners: corners,
+            cornerRadii: CGSize(width: radius, height: radius)
+        )
+        return Path(path.cgPath)
+    }
+}
+
 // SwiftUI Preview
 struct LessonSectionView_Previews: PreviewProvider {
     
     static var previews: some View {
-        let sampleLesson = Testing.testLesson
-        let colorManager = ColorManager(colorTheme: .midnightBlue)
-        let viewModel = LessonViewModel(lesson: sampleLesson, colorManager: colorManager)
-        LessonSectionView(
-            section: LessonSection(content: """
-            # Markdown Showcase
+        
+        ZStack {
+            ThemeConstants.verticalGradientDarker
+                .ignoresSafeArea()
             
-            
-            **Markdown** is a lightweight markup language that you can use to add formatting elements to plaintext documents. 
-            
-            ## Basic Elements
-            
-            - **Bold** text
-            - *Italic* text
-            - ~~Strikethrough~~
-            - `Code block inline`
-            
-            ```swift
-            struct ContentView: View {
-                var body: some View {
-                    Text("This is a code block example in Swift!")
+            MarkdownPresentationView(
+                markdownString: """
+                # Markdown Showcase
+                
+                
+                **Markdown** is a lightweight markup language that you can use to add formatting elements to plaintext documents. 
+                
+                ## Basic Elements
+                
+                - **Bold** text
+                - *Italic* text
+                - ~~Strikethrough~~
+                - `Code block inline`
+                
+                ```swift
+                struct ContentView: View {
+                    var body: some View {
+                        Text("This is a code block example in Swift!")
+                    }
                 }
-            }
-            ```
+                ```
+                
+                > "Blockquotes are useful for highlighting key points or quotes."
+                
+                ### Nested List Example
+                - Item 1
+                - Item 2
+                  - Sub-item 1
+                  - Sub-item 2
+                
+                *Markdown* is often used for documentation, readme files, and more!
+                """
+              )
             
-            > "Blockquotes are useful for highlighting key points or quotes."
-            
-            ### Nested List Example
-            - Item 1
-            - Item 2
-              - Sub-item 1
-              - Sub-item 2
-            
-            *Markdown* is often used for documentation, readme files, and more!
-            """,
-           title: "Markdown Showcase"
-          ),
-            viewModel: viewModel
-        )
-        .environmentObject(ColorManager(colorTheme: .midnightBlue))
+        }
+
     }
 }

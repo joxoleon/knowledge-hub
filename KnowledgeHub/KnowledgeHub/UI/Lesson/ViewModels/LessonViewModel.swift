@@ -10,11 +10,9 @@ import KHBusinessLogic
 
 class LessonViewModel: ObservableObject {
     @Published var lesson: Lesson
-    @Published var colorManager: ColorManager
 
-    init(lesson: Lesson, colorManager: ColorManager) {
+    init(lesson: Lesson) {
         self.lesson = lesson
-        self.colorManager = colorManager
     }
 
     var sections: [LessonSection] {

@@ -15,15 +15,13 @@ struct ReadLessonView: View {
     var body: some View {
         TabView(selection: $selectedTabIndex) {
             ForEach(viewModel.sections.indices, id: \.self) { index in
-                LessonSectionView(section: viewModel.sections[index], viewModel: viewModel)
-                    .environmentObject(viewModel.colorManager)
+                MarkdownPresentationView(markdownString: viewModel.sections[index].content)
                     .tag(index) // Tag each view with its index
             }
         }
         .tabViewStyle(PageTabViewStyle(indexDisplayMode: .automatic))
-        .background(viewModel.colorManager.theme.backgroundColor)
-        .onChange(of: selectedTabIndex) {
-            print("Current tab index: \($0)") // Print the current tab index
+        .onChange(of: selectedTabIndex) { oldTabIndex, newTabIndex in
+            print("Current tab index: \(newTabIndex)") // Print the current tab index
         }
     }
 }
@@ -33,9 +31,7 @@ struct LessonOverviewView_Previews: PreviewProvider {
     static var previews: some View {
         let testingContentProvider = TestingKHDomainContentProvider()
         let sampleLesson = testingContentProvider.activeTopModule.preOrderLessons.first!
-        let colorManager = ColorManager(colorTheme: .midnightBlue)
-        let viewModel = LessonViewModel(lesson: sampleLesson, colorManager: colorManager)
+        let viewModel = LessonViewModel(lesson: sampleLesson)
         ReadLessonView(viewModel: viewModel)
-            .environmentObject(ColorManager(colorTheme: .midnightBlue))
     }
 }

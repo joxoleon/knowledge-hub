@@ -40,7 +40,7 @@ struct QuizView: View {
         HStack {
             NavigationLink(
                 // TODO: Change lesson placeholder to something sensible
-                destination: ReadLessonView(viewModel: LessonViewModel(lesson: Testing.testLesson, colorManager: colorManager)),
+                destination: ReadLessonView(viewModel: LessonViewModel(lesson: Testing.testLesson)),
                 isActive: $viewModel.shouldShowLessionOverviewView // A @Published var in QuizViewModel
             ) {
                 KHQuizAnswerButton(
