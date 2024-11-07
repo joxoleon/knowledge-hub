@@ -10,12 +10,10 @@ import KHBusinessLogic
 
 struct LearningContentListView: View {
     @ObservedObject var viewModel: LearningContentListViewModel
-    @EnvironmentObject var colorManager: ColorManager
 
     var body: some View {
         List(viewModel.cellViewModels, id: \.id) { cellViewModel in
             LearningContentCellView(viewModel: cellViewModel)
-                .environmentObject(colorManager)
                 .listRowInsets(EdgeInsets()) // Removes default padding around each cell
                 .padding(.bottom, 3) // Custom padding between cells
                 .background(Color.black) // Allows cell background gradient to show
@@ -37,6 +35,5 @@ struct LearningContentListView: View {
             .edgesIgnoringSafeArea(.all)
         
         LearningContentListView(viewModel: viewModel)
-            .environmentObject(ColorManager(colorTheme: .midnightBlue))
     }
 }

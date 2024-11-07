@@ -84,7 +84,7 @@ struct LessonDetailView: View {
                             viewModel.navigateToNextLesson()
                         }
                     }
-                    .padding(.bottom, 12)
+                    .padding(.bottom, 30)
                     .padding(.horizontal, 50)
                 }
                 .frame(maxWidth: .infinity)
@@ -118,10 +118,10 @@ struct KHActionButton: View {
                 Image(systemName: iconName)
                     .font(.system(size: self.iconSize))
                     .foregroundColor(.titleGold)
-                    .shadow(color: .titleGold.opacity(0.4), radius: self.iconSize / 8)
+                    .shadow(color: .titleGold.opacity(0.4), radius: self.iconSize / 6)
                 
                 Text(title)
-                    .font(.system(size: iconSize / 5))
+                    .font(.system(size: iconSize / 4))
                     .fontWeight(.bold)
                     .foregroundColor(.titleGold)
             }

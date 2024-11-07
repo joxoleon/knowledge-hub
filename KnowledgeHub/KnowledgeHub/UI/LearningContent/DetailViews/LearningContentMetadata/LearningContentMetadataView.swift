@@ -12,6 +12,7 @@ fileprivate enum Constants {
     static let squareBackgroundGradient = LinearGradient(colors: [.deeperPurple.opacity(0.6), .deepPurple.opacity(0.8)], startPoint: .top, endPoint: .bottom)
     static let squareCornerRadius: CGFloat = 12
     static let squarePadding: CGFloat = 10
+    static let squareSize: CGFloat = 100
     static let starButtonSize: CGFloat = 24
 }
 
@@ -20,58 +21,49 @@ struct LearningContentMetadataView: View {
     
     var body: some View {
         VStack(spacing: 20) {
-            // Title and Description
             VStack(spacing: 30) {
-                Text(viewModel.title)
-                    .font(.title2)
-                    .fontWeight(.bold)
-                    .foregroundColor(viewModel.titleColor)
-                    .multilineTextAlignment(.center)
+                
+                // Title and Star Button
+                HStack {
+                    Text(viewModel.title)
+                        .font(.title2)
+                        .fontWeight(.bold)
+                        .foregroundColor(viewModel.titleColor)
+                        .multilineTextAlignment(.leading)
+                    
+                    Spacer()
+                    
+                    Button(action: {
+                        viewModel.toggleStar()
+                    }) {
+                        Image(systemName: viewModel.isStarred ? "star.fill" : "star")
+                            .font(.system(size: Constants.starButtonSize))
+                            .foregroundColor(viewModel.isStarred ? .titleGold : .placeholderGray)
+                            .shadow(color: viewModel.isStarred ? Color.yellow.opacity(0.6) : Color.clear, radius: 4, x: 0, y: 0)
+                    }
+                }
+                .padding(.horizontal, 8)
+
                 
                 Text(viewModel.description)
                     .font(.body)
                     .foregroundColor(.textColor)
-                    .padding(.horizontal, 12)
-            }
-            .padding(.top, 40)
-            
-            // 1x3 Grid of Metadata Squares
-            HStack(spacing: Constants.squarePadding) {
-                ForEach(viewModel.metadataItems, id: \.title) { item in
-                    MetadataSquareView(
-                        iconName: item.iconName,
-                        title: item.title,
-                        value: item.value,
-                        valueColor: item.valueColor
-                    )
-                    .frame(width: 100, height: 100) // Fixed size for squares
-                }
-            }
-            .padding(.vertical, 10)
-            .padding(.horizontal, 20)
-        }
-        .padding()
-        .background(
-            ZStack {
+                    .lineLimit(nil)
                 
-                // Star Icon in Top Right Corner
-                VStack {
-                    HStack {
-                        Spacer()
-                        Button(action: {
-                            viewModel.toggleStar()
-                        }) {
-                            Image(systemName: viewModel.isStarred ? "star.fill" : "star")
-                                .font(.system(size: Constants.starButtonSize))
-                                .foregroundColor(.titleGold)
-                                .shadow(color: viewModel.isStarred ? Color.yellow.opacity(0.6) : Color.clear, radius: 4, x: 0, y: 0)
-                        }
-                        .padding([.top, .trailing], 12)
+                // Grid of metadata squares
+                HStack(spacing: Constants.squarePadding) {
+                    ForEach(viewModel.metadataItems, id: \.title) { item in
+                        MetadataSquareView(
+                            iconName: item.iconName,
+                            title: item.title,
+                            value: item.value,
+                            valueColor: item.valueColor
+                        )
+                        .frame(width: Constants.squareSize, height: Constants.squareSize)
                     }
-                    Spacer()
                 }
             }
-        )
+        }
     }
 }
 
@@ -101,20 +93,28 @@ struct MetadataSquareView: View {
                     .foregroundColor(iconColor)
                 
                 Text(title)
-                    .font(.caption)
-                    .fontWeight(.semibold)
+                    .font(.system(size: 10))
+                    .fontWeight(.medium)
                     .foregroundColor(titleColor)
                     .multilineTextAlignment(.center)
                 
                 if let value = value {
                     Text(value)
-                        .font(.footnote)
+                        .font(.system(size: 14))
                         .foregroundColor(valueColor)
                         .fontWeight(.bold)
                 }
             }
             .padding(8)
         }
+    }
+}
+
+struct SeparatorView: View {
+    var body: some View {
+        Rectangle()
+            .fill(Color.titleGold.opacity(0.2))
+            .frame(height: 1)
     }
 }
 

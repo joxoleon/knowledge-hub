@@ -18,9 +18,10 @@ class LearningContentMetadataViewModel: ObservableObject, Identifiable {
     private var content: LearningContent
     private var cancellables = Set<AnyCancellable>()
 
-    // Computed Properties for Colors
     var id: String { content.id }
-    var titleColor: Color { content is Lesson ? .titleGold : .titlePurple }
+    var titleColor: Color { content is Lesson ? .titleGold : .titleGold }
+    var isLesson: Bool { content is Lesson }
+    
     
     // Initializer that sets up properties based on `LearningContent`
     init(content: LearningContent) {
@@ -40,9 +41,23 @@ class LearningContentMetadataViewModel: ObservableObject, Identifiable {
         description = content.description
         isStarred = content.isStarred
         metadataItems = [
-            MetadataItem(iconName: "clock", title: "Read Time", value: content.estimatedReadTimeSeconds.timeString),
-            MetadataItem(iconName: "checkmark.circle", title: "Completion", value: content.completionPercentage.percentageString, valueColor: progressColor),
-            MetadataItem(iconName: "rosette", title: "Score", value: content.score?.percentageString ?? "0%", valueColor: scoreColor)
+            MetadataItem(
+                iconName: IconConstants.readTime,
+                title: "Read Time",
+                value: content.estimatedReadTimeSeconds.timeString
+            ),
+            MetadataItem(
+                iconName: IconConstants.completionProgress,
+                title: "Completion",
+                value: content.completionPercentage.percentageString,
+                valueColor: progressColor
+            ),
+            MetadataItem(
+                iconName: IconConstants.score,
+                title: "Score",
+                value: content.score?.percentageString ?? "0%",
+                valueColor: scoreColor
+            )
         ]
     }
     
@@ -62,7 +77,7 @@ class LearningContentMetadataViewModel: ObservableObject, Identifiable {
 struct MetadataItem {
     let iconName: String
     let title: String
-    let value: String
+    let value: String?
     var valueColor: Color = .titleGold
 }
 
