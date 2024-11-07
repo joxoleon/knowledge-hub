@@ -7,6 +7,13 @@
 
 import SwiftUI
 
+fileprivate enum Constants {
+    static let primaryIconSize: CGFloat = 65.0
+    static let regularIconSize: CGFloat = 50.0
+    static let navigationIconSize: CGFloat = 35.0
+    
+}
+
 struct LessonDetailView: View {
     @ObservedObject var learningContentMetadataViewModel: LearningContentMetadataViewModel
     @ObservedObject var viewModel: LessonDetailsViewModel
@@ -19,44 +26,67 @@ struct LessonDetailView: View {
                     .padding(.horizontal)
                 
                 Spacer()
-
-                // Centered Action Buttons Row with Elevated Read Button
+                
+                // Top Prominent Action Buttons
                 HStack {
-                    ActionButton(iconName: "bolt.circle.fill", title: "Flashcard") {
+                    KHActionButton(
+                        iconName: "bolt.circle.fill",
+                        iconSize: Constants.regularIconSize,
+                        title: "Flashcard",
+                        fontColor: .titleGold
+                    ) {
                         viewModel.navigateToFlashcards()
                     }
                     
-                    Spacer()
-
-                    ActionButton(iconName: "book.circle.fill", title: "Read", isPrimary: true) {
+                    KHActionButton(
+                        iconName: "book.circle.fill",
+                        iconSize: Constants.primaryIconSize,
+                        title: "Read",
+                        fontColor: .titleGold
+                    ) {
                         viewModel.navigateToReadLesson()
                     }
-                    .offset(y: -45)
+                    .offset(y: -Constants.primaryIconSize * 1.3)
                     
-                    Spacer()
                     
-                    ActionButton(iconName: "questionmark.circle.fill", title: "Quiz") {
+                    KHActionButton(
+                        iconName: "questionmark.circle.fill",
+                        iconSize: Constants.regularIconSize,
+                        title: "Quiz",
+                        fontColor: .titleGold
+                    ) {
                         viewModel.navigateToQuiz()
                     }
+                    
                 }
-                .padding(.bottom, 20)
-                .padding(.horizontal, 20)
-
-                Spacer()
+                .padding(.horizontal, 10)
+                .padding(.bottom, 10)
                 
-                // Navigation Buttons at the Bottom
+                // Bottom Navigation Buttons
                 HStack {
-                    NavigationButton(direction: .left) {
+                    
+                    KHActionButton(
+                        iconName: "arrow.left.circle.fill",
+                        iconSize: Constants.navigationIconSize,
+                        title: "Previous",
+                        fontColor: .titleGold
+                    ) {
                         viewModel.navigateToPreviousLesson()
                     }
                     
                     Spacer()
                     
-                    NavigationButton(direction: .right) {
+                    KHActionButton(
+                        iconName: "arrow.right.circle.fill",
+                        iconSize: Constants.navigationIconSize,
+                        title: "Next",
+                        fontColor: .titleGold
+                    ) {
                         viewModel.navigateToNextLesson()
                     }
                 }
                 .padding(.bottom, 20)
+                .padding(.horizontal, 45)
             }
             .frame(maxWidth: .infinity)
             .padding(.horizontal, 30)
@@ -65,64 +95,37 @@ struct LessonDetailView: View {
     }
 }
 
-// MARK: - ActionButton Component with Primary Option
-struct ActionButton: View {
+// MARK: - Unified Button Component for Both Action and Navigation
+struct KHActionButton: View {
     let iconName: String
+    let iconSize: CGFloat
     let title: String
-    let isPrimary: Bool
+    let fontColor: Color
     let action: () -> Void
     
-    init(iconName: String, title: String, isPrimary: Bool = false, action: @escaping () -> Void) {
+    init(iconName: String, iconSize: CGFloat, title: String, fontColor: Color, action: @escaping () -> Void) {
         self.iconName = iconName
         self.title = title
-        self.isPrimary = isPrimary
+        self.iconSize = iconSize
         self.action = action
+        self.fontColor = fontColor
     }
     
     var body: some View {
         Button(action: action) {
             VStack(spacing: 4) {
                 Image(systemName: iconName)
-                    .font(isPrimary ? .system(size: 52) : .system(size: 42))
+                    .font(.system(size: self.iconSize))
                     .foregroundColor(.titleGold)
-                    .shadow(color: .yellow.opacity(0.4), radius: isPrimary ? 10 : 6, x: 0, y: 0)
+                    .shadow(color: .titleGold.opacity(0.4), radius: self.iconSize / 5)
                 
                 Text(title)
-                    .font(.caption2)
-                    .fontWeight(isPrimary ? .bold : .semibold)
+                    .font(.system(size: iconSize / 5))
+                    .fontWeight(.bold)
                     .foregroundColor(.titleGold)
             }
         }
-        .frame(width: isPrimary ? 80 : 60, height: isPrimary ? 80 : 60)
-    }
-}
-
-// MARK: - NavigationButton Component with Circle Style
-struct NavigationButton: View {
-    enum Direction { case left, right }
-    
-    let direction: Direction
-    let action: () -> Void
-    
-    var body: some View {
-        Button(action: action) {
-            VStack {
-                Circle()
-                    .fill(Color.deeperPurple.opacity(0.7))
-                    .frame(width: 50, height: 50)
-                    .overlay(
-                        Image(systemName: direction == .left ? "arrow.left" : "arrow.right")
-                            .font(.system(size: 20))
-                            .foregroundColor(.titleGold)
-                    )
-                    .shadow(color: .yellow.opacity(0.3), radius: 6, x: 0, y: 0) // Subtle glow for the arrows
-
-                Text(direction == .left ? "Previous" : "Next")
-                    .font(.caption)
-                    .foregroundColor(.titleGold)
-                    .padding(.top, 4)
-            }
-        }
+        .frame(width: iconSize * 2, height: iconSize * 2)
     }
 }
 
