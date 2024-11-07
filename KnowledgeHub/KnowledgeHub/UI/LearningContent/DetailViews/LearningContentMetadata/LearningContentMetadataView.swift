@@ -47,7 +47,7 @@ struct LearningContentMetadataView: View {
                         .font(.title2)
                         .foregroundColor(viewModel.isStarred ? .titleGold : .gray)
                         .frame(width: Constants.starButtonSize, height: Constants.starButtonSize)
-                        .background(Circle().fill(Color.deepPurple2))
+//                        .background(Circle().fill(Color.black))
                         .shadow(color: viewModel.isStarred ? Color.yellow.opacity(0.6) : Color.clear, radius: 4, x: 0, y: 0)
                 }
             
@@ -113,14 +113,14 @@ struct MetadataSquareView: View {
                     .foregroundColor(iconColor)
                 
                 Text(title)
-                    .font(.caption)
+                    .font(.system(size: 8))
                     .fontWeight(.semibold)
                     .foregroundColor(titleColor)
                     .multilineTextAlignment(.center)
                 
                 if let value = value {
                     Text(value)
-                        .font(.footnote)
+                        .font(.system(size: 13))
                         .foregroundColor(valueColor)
                         .fontWeight(.bold)
                 }
