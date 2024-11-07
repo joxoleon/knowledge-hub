@@ -11,7 +11,8 @@ import KHBusinessLogic
 // MARK: - SplashScreenViewModel
 
 class SplashScreenViewModel: ObservableObject {
-    @Published var isInitialized = false
+    @Published var proceedToNextScreen = false
+    var isContentInitialized = false
     var hasInitialized = false
     var contentProvider: any KHDomainContentProviderProtocol
     
@@ -26,58 +27,101 @@ class SplashScreenViewModel: ObservableObject {
         print("*** ViewModel: Initializing Content ***")
         try? await contentProvider.initializeContent()
         DispatchQueue.main.async {
-            self.isInitialized = true
+            self.isContentInitialized = true
+            self.checkIfReadyToProceed()
+        }
+    }
+    
+    func checkIfReadyToProceed() {
+        // Check if both conditions (content and animations) are met
+        if isContentInitialized && animationCompleted && fadeOutCompleted {
+            proceedToNextScreen = true
+        }
+    }
+    
+    // Track animation completion and fade-out completion
+    @Published var animationCompleted = false {
+        didSet {
+            if animationCompleted {
+                checkIfReadyToProceed()
+            }
+        }
+    }
+    
+    @Published var fadeOutCompleted = false {
+        didSet {
+            if fadeOutCompleted {
+                checkIfReadyToProceed()
+            }
         }
     }
 }
 
 struct SplashScreenView: View {
-    @EnvironmentObject private var viewModel: SplashScreenViewModel // Use environmentObject
-
-    @State private var startPoint = UnitPoint.topLeading
-    @State private var endPoint = UnitPoint.bottomTrailing
+    @EnvironmentObject private var viewModel: SplashScreenViewModel
+    @State private var textOpacity = 1.0
 
     var body: some View {
         ZStack {
-            // Flowing gradient background
-            LinearGradient(
-                gradient: Gradient(colors: [.black, .deepPurple]),
-                startPoint: startPoint,
-                endPoint: endPoint
-            )
-            .animation(
-                Animation.linear(duration: 6).repeatForever(autoreverses: true),
-                value: startPoint
-            )
-            .onAppear {
-                startPoint = UnitPoint.bottomLeading
-                endPoint = UnitPoint.topTrailing
-            }
+            // Background Gradient
+            ThemeConstants.verticalGradient
+                .ignoresSafeArea()
 
-            // Centered Title
-            VStack(spacing: 0) {
-                Text("Knowledge")
-                    .font(.system(size: 48, weight: .bold))
-                    .foregroundColor(.titleGold)
-                    .padding(.bottom, 4)
-                
-                Text("Hub")
-                    .font(.system(size: 48, weight: .bold))
-                    .foregroundColor(.titleGold)
-            }
-            .multilineTextAlignment(.center)
+            // Flip Animation View with Opacity for Fade-Out
+            FlipTextSplashView(animationDuration: 1.0, firstWordFontSize: 36, secondWordFontSize: 72)
+                .opacity(textOpacity) // Controlled opacity for fade-out
         }
-        .frame(maxWidth: .infinity, maxHeight: .infinity)
         .ignoresSafeArea()
         .task {
-            await viewModel.initializeContent()
+            await performSplashScreenSequence()
+        }
+    }
+
+    private func performSplashScreenSequence() async {
+        // Run both the animation wait and content initialization in parallel
+        async let animationWait: () = waitForAnimationCompletion()
+        async let contentInitialization: () = viewModel.initializeContent()
+        
+        // Wait for both to complete
+        _ = await (animationWait, contentInitialization)
+        
+        // Start the fade-out animation after the flip is complete and pause
+        await startFadeOutAnimation()
+    }
+    
+    private func waitForAnimationCompletion() async {
+        // Total 2-second wait (1.2 seconds for animation + 0.8-second pause)
+        try? await Task.sleep(nanoseconds: UInt64(1.5 * 1_000_000_000))
+        
+        // Mark animation as completed
+        DispatchQueue.main.async {
+            viewModel.animationCompleted = true
+        }
+    }
+    
+    private func startFadeOutAnimation() async {
+        // Fade out over 1.2 seconds
+        await MainActor.run {
+            withAnimation(.easeOut(duration: 1.2)) {
+                textOpacity = 0.0
+            }
+        }
+        
+        // Wait for fade-out to complete
+        try? await Task.sleep(nanoseconds: UInt64(1.2 * 1_000_000_000))
+        
+        // Mark fade-out as completed
+        DispatchQueue.main.async {
+            viewModel.fadeOutCompleted = true
         }
     }
 }
 
 // MARK: - Preview
 
-#Preview {
-    SplashScreenView()
-        .environmentObject(SplashScreenViewModel(contentProvider: Testing.contentProvider))
+struct SplashScreenView_Preview: PreviewProvider {
+    static var previews: some View {
+        SplashScreenView()
+            .environmentObject(SplashScreenViewModel(contentProvider: Testing.contentProvider))
+    }
 }

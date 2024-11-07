@@ -9,8 +9,8 @@ import SwiftUI
 import KHBusinessLogic
 
 fileprivate enum Constants {
-    static let primaryIconSize: CGFloat = 55.0
-    static let regularIconSize: CGFloat = 40.0
+    static let primaryIconSize: CGFloat = 60.0
+    static let regularIconSize: CGFloat = 45.0
 }
 
 struct LearningModuleDetailView: View {
@@ -23,7 +23,44 @@ struct LearningModuleDetailView: View {
                 // Metadata View
                 LearningContentMetadataView(viewModel: learningContentMetadataViewModel)
                     .padding(.vertical)
-
+                
+                // Action Buttons Row
+                HStack {
+                    KHActionButton(
+                        iconName: "bolt.circle.fill",
+                        iconSize: Constants.regularIconSize,
+                        title: "Flashcards",
+                        fontColor: .titleGold
+                    ) {
+                        viewModel.navigateToFlashcards()
+                    }
+                    Spacer()
+                    
+                    KHActionButton(
+                        iconName: "play.circle.fill",
+                        iconSize: Constants.primaryIconSize,
+                        title: viewModel.startOrContinueTitle,
+                        fontColor: .titleGold
+                    ) {
+                        viewModel.startOrContinueLearning()
+                    }
+                    .offset(y: -Constants.primaryIconSize * 0.8)
+                    
+                    Spacer()
+                    
+                    KHActionButton(
+                        iconName: "questionmark.circle.fill",
+                        iconSize: Constants.regularIconSize,
+                        title: "Quiz",
+                        fontColor: .titleGold
+                    ) {
+                        viewModel.navigateToQuiz()
+                    }
+                }
+                .padding(.horizontal, 25)
+                .padding(.top, 55)
+                .padding(.bottom, 25)
+                
                 // Contents Title
                 Text("Contents:")
                     .font(.system(size: 14))
@@ -38,55 +75,18 @@ struct LearningModuleDetailView: View {
                     ForEach(viewModel.contentListViewModel.cellViewModels, id: \.id) { cellViewModel in
                         NavigationLink(destination: destinationView(for: cellViewModel)) {
                             LearningContentCellView(viewModel: cellViewModel)
-                                .background(Color.black.opacity(0.5)) // Adjust background as needed
                                 .cornerRadius(8)
                         }
                         .buttonStyle(PlainButtonStyle()) // Ensures no additional button styling
                     }
                 }
-                
-                SeparatorView()
-                
-                // Action Buttons Row
-                HStack {
-                    KHActionButton(
-                        iconName: "bolt.circle.fill",
-                        iconSize: Constants.regularIconSize,
-                        title: "Flashcards",
-                        fontColor: .titleGold
-                    ) {
-                        viewModel.navigateToFlashcards()
-                    }
-                    Spacer()
-
-                    KHActionButton(
-                        iconName: "play.circle.fill",
-                        iconSize: Constants.primaryIconSize,
-                        title: viewModel.startOrContinueTitle,
-                        fontColor: .titleGold
-                    ) {
-                        viewModel.startOrContinueLearning()
-                    }
-                    .offset(y: -Constants.primaryIconSize * 0.6)
-
-                    Spacer()
-
-                    KHActionButton(
-                        iconName: "questionmark.circle.fill",
-                        iconSize: Constants.regularIconSize,
-                        title: "Quiz",
-                        fontColor: .titleGold
-                    ) {
-                        viewModel.navigateToQuiz()
-                    }
-                }
-                .padding(.horizontal, 30)
-                .padding(.vertical, 40)
             }
         }
         .padding(10)
         .background(ThemeConstants.verticalGradient.ignoresSafeArea())
     }
+    
+    // MARK: - Navigation Destination
     
     @ViewBuilder
     private func destinationView(for cellViewModel: LearningContentMetadataViewModel) -> some View {
@@ -108,8 +108,8 @@ struct LearningModuleDetailView: View {
 struct LearningModuleDetailView_Previews: PreviewProvider {
     static var previews: some View {
         ZStack {
-            ThemeConstants.verticalGradient
-                .edgesIgnoringSafeArea(.all)
+//            ThemeConstants.verticalGradient
+//                .edgesIgnoringSafeArea(.all)
             
             LearningModuleDetailView(
                 learningContentMetadataViewModel: LearningContentMetadataViewModel(content: Testing.testModule),

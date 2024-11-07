@@ -13,18 +13,13 @@ struct ContentView: View {
     
     var body: some View {
         Group {
-            if splashScreenViewModel.isInitialized {
+            if splashScreenViewModel.proceedToNextScreen {
                 MainTabView(viewModel: MainTabViewModel(contentProvider: splashScreenViewModel.contentProvider))
             } else {
                 SplashScreenView()
             }
         }
         .environmentObject(splashScreenViewModel)
-        .onAppear {
-            Task {
-                await splashScreenViewModel.initializeContent()
-            }
-        }
     }
 }
 
