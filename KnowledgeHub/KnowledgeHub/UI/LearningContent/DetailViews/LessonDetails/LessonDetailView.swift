@@ -46,7 +46,7 @@ struct LessonDetailView: View {
                         ) {
                             viewModel.navigateToReadLesson()
                         }
-                        .offset(y: -Constants.primaryIconSize * 0.9)
+                        .offset(y: -Constants.primaryIconSize * 1.1)
                         Spacer()
                         KHActionButton(
                             iconName: "questionmark.circle.fill",
