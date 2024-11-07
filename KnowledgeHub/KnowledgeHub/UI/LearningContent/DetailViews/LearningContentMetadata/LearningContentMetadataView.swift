@@ -12,6 +12,7 @@ fileprivate enum Constants {
     static let squareBackgroundGradient = LinearGradient(colors: [.deeperPurple.opacity(0.6), .deepPurple.opacity(0.8)], startPoint: .top, endPoint: .bottom)
     static let squareCornerRadius: CGFloat = 12
     static let squarePadding: CGFloat = 10
+    static let starButtonSize: CGFloat = 36
 }
 
 struct LearningContentMetadataView: View {
@@ -19,36 +20,38 @@ struct LearningContentMetadataView: View {
     
     var body: some View {
         VStack(spacing: 16) {
-            // Title with Star Button
-            HStack {
-                Text(viewModel.title)
-                    .font(.title2)
-                    .fontWeight(.bold)
-                    .foregroundColor(viewModel.titleColor)
+            ZStack(alignment: .topTrailing) {
+                // Title and Description
+                VStack(spacing: 30) {
+                    Text(viewModel.title)
+                        .font(.title2)
+                        .fontWeight(.bold)
+                        .foregroundColor(viewModel.titleColor)
+                        .multilineTextAlignment(.center)
+                        .padding(.top, 20
+                        )
+                    
+                    Text(viewModel.description)
+                        .font(.body)
+                        .foregroundColor(.textColor)
+                        .multilineTextAlignment(.center)
+                        .padding(.horizontal)
+                }
+                .padding(.top, 12)
                 
-                Spacer()
-                
-                // Star icon in the top-right corner
+                // Floating star button
                 Button(action: {
                     viewModel.toggleStar()
                 }) {
                     Image(systemName: viewModel.isStarred ? "star.fill" : "star")
                         .font(.title2)
                         .foregroundColor(viewModel.isStarred ? .titleGold : .gray)
+                        .frame(width: Constants.starButtonSize, height: Constants.starButtonSize)
+                        .background(Circle().fill(Color.deepPurple2))
                         .shadow(color: viewModel.isStarred ? Color.yellow.opacity(0.6) : Color.clear, radius: 4, x: 0, y: 0)
-                        .padding(.trailing)
                 }
-            }
-            .padding(.horizontal)
-            .padding(.top, 8)
             
-            // Description
-            Text(viewModel.description)
-                .font(.body)
-                .foregroundColor(.textColor)
-                .multilineTextAlignment(.center)
-                .padding(.horizontal)
-                .padding(.bottom, 8)
+            }
             
             // 1x3 Grid of Metadata Squares
             GeometryReader { geometry in
@@ -81,8 +84,6 @@ struct LearningContentMetadataView: View {
                 .padding(.vertical, 10)
             }
         }
-        .padding()
-
     }
 }
 
@@ -103,7 +104,7 @@ struct MetadataSquareView: View {
                 .shadow(color: Color.black.opacity(0.2), radius: 6, x: 0, y: 4)
                 .overlay(
                     RoundedRectangle(cornerRadius: Constants.squareCornerRadius)
-                        .strokeBorder(Color.titleGold.opacity(0.1), lineWidth: 1)
+                        .strokeBorder(Color.titleGold.opacity(0.2), lineWidth: 1)
                 )
             
             VStack(spacing: 4) {
