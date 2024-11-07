@@ -11,7 +11,6 @@ fileprivate enum Constants {
     static let primaryIconSize: CGFloat = 65.0
     static let regularIconSize: CGFloat = 50.0
     static let navigationIconSize: CGFloat = 36.0
-    
 }
 
 struct LessonDetailView: View {
@@ -19,79 +18,81 @@ struct LessonDetailView: View {
     @ObservedObject var viewModel: LessonDetailsViewModel
     
     var body: some View {
-        ZStack {
-            VStack(spacing: 20) {
-                // Metadata View
-                LearningContentMetadataView(viewModel: learningContentMetadataViewModel)
-                    .padding(.vertical)
-                
-                Spacer()
-                
-                // Top Prominent Action Buttons
-                HStack {
-                    KHActionButton(
-                        iconName: "bolt.circle.fill",
-                        iconSize: Constants.regularIconSize,
-                        title: "Flashcard",
-                        fontColor: .titleGold
-                    ) {
-                        viewModel.navigateToFlashcards()
+        GeometryReader { geometry in
+            ScrollView {
+                VStack(spacing: 20) {
+                    // Metadata View
+                    LearningContentMetadataView(viewModel: learningContentMetadataViewModel)
+                        .padding(.vertical)
+                    
+                    Spacer(minLength: 10)
+                    
+                    HStack {
+                        Spacer()
+                        KHActionButton(
+                            iconName: "bolt.circle.fill",
+                            iconSize: Constants.regularIconSize,
+                            title: "Flashcard",
+                            fontColor: .titleGold
+                        ) {
+                            viewModel.navigateToFlashcards()
+                        }
+                        Spacer()
+                        KHActionButton(
+                            iconName: "book.circle.fill",
+                            iconSize: Constants.primaryIconSize,
+                            title: "Read",
+                            fontColor: .titleGold
+                        ) {
+                            viewModel.navigateToReadLesson()
+                        }
+                        .offset(y: -Constants.primaryIconSize * 0.9)
+                        Spacer()
+                        KHActionButton(
+                            iconName: "questionmark.circle.fill",
+                            iconSize: Constants.regularIconSize,
+                            title: "Quiz",
+                            fontColor: .titleGold
+                        ) {
+                            viewModel.navigateToQuiz()
+                        }
+                        Spacer()
                     }
+                    .padding(.horizontal, 10)
+                    .padding(.bottom, 15)
+
                     
-                    KHActionButton(
-                        iconName: "book.circle.fill",
-                        iconSize: Constants.primaryIconSize,
-                        title: "Read",
-                        fontColor: .titleGold
-                    ) {
-                        viewModel.navigateToReadLesson()
+                    // Bottom Navigation Buttons
+                    HStack {
+                        KHActionButton(
+                            iconName: "arrow.left.circle.fill",
+                            iconSize: Constants.navigationIconSize,
+                            title: "Previous",
+                            fontColor: .titleGold
+                        ) {
+                            viewModel.navigateToPreviousLesson()
+                        }
+                        
+                        Spacer()
+                        
+                        KHActionButton(
+                            iconName: "arrow.right.circle.fill",
+                            iconSize: Constants.navigationIconSize,
+                            title: "Next",
+                            fontColor: .titleGold
+                        ) {
+                            viewModel.navigateToNextLesson()
+                        }
                     }
-                    .offset(y: -Constants.primaryIconSize * 1.2)
-                    
-                    
-                    KHActionButton(
-                        iconName: "questionmark.circle.fill",
-                        iconSize: Constants.regularIconSize,
-                        title: "Quiz",
-                        fontColor: .titleGold
-                    ) {
-                        viewModel.navigateToQuiz()
-                    }
-                    
+                    .padding(.bottom, 12)
+                    .padding(.horizontal, 50)
                 }
-                .padding(.horizontal, 10)
-                .padding(.bottom, 2)
-                
-                // Bottom Navigation Buttons
-                HStack {
-                    
-                    KHActionButton(
-                        iconName: "arrow.left.circle.fill",
-                        iconSize: Constants.navigationIconSize,
-                        title: "Previous",
-                        fontColor: .titleGold
-                    ) {
-                        viewModel.navigateToPreviousLesson()
-                    }
-                    
-                    Spacer()
-                    
-                    KHActionButton(
-                        iconName: "arrow.right.circle.fill",
-                        iconSize: Constants.navigationIconSize,
-                        title: "Next",
-                        fontColor: .titleGold
-                    ) {
-                        viewModel.navigateToNextLesson()
-                    }
-                }
-                .padding(.bottom, 12)
-                .padding(.horizontal, 50)
+                .frame(maxWidth: .infinity)
+                .padding(.horizontal, 5)
+                .frame(minHeight: geometry.size.height) // Ensures content stretches to full height
             }
-            .frame(maxWidth: .infinity)
-            .padding(.horizontal, 5)
+            .background(ThemeConstants.verticalGradient.ignoresSafeArea())
         }
-        .background(ThemeConstants.verticalGradient.ignoresSafeArea())
     }
 }
 

@@ -31,7 +31,7 @@ struct LearningContentMetadataView: View {
                 Text(viewModel.description)
                     .font(.body)
                     .foregroundColor(.textColor)
-                    .padding(.horizontal, 10)
+                    .padding(.horizontal, 12)
             }
             .padding(.top, 40)
             
@@ -48,6 +48,7 @@ struct LearningContentMetadataView: View {
                 }
             }
             .padding(.vertical, 10)
+            .padding(.horizontal, 20)
         }
         .padding()
         .background(
