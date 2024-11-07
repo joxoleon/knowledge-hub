@@ -38,21 +38,21 @@ struct QuizView: View {
     
     private var navigationButtonSection: some View {
         HStack {
-            NavigationLink(
-                // TODO: Change lesson placeholder to something sensible
-                destination: ReadLessonView(viewModel: LessonViewModel(lesson: Testing.testLesson)),
-                isActive: $viewModel.shouldShowLessionOverviewView // A @Published var in QuizViewModel
-            ) {
-                KHQuizAnswerButton(
-                    state: $viewModel.readLessonButonState,
-                    answerText: "Read Lesson",
-                    onSelected: { _ in
-                        print("Read Lesson Button Pressed")
-                        viewModel.readLesson()
-                    }
-                )
-                .animation(.easeIn(duration: 0.5), value: viewModel.readLessonButonState)
-            }
+//            NavigationLink(
+//                // TODO: Change lesson placeholder to something sensible
+//                destination: ReadLessonView(viewModel: LessonViewModel(lesson: Testing.testLesson)),
+//                isActive: $viewModel.shouldShowLessionOverviewView // A @Published var in QuizViewModel
+//            ) {
+//                KHQuizAnswerButton(
+//                    state: $viewModel.readLessonButonState,
+//                    answerText: "Read Lesson",
+//                    onSelected: { _ in
+//                        print("Read Lesson Button Pressed")
+//                        viewModel.readLesson()
+//                    }
+//                )
+//                .animation(.easeIn(duration: 0.5), value: viewModel.readLessonButonState)
+//            }
             
             Spacer(minLength: 30)
             

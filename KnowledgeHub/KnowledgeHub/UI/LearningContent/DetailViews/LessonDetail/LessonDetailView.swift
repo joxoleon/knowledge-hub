@@ -17,6 +17,8 @@ struct LessonDetailView: View {
     @ObservedObject var learningContentMetadataViewModel: LearningContentMetadataViewModel
     @ObservedObject var viewModel: LessonDetailsViewModel
     
+    @State private var isReadLessonPresented = false // Local state to control presentation of ReadLesson
+    
     var body: some View {
         GeometryReader { geometry in
             ScrollView {
@@ -37,17 +39,21 @@ struct LessonDetailView: View {
                         ) {
                             viewModel.navigateToFlashcards()
                         }
+                        
                         Spacer()
+                        
                         KHActionButton(
                             iconName: "book.circle.fill",
                             iconSize: Constants.primaryIconSize,
                             title: "Read",
                             fontColor: .titleGold
                         ) {
-                            viewModel.navigateToReadLesson()
+                            isReadLessonPresented = true
                         }
                         .offset(y: -Constants.primaryIconSize * 1.1)
+                        
                         Spacer()
+                        
                         KHActionButton(
                             iconName: "questionmark.circle.fill",
                             iconSize: Constants.regularIconSize,
@@ -92,6 +98,9 @@ struct LessonDetailView: View {
                 .frame(minHeight: geometry.size.height) // Ensures content stretches to full height
             }
             .background(ThemeConstants.verticalGradient.ignoresSafeArea())
+            .fullScreenCover(isPresented: $isReadLessonPresented) {
+                viewModel.readLessonView(isPresented: $isReadLessonPresented)
+            }
         }
     }
 }

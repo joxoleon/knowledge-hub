@@ -14,6 +14,7 @@ class LessonDetailsViewModel: ObservableObject {
     // MARK: - Public Properties
     
     @Published var learningContentMetadataViewModel: LearningContentMetadataViewModel
+    @State var isReadLessonPresented = false
     
     // MARK: - Private Properties
     
@@ -27,10 +28,14 @@ class LessonDetailsViewModel: ObservableObject {
     }
     
     // MARK: - Public Methods
+    
+    func readLessonView(isPresented: Binding<Bool>) -> some View {
+        ReadLessonView(viewModel: LessonViewModel(lesson: lesson), isPresented: isPresented)
+    }
 
     public func navigateToReadLesson() {
-        print("Read lesson")
-        // TODO: Implement navigation
+        print("*** Navigate to read lesson ***")
+        isReadLessonPresented = true
     }
 
     public func navigateToQuiz() {
