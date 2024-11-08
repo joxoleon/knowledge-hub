@@ -37,8 +37,17 @@ struct MainTabView: View {
                     .tag(MainTabViewModel.Tab.progress)
             }
             .accentColor(Color.titleGold)
-            .navigationDestination(for: NavigationTarget.self) { destination in
-                destinationView(for: destination)
+            .navigationDestination(
+                isPresented: Binding(
+                    get: { viewModel.navigationTarget != nil },
+                    set: { isPresented in
+                        if !isPresented { viewModel.navigationTarget = nil }
+                    }
+                )
+            ) {
+                if let destination = viewModel.navigationTarget {
+                    destinationView(for: destination)
+                }
             }
         }
     }
@@ -57,6 +66,7 @@ struct MainTabView: View {
         }
     }
 }
+
 
 class MainTabViewModel: ObservableObject {
     
