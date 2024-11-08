@@ -78,12 +78,12 @@ struct LearningModuleDetailView: View {
                 
                 // Contents List with NavigationLink
                 VStack(alignment: .leading, spacing: 3) {
-                    ForEach(viewModel.contentListViewModel.cellViewModels, id: \.id) { cellViewModel in
+                    ForEach(viewModel.cellViewModels, id: \.id) { cellViewModel in
                         NavigationLink(destination: destinationView(for: cellViewModel)) {
                             LearningContentCellView(viewModel: cellViewModel)
                                 .cornerRadius(8)
                         }
-                        .buttonStyle(PlainButtonStyle()) // Ensures no additional button styling
+                        .buttonStyle(PlainButtonStyle())
                     }
                 }
             }

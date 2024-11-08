@@ -14,7 +14,7 @@ class LearningModuleDetailsViewModel: ObservableObject {
     // MARK: - Public Properties
     
     @Published var learningContentMetadataViewModel: LearningContentMetadataViewModel
-    @Published var contentListViewModel: LearningContentListViewModel
+    @Published var cellViewModels: [LearningContentMetadataViewModel]
     private var module: LearningModule
 
     // Computed property for Start/Continue button title
@@ -28,7 +28,7 @@ class LearningModuleDetailsViewModel: ObservableObject {
     init(module: LearningModule) {
         self.module = module
         self.learningContentMetadataViewModel = LearningContentMetadataViewModel(content: module)
-        self.contentListViewModel = LearningContentListViewModel(learningContents: module.learningContents)
+        self.cellViewModels = module.learningContents.map { LearningContentMetadataViewModel(content: $0) }
     }
     
     // MARK: - Public Methods
@@ -51,7 +51,7 @@ class LearningModuleDetailsViewModel: ObservableObject {
     public func refreshData() {
         print("*** learningModuleDetailsViewModel refreshData() ***")
         learningContentMetadataViewModel.refreshValues()
-        contentListViewModel.refreshValues()
+        cellViewModels.forEach { $0.refreshValues() }
     }
     
     public func quizView(isPresented: Binding<Bool>) -> some View {
