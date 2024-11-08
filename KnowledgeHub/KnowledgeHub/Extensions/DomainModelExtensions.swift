@@ -12,6 +12,7 @@ import SwiftUI
 public enum ThemeConstants {
     static let verticalGradient = LinearGradient(colors: [.black, .deepPurple2], startPoint: .topLeading, endPoint: .bottomTrailing)
     static let verticalGradientDarker = LinearGradient(colors: [.black, .deepPurple3], startPoint: .topLeading, endPoint: .bottomTrailing)
+    static let verticalGradient3 = LinearGradient(colors: [.deepPurple2, .black, .deepPurple2], startPoint: .topLeading, endPoint: .bottomTrailing)
     static let verticalGradient2 = LinearGradient(colors: [.deepPurple2, .black], startPoint: .topLeading, endPoint: .bottomTrailing)
     static let cellGradient = LinearGradient(colors: [.deepPurple2, .black], startPoint: .topLeading, endPoint: .bottomTrailing)
     static let horizontalGradient = LinearGradient(colors: [.darkBlue, .deepPurple], startPoint: .leading, endPoint: .trailing)
