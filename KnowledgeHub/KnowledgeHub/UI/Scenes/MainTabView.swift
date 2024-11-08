@@ -13,7 +13,7 @@ struct MainTabView: View {
     @StateObject var viewModel: MainTabViewModel
 
     var body: some View {
-        NavigationStack {
+        NavigationStack(path: $viewModel.navigationStack) {
             TabView(selection: $viewModel.selectedTab) {
                 SearchView(viewModel: viewModel.searchViewModel)
                     .tabItem {
@@ -37,17 +37,8 @@ struct MainTabView: View {
                     .tag(MainTabViewModel.Tab.progress)
             }
             .accentColor(Color.titleGold)
-            .navigationDestination(
-                isPresented: Binding(
-                    get: { viewModel.navigationTarget != nil },
-                    set: { isPresented in
-                        if !isPresented { viewModel.navigationTarget = nil }
-                    }
-                )
-            ) {
-                if let destination = viewModel.navigationTarget {
-                    destinationView(for: destination)
-                }
+            .navigationDestination(for: NavigationTarget.self) { destination in
+                destinationView(for: destination)
             }
         }
     }
@@ -80,11 +71,7 @@ class MainTabViewModel: ObservableObject {
     @Published var searchViewModel: SearchViewModel!
     @Published var browseViewModel: BrowseViewModel!
     @Published var myProgressViewModel: MyProgressViewModel!
-    @Published var navigationTarget: NavigationTarget? {
-        didSet {
-            print("*** Navigation Target: \(String(describing: navigationTarget)) ***")
-        }
-    }
+    @Published var navigationStack: [NavigationTarget] = [] // Stack of navigation targets
 
     // MARK: - Private Properties
     private var contentProvider: any KHDomainContentProviderProtocol
@@ -103,6 +90,12 @@ class MainTabViewModel: ObservableObject {
     
     public func navigateTo(_ target: NavigationTarget) {
         print("*** navigateTo target invoked for: \(target) ***")
-        navigationTarget = target
+        navigationStack.append(target)
+    }
+    
+    public func popNavigationTarget() {
+        if !navigationStack.isEmpty {
+            navigationStack.removeLast()
+        }
     }
 }

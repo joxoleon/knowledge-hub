@@ -13,3 +13,9 @@ enum NavigationTarget: Hashable, Equatable {
     case quiz(QuizViewModel)
     case flashcards
 }
+
+extension NavigationTarget: Identifiable {
+    var id: UUID {
+        UUID()
+    }
+}

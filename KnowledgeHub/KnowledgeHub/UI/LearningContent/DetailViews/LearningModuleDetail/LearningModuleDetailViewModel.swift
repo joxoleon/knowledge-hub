@@ -74,17 +74,12 @@ class LearningModuleDetailsViewModel: ObservableObject {
     }
     
     func navigateToLearningContent(content: any LearningContent) {
-        print("*** navigate to learning content ***")
         if let lesson = content as? Lesson {
-            print("*** lesson: \(lesson.title) ***")
             let lessonDetailViewModel = LessonDetailsViewModel(lesson: lesson, mainTabViewModel: self.mainTabViewModel)
             mainTabViewModel?.navigateTo(.lessonDetail(lessonDetailViewModel))
-            print("*** mainTabViewModle.navigationTarget: \(String(describing: mainTabViewModel?.navigationTarget)) ***")
         } else if let module = content as? LearningModule {
-            print("*** module: \(module.title) ***")
             let learningModuleDetailViewModel = LearningModuleDetailsViewModel(module: module, mainTabViewModel: self.mainTabViewModel)
             mainTabViewModel?.navigateTo(.moduleDetail(learningModuleDetailViewModel))
-            print("*** mainTabViewModle.navigationTarget: \(String(describing: mainTabViewModel?.navigationTarget)) ***")
         }
     }
 
