@@ -2,7 +2,7 @@
 //  MainTabView.swift
 //  KnowledgeHub
 //
-//  Created by Jovan Radivojsa on 7.11.24..
+//  Created by Jovan Radivojsa on 7.11.24.
 //
 
 import SwiftUI
@@ -13,34 +13,44 @@ struct MainTabView: View {
     @StateObject var viewModel: MainTabViewModel
 
     var body: some View {
-        NavigationStack(path: $viewModel.navigationStack) {
-            TabView(selection: $viewModel.selectedTab) {
+        TabView(selection: $viewModel.selectedTab) {
+            NavigationStack(path: $viewModel.searchNavigationStack) {
                 SearchView(viewModel: viewModel.searchViewModel)
-                    .tabItem {
-                        Image(systemName: "magnifyingglass")
-                        Text("Search")
+                    .navigationDestination(for: NavigationTarget.self) { destination in
+                        destinationView(for: destination)
                     }
-                    .tag(MainTabViewModel.Tab.search)
-                
+            }
+            .tabItem {
+                Image(systemName: "magnifyingglass")
+                Text("Search")
+            }
+            .tag(MainTabViewModel.Tab.search)
+            
+            NavigationStack(path: $viewModel.browseNavigationStack) {
                 BrowseView(viewModel: viewModel.browseViewModel)
-                    .tabItem {
-                        Image(systemName: "rectangle.grid.2x2.fill")
-                        Text("Browse")
+                    .navigationDestination(for: NavigationTarget.self) { destination in
+                        destinationView(for: destination)
                     }
-                    .tag(MainTabViewModel.Tab.browse)
-                
+            }
+            .tabItem {
+                Image(systemName: "rectangle.grid.2x2.fill")
+                Text("Browse")
+            }
+            .tag(MainTabViewModel.Tab.browse)
+            
+            NavigationStack(path: $viewModel.progressNavigationStack) {
                 MyProgressView(viewModel: viewModel.myProgressViewModel)
-                    .tabItem {
-                        Image(systemName: "chart.bar.fill")
-                        Text("Progress")
+                    .navigationDestination(for: NavigationTarget.self) { destination in
+                        destinationView(for: destination)
                     }
-                    .tag(MainTabViewModel.Tab.progress)
             }
-            .accentColor(Color.titleGold)
-            .navigationDestination(for: NavigationTarget.self) { destination in
-                destinationView(for: destination)
+            .tabItem {
+                Image(systemName: "chart.bar.fill")
+                Text("Progress")
             }
+            .tag(MainTabViewModel.Tab.progress)
         }
+        .accentColor(Color.titleGold)
     }
     
     @ViewBuilder
@@ -54,6 +64,8 @@ struct MainTabView: View {
             Text("Quiz View") // Replace with actual quiz view
         case .flashcards:
             Text("Flashcards View") // Replace with actual flashcards view
+        case .readLesson(let viewModel):
+            Text("Read Lesson View") // Replace with actual read lesson view
         }
     }
 }
@@ -68,10 +80,12 @@ class MainTabViewModel: ObservableObject {
 
     // MARK: - Public Properties
     @Published var selectedTab: Tab = .browse
+    @Published var searchNavigationStack: [NavigationTarget] = []
+    @Published var browseNavigationStack: [NavigationTarget] = []
+    @Published var progressNavigationStack: [NavigationTarget] = []
     @Published var searchViewModel: SearchViewModel!
     @Published var browseViewModel: BrowseViewModel!
     @Published var myProgressViewModel: MyProgressViewModel!
-    @Published var navigationStack: [NavigationTarget] = [] // Stack of navigation targets
 
     // MARK: - Private Properties
     private var contentProvider: any KHDomainContentProviderProtocol
@@ -87,15 +101,31 @@ class MainTabViewModel: ObservableObject {
     }
     
     // MARK: - Navigation Control
-    
     public func navigateTo(_ target: NavigationTarget) {
-        print("*** navigateTo target invoked for: \(target) ***")
-        navigationStack.append(target)
+        switch selectedTab {
+        case .search:
+            searchNavigationStack.append(target)
+        case .browse:
+            browseNavigationStack.append(target)
+        case .progress:
+            progressNavigationStack.append(target)
+        }
     }
     
     public func popNavigationTarget() {
-        if !navigationStack.isEmpty {
-            navigationStack.removeLast()
+        switch selectedTab {
+        case .search:
+            if !searchNavigationStack.isEmpty {
+                searchNavigationStack.removeLast()
+            }
+        case .browse:
+            if !browseNavigationStack.isEmpty {
+                browseNavigationStack.removeLast()
+            }
+        case .progress:
+            if !progressNavigationStack.isEmpty {
+                progressNavigationStack.removeLast()
+            }
         }
     }
 }

@@ -12,10 +12,5 @@ enum NavigationTarget: Hashable, Equatable {
     case moduleDetail(LearningModuleDetailsViewModel)
     case quiz(QuizViewModel)
     case flashcards
-}
-
-extension NavigationTarget: Identifiable {
-    var id: UUID {
-        UUID()
-    }
+    case readLesson(LessonViewModel)
 }
