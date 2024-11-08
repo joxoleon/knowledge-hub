@@ -37,7 +37,6 @@ class LessonDetailsViewModel: ObservableObject {
     }
     
     func quizView(isPresented: Binding<Bool>) -> some View {
-        print("*** Fetching quiz from from lesson detail view model ***")
         return QuizView(viewModel: QuizViewModel(quiz: lesson.quiz), isPresented: isPresented)
     }
 

@@ -15,13 +15,13 @@ class LearningModuleDetailsViewModel: ObservableObject {
     
     @Published var learningContentMetadataViewModel: LearningContentMetadataViewModel
     @Published var cellViewModels: [LearningContentMetadataViewModel]
-
+    
     // MARK: - Private Properties
     
     private var module: LearningModule
     private let mainTabViewModel: MainTabViewModel?
     private let privateId = UUID()
-
+    
     // MARK: - Computed Properties
     
     var startOrContinueTitle: String {
@@ -42,12 +42,6 @@ class LearningModuleDetailsViewModel: ObservableObject {
         return "Start"
     }
     
-//    var startOrContinueLessonDetailViewModel: LessonDetailsViewModel? {
-//        let lessons = module.preOrderLessons
-//        guard let lesson = lessons.first(where: { $0.completionStatus == .inProgress || $0.completionStatus == .notStarted }) ?? lessons.first else { return nil }
-//        return LessonDetailsViewModel(lesson: lesson)
-//    }
-
     // MARK: - Initializer
     
     init(module: LearningModule, mainTabViewModel: MainTabViewModel?) {
@@ -58,6 +52,10 @@ class LearningModuleDetailsViewModel: ObservableObject {
     }
     
     // MARK: - Public Methods
+    
+    func quizView(isPresented: Binding<Bool>) -> some View {
+        return QuizView(viewModel: QuizViewModel(quiz: module.quiz), isPresented: isPresented)
+    }
     
     public func refreshData() {
         print("*** learningModuleDetailsViewModel refreshData() ***")
@@ -82,18 +80,13 @@ class LearningModuleDetailsViewModel: ObservableObject {
             mainTabViewModel?.navigateTo(.moduleDetail(learningModuleDetailViewModel))
         }
     }
-
+    
     func navigateToQuiz() {
-//        currentNavigationTarget = .quiz
-    }
-
-    func navigateToFlashcards() {
-//        currentNavigationTarget = .flashcards
+        //        currentNavigationTarget = .quiz
     }
     
-    public func quizView(isPresented: Binding<Bool>) -> some View {
-        print("*** Fetching quiz from from lesson detail view model ***")
-        return QuizView(viewModel: QuizViewModel(quiz: module.quiz), isPresented: isPresented)
+    func navigateToFlashcards() {
+        //        currentNavigationTarget = .flashcards
     }
 }
 

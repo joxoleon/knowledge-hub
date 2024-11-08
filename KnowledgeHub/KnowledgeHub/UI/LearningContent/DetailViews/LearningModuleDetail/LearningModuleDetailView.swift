@@ -8,6 +8,7 @@ fileprivate enum Constants {
 
 struct LearningModuleDetailView: View {
     @ObservedObject var viewModel: LearningModuleDetailsViewModel
+    @State private var isQuizPresented = false
 
     var body: some View {
         ScrollView {
@@ -46,7 +47,7 @@ struct LearningModuleDetailView: View {
                         title: "Quiz",
                         fontColor: .titleGold
                     ) {
-                        viewModel.navigateToQuiz()
+                        isQuizPresented = true
                     }
                 }
                 .padding(.horizontal, 25)
@@ -76,6 +77,9 @@ struct LearningModuleDetailView: View {
         }
         .padding(10)
         .background(ThemeConstants.verticalGradient.ignoresSafeArea())
+        .fullScreenCover(isPresented: $isQuizPresented) {
+            viewModel.quizView(isPresented: $isQuizPresented)
+        }
         .onAppear {
             viewModel.refreshData()
         }
