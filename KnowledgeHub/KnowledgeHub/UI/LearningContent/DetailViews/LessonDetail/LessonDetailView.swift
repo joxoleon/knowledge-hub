@@ -14,7 +14,6 @@ fileprivate enum Constants {
 }
 
 struct LessonDetailView: View {
-    @ObservedObject var learningContentMetadataViewModel: LearningContentMetadataViewModel
     @ObservedObject var viewModel: LessonDetailsViewModel
     
     @State private var isReadLessonPresented = false
@@ -25,7 +24,7 @@ struct LessonDetailView: View {
             ScrollView {
                 VStack(spacing: 20) {
                     // Metadata View
-                    LearningContentMetadataView(viewModel: learningContentMetadataViewModel)
+                    LearningContentMetadataView(viewModel: viewModel.learningContentMetadataViewModel)
                         .padding(.vertical)
                     
                     Spacer(minLength: 10)
@@ -172,7 +171,6 @@ struct LessonDetailView_Previews: PreviewProvider {
                 .edgesIgnoringSafeArea(.all)
             
             LessonDetailView(
-                learningContentMetadataViewModel: LearningContentMetadataViewModel(content: Testing.testLesson),
                 viewModel: LessonDetailsViewModel(lesson: Testing.testLesson)
             )
         }

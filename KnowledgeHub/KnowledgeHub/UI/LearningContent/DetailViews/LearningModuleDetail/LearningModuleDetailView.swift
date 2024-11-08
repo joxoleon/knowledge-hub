@@ -112,7 +112,6 @@ struct LearningModuleDetailView: View {
     private func destinationView(for cellViewModel: LearningContentMetadataViewModel) -> some View {
         if cellViewModel.isLesson {
             LessonDetailView(
-                learningContentMetadataViewModel: cellViewModel,
                 viewModel: LessonDetailsViewModel(lesson: cellViewModel.content as! Lesson)
             )
         } else {
