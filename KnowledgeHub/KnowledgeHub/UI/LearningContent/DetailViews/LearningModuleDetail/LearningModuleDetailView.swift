@@ -17,7 +17,6 @@ struct LearningModuleDetailView: View {
     
     // MARK: - ViewModels
     
-    @ObservedObject var learningContentMetadataViewModel: LearningContentMetadataViewModel
     @ObservedObject var viewModel: LearningModuleDetailsViewModel
 
     // MARK: - Navigation State
@@ -28,7 +27,7 @@ struct LearningModuleDetailView: View {
         ScrollView {
             VStack {
                 // Metadata View
-                LearningContentMetadataView(viewModel: learningContentMetadataViewModel)
+                LearningContentMetadataView(viewModel: viewModel.learningContentMetadataViewModel)
                     .padding(.vertical)
                 
                 // Action Buttons Row
@@ -118,7 +117,6 @@ struct LearningModuleDetailView: View {
             )
         } else {
             LearningModuleDetailView(
-                learningContentMetadataViewModel: cellViewModel,
                 viewModel: LearningModuleDetailsViewModel(module: cellViewModel.content as! LearningModule)
             )
         }
@@ -129,11 +127,10 @@ struct LearningModuleDetailView: View {
 struct LearningModuleDetailView_Previews: PreviewProvider {
     static var previews: some View {
         ZStack {
-//            ThemeConstants.verticalGradient
-//                .edgesIgnoringSafeArea(.all)
+            ThemeConstants.verticalGradient
+                .edgesIgnoringSafeArea(.all)
             
             LearningModuleDetailView(
-                learningContentMetadataViewModel: LearningContentMetadataViewModel(content: Testing.testModule),
                 viewModel: LearningModuleDetailsViewModel(module: Testing.testModule)
             )
         }

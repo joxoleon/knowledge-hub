@@ -14,7 +14,6 @@ struct BrowseView: View {
     
     var body: some View {
         LearningModuleDetailView(
-            learningContentMetadataViewModel: viewModel.learningContentMetadataViewModel,
             viewModel: viewModel.learningModuleDetailViewModel
         )
         .navigationTitle("Browse")
@@ -24,12 +23,10 @@ struct BrowseView: View {
 
 
 class BrowseViewModel: ObservableObject {
-    @Published var learningContentMetadataViewModel: LearningContentMetadataViewModel
     @Published var learningModuleDetailViewModel: LearningModuleDetailsViewModel
     
     init(contentProvider: any KHDomainContentProviderProtocol) {
         let topLevelModule = contentProvider.activeTopModule
-        self.learningContentMetadataViewModel = LearningContentMetadataViewModel(content: topLevelModule)
         self.learningModuleDetailViewModel = LearningModuleDetailsViewModel(module: topLevelModule)
     }
     
