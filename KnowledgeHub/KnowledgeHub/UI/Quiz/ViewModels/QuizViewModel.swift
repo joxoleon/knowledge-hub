@@ -30,6 +30,7 @@ class QuizViewModel: ObservableObject {
     @Published var progress: CGFloat = 0
     @Published var shouldShowLessionOverviewView: Bool = false
 
+    private var privateId: UUID = UUID()
     
     var currentQuestion: Question {
         quiz.questions[currentQuestionIndex]
@@ -82,5 +83,16 @@ class QuizViewModel: ObservableObject {
     private func calculateProgress() {
         print("Calculating progress")
         progress = CGFloat(numberOfAnsweredQuestions) / CGFloat(quiz.questions.count)
+    }
+}
+
+extension QuizViewModel: Hashable, Equatable {
+    static func == (lhs: QuizViewModel, rhs: QuizViewModel) -> Bool {
+        lhs.quiz.id == rhs.quiz.id && lhs.privateId == rhs.privateId
+    }
+    
+    func hash(into hasher: inout Hasher) {
+        hasher.combine(quiz.id)
+        hasher.combine(privateId)
     }
 }

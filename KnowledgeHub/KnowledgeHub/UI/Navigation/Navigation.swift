@@ -7,9 +7,9 @@
 
 import SwiftUI
 
-enum NavigationDestination: String, Hashable {
-    case lessonDetail
-    case moduleDetail
-    case quiz
+enum NavigationTarget: Hashable, Equatable {
+    case lessonDetail(LessonDetailsViewModel)
+    case moduleDetail(LearningModuleDetailsViewModel)
+    case quiz(QuizViewModel)
     case flashcards
 }

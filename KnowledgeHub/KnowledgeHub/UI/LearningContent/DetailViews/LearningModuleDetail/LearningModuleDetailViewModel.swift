@@ -15,14 +15,12 @@ class LearningModuleDetailsViewModel: ObservableObject {
     
     @Published var learningContentMetadataViewModel: LearningContentMetadataViewModel
     @Published var cellViewModels: [LearningContentMetadataViewModel]
-    @Published var currentNavigationTarget: NavigationDestination?
-    
-    @Published var lessonDetailViewModel: LessonDetailsViewModel?
-    @Published var learningModuleDetailViewModel: LearningModuleDetailsViewModel?
 
     // MARK: - Private Properties
     
     private var module: LearningModule
+    private let mainTabViewModel: MainTabViewModel?
+    private let privateId = UUID()
 
     // MARK: - Computed Properties
     
@@ -44,16 +42,17 @@ class LearningModuleDetailsViewModel: ObservableObject {
         return "Start"
     }
     
-    var startOrContinueLessonDetailViewModel: LessonDetailsViewModel? {
-        let lessons = module.preOrderLessons
-        guard let lesson = lessons.first(where: { $0.completionStatus == .inProgress || $0.completionStatus == .notStarted }) ?? lessons.first else { return nil }
-        return LessonDetailsViewModel(lesson: lesson)
-    }
+//    var startOrContinueLessonDetailViewModel: LessonDetailsViewModel? {
+//        let lessons = module.preOrderLessons
+//        guard let lesson = lessons.first(where: { $0.completionStatus == .inProgress || $0.completionStatus == .notStarted }) ?? lessons.first else { return nil }
+//        return LessonDetailsViewModel(lesson: lesson)
+//    }
 
     // MARK: - Initializer
     
-    init(module: LearningModule) {
+    init(module: LearningModule, mainTabViewModel: MainTabViewModel?) {
         self.module = module
+        self.mainTabViewModel = mainTabViewModel
         self.learningContentMetadataViewModel = LearningContentMetadataViewModel(content: module)
         self.cellViewModels = module.learningContents.map { LearningContentMetadataViewModel(content: $0) }
     }
@@ -69,35 +68,47 @@ class LearningModuleDetailsViewModel: ObservableObject {
     // MARK: - Navigation Methods
     
     func navigateToNextLesson() {
-        print("*** Navigate to next lesson invoked ***")
+        print("*** navigate to next lesson ***")
         guard let lesson = (module.preOrderLessons.first { $0.completionStatus == .notStarted }) ?? module.preOrderLessons.first else { return }
-        print("*** Next lesson is \(lesson.title) ***")
         navigateToLearningContent(content: lesson)
     }
     
     func navigateToLearningContent(content: any LearningContent) {
-        print("*** Navigate to learning content invoked for content: \(content.title) ***")
+        print("*** navigate to learning content ***")
         if let lesson = content as? Lesson {
-            print("*** Navigating to lesson detail view model ***")
-            lessonDetailViewModel = LessonDetailsViewModel(lesson: lesson)
-            currentNavigationTarget = .lessonDetail
+            print("*** lesson: \(lesson.title) ***")
+            let lessonDetailViewModel = LessonDetailsViewModel(lesson: lesson, mainTabViewModel: self.mainTabViewModel)
+            mainTabViewModel?.navigateTo(.lessonDetail(lessonDetailViewModel))
+            print("*** mainTabViewModle.navigationTarget: \(String(describing: mainTabViewModel?.navigationTarget)) ***")
         } else if let module = content as? LearningModule {
-            print("*** Navigating to learning module detail view model ***")
-            learningModuleDetailViewModel = LearningModuleDetailsViewModel(module: module)
-            currentNavigationTarget = .moduleDetail
+            print("*** module: \(module.title) ***")
+            let learningModuleDetailViewModel = LearningModuleDetailsViewModel(module: module, mainTabViewModel: self.mainTabViewModel)
+            mainTabViewModel?.navigateTo(.moduleDetail(learningModuleDetailViewModel))
+            print("*** mainTabViewModle.navigationTarget: \(String(describing: mainTabViewModel?.navigationTarget)) ***")
         }
     }
 
     func navigateToQuiz() {
-        currentNavigationTarget = .quiz
+//        currentNavigationTarget = .quiz
     }
 
     func navigateToFlashcards() {
-        currentNavigationTarget = .flashcards
+//        currentNavigationTarget = .flashcards
     }
     
     public func quizView(isPresented: Binding<Bool>) -> some View {
         print("*** Fetching quiz from from lesson detail view model ***")
         return QuizView(viewModel: QuizViewModel(quiz: module.quiz), isPresented: isPresented)
+    }
+}
+
+extension LearningModuleDetailsViewModel: Hashable, Equatable {
+    static func == (lhs: LearningModuleDetailsViewModel, rhs: LearningModuleDetailsViewModel) -> Bool {
+        lhs.module.id == rhs.module.id && lhs.privateId == rhs.privateId
+    }
+    
+    func hash(into hasher: inout Hasher) {
+        hasher.combine(module.id)
+        hasher.combine(privateId)
     }
 }

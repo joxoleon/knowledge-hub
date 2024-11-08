@@ -173,7 +173,7 @@ struct LessonDetailView_Previews: PreviewProvider {
                 .edgesIgnoringSafeArea(.all)
             
             LessonDetailView(
-                viewModel: LessonDetailsViewModel(lesson: Testing.testLesson)
+                viewModel: LessonDetailsViewModel(lesson: Testing.testLesson, mainTabViewModel: nil)
             )
         }
     }

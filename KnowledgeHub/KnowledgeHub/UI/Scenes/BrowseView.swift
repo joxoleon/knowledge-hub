@@ -13,9 +13,7 @@ struct BrowseView: View {
     @ObservedObject var viewModel: BrowseViewModel
     
     var body: some View {
-        LearningModuleDetailView(
-            viewModel: viewModel.learningModuleDetailViewModel
-        )
+        LearningModuleDetailView(viewModel: viewModel.learningModuleDetailViewModel)
         .navigationTitle("Browse")
         .navigationBarTitleDisplayMode(.inline)
     }
@@ -24,13 +22,12 @@ struct BrowseView: View {
 
 class BrowseViewModel: ObservableObject {
     @Published var learningModuleDetailViewModel: LearningModuleDetailsViewModel
+    private var mainTabViewModel: MainTabViewModel
     
-    init(contentProvider: any KHDomainContentProviderProtocol) {
+    init(contentProvider: any KHDomainContentProviderProtocol, mainTabViewModel: MainTabViewModel) {
+        self.mainTabViewModel = mainTabViewModel
+        
         let topLevelModule = contentProvider.activeTopModule
-        self.learningModuleDetailViewModel = LearningModuleDetailsViewModel(module: topLevelModule)
-    }
-    
-    func navigateToContent(content: any LearningContent) {
-        learningModuleDetailViewModel.navigateToLearningContent(content: content)
+        self.learningModuleDetailViewModel = LearningModuleDetailsViewModel(module: topLevelModule, mainTabViewModel: mainTabViewModel)
     }
 }

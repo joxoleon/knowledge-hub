@@ -18,12 +18,15 @@ class LessonDetailsViewModel: ObservableObject {
     // MARK: - Private Properties
     
     private var lesson: Lesson
+    private let mainTabViewModel: MainTabViewModel?
+    private let privateId = UUID()
 
     // MARK: - Initializers
     
-    init(lesson: Lesson) {
+    init(lesson: Lesson, mainTabViewModel: MainTabViewModel?) {
         self.lesson = lesson
         self.learningContentMetadataViewModel = LearningContentMetadataViewModel(content: lesson)
+        self.mainTabViewModel = mainTabViewModel
     }
     
     // MARK: - Public Methods
@@ -56,3 +59,13 @@ class LessonDetailsViewModel: ObservableObject {
     }
 }
 
+extension LessonDetailsViewModel: Hashable, Equatable {
+    static func == (lhs: LessonDetailsViewModel, rhs: LessonDetailsViewModel) -> Bool {
+        lhs.lesson.id == rhs.lesson.id
+    }
+    
+    func hash(into hasher: inout Hasher) {
+        hasher.combine(lesson.id)
+        hasher.combine(privateId)
+    }
+}
