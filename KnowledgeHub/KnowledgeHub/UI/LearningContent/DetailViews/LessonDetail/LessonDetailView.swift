@@ -129,7 +129,7 @@ struct KHActionButton: View {
     let iconSize: CGFloat
     let title: String
     let fontColor: Color
-    let action: () -> Void
+    let action: (() -> Void)?
     
     init(
         state: Binding<KHActionButtonState> = .constant(.active),
@@ -137,7 +137,7 @@ struct KHActionButton: View {
         iconSize: CGFloat,
         title: String,
         fontColor: Color,
-        action: @escaping () -> Void) {
+        action: (() -> Void)?) {
         self._state = state
         self.iconName = iconName
         self.title = title
@@ -147,7 +147,9 @@ struct KHActionButton: View {
     }
     
     var body: some View {
-        Button(action: action) {
+        Button(action: {
+            action?()
+        }) {
             VStack(spacing: 4) {
                 Image(systemName: iconName)
                     .font(.system(size: self.iconSize))

@@ -1,10 +1,3 @@
-//
-//  LearningModuleDetailView.swift
-//  KnowledgeHub
-//
-//  Created by Jovan Radivojsa on 5.11.24..
-//
-
 import SwiftUI
 import KHBusinessLogic
 
@@ -14,14 +7,8 @@ fileprivate enum Constants {
 }
 
 struct LearningModuleDetailView: View {
-    
-    // MARK: - ViewModels
-    
     @ObservedObject var viewModel: LearningModuleDetailsViewModel
-
-    // MARK: - Navigation State
     @State private var isQuizPresented = false
-
     
     var body: some View {
         ScrollView {
@@ -41,23 +28,16 @@ struct LearningModuleDetailView: View {
                         viewModel.navigateToFlashcards()
                     }
                     Spacer()
-                    
-                    if let lessonViewModel = viewModel.startOrContinueLessonDetailViewModel {
-                        NavigationLink(
-                            destination: destinationView(for: viewModel.startOrContinueLessonDetailViewModel!)
-                        ) {
-                            KHActionButton(
-                                iconName: "play.circle.fill",
-                                iconSize: Constants.primaryIconSize,
-                                title: viewModel.startOrContinueTitle,
-                                fontColor: .titleGold,
-                                action: {
-                                    print("Start/Continue to lesson")
-                                }
-                            )
-                            .offset(y: -Constants.primaryIconSize * 0.8)
-                        }
+
+                    KHActionButton(
+                        iconName: "play.circle.fill",
+                        iconSize: Constants.primaryIconSize,
+                        title: viewModel.startOrContinueTitle,
+                        fontColor: .titleGold
+                    ) {
+                        viewModel.navigateToNextLesson()
                     }
+                    .offset(y: -Constants.primaryIconSize * 0.8)
 
                     Spacer()
                     
@@ -86,7 +66,15 @@ struct LearningModuleDetailView: View {
                 // Contents List with NavigationLink
                 VStack(alignment: .leading, spacing: 3) {
                     ForEach(viewModel.cellViewModels, id: \.id) { cellViewModel in
-                        NavigationLink(destination: destinationView(for: cellViewModel)) {
+                        NavigationLink(
+                            destination: destinationView(for: .lessonDetail),
+                            isActive: Binding(
+                                get: { viewModel.currentNavigationTarget == .lessonDetail },
+                                set: { isActive in
+                                    if !isActive { viewModel.currentNavigationTarget = nil }
+                                }
+                            )
+                        ) {
                             LearningContentCellView(viewModel: cellViewModel)
                                 .cornerRadius(8)
                         }
@@ -100,50 +88,31 @@ struct LearningModuleDetailView: View {
         .fullScreenCover(isPresented: $isQuizPresented) {
             viewModel.quizView(isPresented: $isQuizPresented)
         }
-        .onChange(of: isQuizPresented) { _, newValue in
-            print("isQuizPresented: \(newValue)")
-            if !newValue {
-                print("Refreshing data")
-                viewModel.refreshData()
-            }
-        }
-        .onAppear() {
-            print("On appear - refreshing data")
+        .onAppear {
             viewModel.refreshData()
+        }
+        .navigationDestination(for: NavigationDestination.self) { destination in
+            destinationView(for: destination)
         }
     }
     
     // MARK: - Navigation Destination
     
     @ViewBuilder
-    private func destinationView(for cellViewModel: LearningContentMetadataViewModel) -> some View {
-        if cellViewModel.isLesson {
-            LessonDetailView(
-                viewModel: LessonDetailsViewModel(lesson: cellViewModel.content as! Lesson)
-            )
-        } else {
-            LearningModuleDetailView(
-                viewModel: LearningModuleDetailsViewModel(module: cellViewModel.content as! LearningModule)
-            )
-        }
-    }
-    
-    @ViewBuilder
-    private func destinationView(for lessonDetailViewModel: LessonDetailsViewModel) -> some View {
-        LessonDetailView(viewModel: lessonDetailViewModel)
-    }
-}
-
-
-struct LearningModuleDetailView_Previews: PreviewProvider {
-    static var previews: some View {
-        ZStack {
-            ThemeConstants.verticalGradient
-                .edgesIgnoringSafeArea(.all)
-            
-            LearningModuleDetailView(
-                viewModel: LearningModuleDetailsViewModel(module: Testing.testModule)
-            )
+    private func destinationView(for destination: NavigationDestination) -> some View {
+        switch destination {
+        case .lessonDetail:
+            if let lessonViewModel = viewModel.lessonDetailViewModel {
+                LessonDetailView(viewModel: lessonViewModel)
+            }
+        case .moduleDetail:
+            if let moduleViewModel = viewModel.learningModuleDetailViewModel {
+                LearningModuleDetailView(viewModel: moduleViewModel)
+            }
+        case .quiz:
+            Text("Quiz View") // Replace with actual quiz view
+        case .flashcards:
+            Text("Flashcards View") // Replace with actual flashcards view
         }
     }
 }

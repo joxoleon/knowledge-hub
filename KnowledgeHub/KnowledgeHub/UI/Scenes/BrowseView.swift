@@ -31,6 +31,6 @@ class BrowseViewModel: ObservableObject {
     }
     
     func navigateToContent(content: any LearningContent) {
-        learningModuleDetailViewModel.navigateToContent(learningContent: content)
+        learningModuleDetailViewModel.navigateToLearningContent(content: content)
     }
 }

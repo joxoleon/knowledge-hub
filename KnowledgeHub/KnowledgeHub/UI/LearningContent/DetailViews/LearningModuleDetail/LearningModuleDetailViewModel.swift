@@ -15,47 +15,42 @@ class LearningModuleDetailsViewModel: ObservableObject {
     
     @Published var learningContentMetadataViewModel: LearningContentMetadataViewModel
     @Published var cellViewModels: [LearningContentMetadataViewModel]
+    @Published var currentNavigationTarget: NavigationDestination?
+    
+    @Published var lessonDetailViewModel: LessonDetailsViewModel?
+    @Published var learningModuleDetailViewModel: LearningModuleDetailsViewModel?
+
+    // MARK: - Private Properties
+    
     private var module: LearningModule
 
     // MARK: - Computed Properties
     
     var startOrContinueTitle: String {
         let allContainedLessons = module.preOrderLessons
-        guard !allContainedLessons.isEmpty else {
-            return ""
-        }
+        guard !allContainedLessons.isEmpty else { return "" }
         
         // Restart
-        let areAllLessonsCompleted = allContainedLessons.allSatisfy { $0.completionStatus == .completed }
-        if areAllLessonsCompleted {
+        if allContainedLessons.allSatisfy({ $0.completionStatus == .completed }) {
             return "Restart"
         }
         
         // Continue
-        let hasCompleteOrInProgressLessons = allContainedLessons.contains { $0.completionStatus == .completed || $0.completionStatus == .inProgress }
-        if hasCompleteOrInProgressLessons {
+        if allContainedLessons.contains(where: { $0.completionStatus == .completed || $0.completionStatus == .inProgress }) {
             return "Continue"
-            
         }
         
         // Start
         return "Start"
     }
     
-    // MARK: - Navigatio Destination View Models
-    
     var startOrContinueLessonDetailViewModel: LessonDetailsViewModel? {
         let lessons = module.preOrderLessons
-        guard !lessons.isEmpty else { return nil }
-        
-        if let lesson = lessons.first(where: { $0.completionStatus == .inProgress || $0.completionStatus == .notStarted }) {
-            return LessonDetailsViewModel(lesson: lesson)
-        }
-        
-        return LessonDetailsViewModel(lesson: lessons.first!)
+        guard let lesson = lessons.first(where: { $0.completionStatus == .inProgress || $0.completionStatus == .notStarted }) ?? lessons.first else { return nil }
+        return LessonDetailsViewModel(lesson: lesson)
     }
 
-    // MARK: - Initializers
+    // MARK: - Initializer
     
     init(module: LearningModule) {
         self.module = module
@@ -64,21 +59,41 @@ class LearningModuleDetailsViewModel: ObservableObject {
     }
     
     // MARK: - Public Methods
-
-    public func navigateToFlashcards() {
-        print("Open flashcards for module")
-        // TODO: Implement flashcard navigation
-    }
-    
-    public func navigateToContent(learningContent: any LearningContent) {
-        print("Navigate to content")
-        // TODO: Implement navigation to content
-    }
     
     public func refreshData() {
         print("*** learningModuleDetailsViewModel refreshData() ***")
         learningContentMetadataViewModel.refreshValues()
         cellViewModels.forEach { $0.refreshValues() }
+    }
+    
+    // MARK: - Navigation Methods
+    
+    func navigateToNextLesson() {
+        print("*** Navigate to next lesson invoked ***")
+        guard let lesson = (module.preOrderLessons.first { $0.completionStatus == .notStarted }) ?? module.preOrderLessons.first else { return }
+        print("*** Next lesson is \(lesson.title) ***")
+        navigateToLearningContent(content: lesson)
+    }
+    
+    func navigateToLearningContent(content: any LearningContent) {
+        print("*** Navigate to learning content invoked for content: \(content.title) ***")
+        if let lesson = content as? Lesson {
+            print("*** Navigating to lesson detail view model ***")
+            lessonDetailViewModel = LessonDetailsViewModel(lesson: lesson)
+            currentNavigationTarget = .lessonDetail
+        } else if let module = content as? LearningModule {
+            print("*** Navigating to learning module detail view model ***")
+            learningModuleDetailViewModel = LearningModuleDetailsViewModel(module: module)
+            currentNavigationTarget = .moduleDetail
+        }
+    }
+
+    func navigateToQuiz() {
+        currentNavigationTarget = .quiz
+    }
+
+    func navigateToFlashcards() {
+        currentNavigationTarget = .flashcards
     }
     
     public func quizView(isPresented: Binding<Bool>) -> some View {
