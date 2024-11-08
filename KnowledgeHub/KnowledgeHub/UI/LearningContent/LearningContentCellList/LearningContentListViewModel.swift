@@ -18,4 +18,8 @@ class LearningContentListViewModel: ObservableObject {
         self.learningContents = learningContents
         self.cellViewModels = learningContents.map { LearningContentMetadataViewModel(content: $0) }
     }
+    
+    func refreshValues() {
+        cellViewModels.forEach { $0.refreshValues() }
+    }
 }

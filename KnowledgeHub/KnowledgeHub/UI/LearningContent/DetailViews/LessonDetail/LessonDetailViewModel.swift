@@ -14,7 +14,6 @@ class LessonDetailsViewModel: ObservableObject {
     // MARK: - Public Properties
     
     @Published var learningContentMetadataViewModel: LearningContentMetadataViewModel
-    @State var isReadLessonPresented = false
     
     // MARK: - Private Properties
     
@@ -30,21 +29,13 @@ class LessonDetailsViewModel: ObservableObject {
     // MARK: - Public Methods
     
     func readLessonView(isPresented: Binding<Bool>) -> some View {
-        ReadLessonView(viewModel: LessonViewModel(lesson: lesson), isPresented: isPresented)
+        print("*** Fetching read lesson from lesson detail view model ***")
+        return ReadLessonView(viewModel: LessonViewModel(lesson: lesson), isPresented: isPresented)
     }
     
     func quizView(isPresented: Binding<Bool>) -> some View {
-        QuizView(viewModel: QuizViewModel(quiz: lesson.quiz), isPresented: isPresented)
-    }
-
-    public func navigateToReadLesson() {
-        print("*** Navigate to read lesson ***")
-        isReadLessonPresented = true
-    }
-
-    public func navigateToQuiz() {
-        print("Start quiz")
-        // TODO: Implement navigation
+        print("*** Fetching quiz from from lesson detail view model ***")
+        return QuizView(viewModel: QuizViewModel(quiz: lesson.quiz), isPresented: isPresented)
     }
 
     public func navigateToFlashcards() {
@@ -58,6 +49,10 @@ class LessonDetailsViewModel: ObservableObject {
     
     public func navigateToNextLesson() {
         print("Next lesson")
+    }
+    
+    public func refreshValues() {
+        learningContentMetadataViewModel.refreshValues()
     }
 }
 

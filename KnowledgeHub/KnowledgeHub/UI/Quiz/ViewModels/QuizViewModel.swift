@@ -18,6 +18,9 @@ class QuizViewModel: ObservableObject {
         didSet {
             nextQuestionButtonState = selectedAnswer != nil ? .active : .disabled
             calculateProgress()
+            if let answer = selectedAnswer {
+                submitAnswer(for: currentQuestion, givenAnswer: answer)
+            }
         }
     }
     
@@ -62,7 +65,6 @@ class QuizViewModel: ObservableObject {
     func submitAnswer(for question: Question, givenAnswer: String) {
         print("Submitting answer: \(givenAnswer)")
         let _ = question.submitAnswer(givenAnswer)
-        nextQuestionButtonState = .disabled
     }
 
     func goToNextQuestion() {
@@ -73,10 +75,6 @@ class QuizViewModel: ObservableObject {
             print("Setting selected answer to nil")
             selectedAnswer = nil
         }
-    }
-    
-    func readLesson() {
-        shouldShowLessionOverviewView = true
     }
     
     // MARK: - Private methods

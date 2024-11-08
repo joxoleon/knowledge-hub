@@ -105,6 +105,15 @@ struct LessonDetailView: View {
             .fullScreenCover(isPresented: $isQuizPresented) {
                 viewModel.quizView(isPresented: $isQuizPresented)
             }
+            .onChange(of: isReadLessonPresented) { _, newValue in
+                if !newValue { viewModel.refreshValues() }
+            }
+            .onChange(of: isQuizPresented) { _, newValue in
+                if !newValue { viewModel.refreshValues() }
+            }
+            .onAppear {
+                viewModel.refreshValues()
+            }
         }
     }
 }

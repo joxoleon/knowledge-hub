@@ -14,8 +14,15 @@ fileprivate enum Constants {
 }
 
 struct LearningModuleDetailView: View {
+    
+    // MARK: - ViewModels
+    
     @ObservedObject var learningContentMetadataViewModel: LearningContentMetadataViewModel
     @ObservedObject var viewModel: LearningModuleDetailsViewModel
+
+    // MARK: - Navigation State
+    @State private var isQuizPresented = false
+
     
     var body: some View {
         ScrollView {
@@ -54,7 +61,7 @@ struct LearningModuleDetailView: View {
                         title: "Quiz",
                         fontColor: .titleGold
                     ) {
-                        viewModel.navigateToQuiz()
+                        isQuizPresented = true
                     }
                 }
                 .padding(.horizontal, 25)
@@ -84,6 +91,20 @@ struct LearningModuleDetailView: View {
         }
         .padding(10)
         .background(ThemeConstants.verticalGradient.ignoresSafeArea())
+        .fullScreenCover(isPresented: $isQuizPresented) {
+            viewModel.quizView(isPresented: $isQuizPresented)
+        }
+        .onChange(of: isQuizPresented) { _, newValue in
+            print("isQuizPresented: \(newValue)")
+            if !newValue {
+                print("Refreshing data")
+                viewModel.refreshData()
+            }
+        }
+        .onAppear() {
+            print("On appear - refreshing data")
+            viewModel.refreshData()
+        }
     }
     
     // MARK: - Navigation Destination

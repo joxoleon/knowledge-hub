@@ -117,7 +117,7 @@ struct QuizView: View {
             )
             .frame(maxWidth: .infinity, maxHeight: 3)
             .foregroundColor(.titleGold)
-            .animation(.easeIn(duration: 0.3), value: viewModel.progress)
+            .animation(.easeIn(duration: 0.2), value: viewModel.progress)
         }
         .padding(.horizontal, 40)
     }

@@ -32,14 +32,14 @@ struct KHQuizAnswerButton: View {
                     .stroke(borderColor, lineWidth: 1))
         }
         .disabled(state != .active)
-        .animation(.easeInOut(duration: 0.5), value: state)
+        .animation(.easeInOut(duration: 0.2), value: state)
     }
 }
 
 fileprivate extension KHQuizAnswerButton {
     
     var font: Font {
-        return state == .correct ? .system(size: 18, weight: .bold) : .system(size: 16, weight: .semibold)
+        return .system(size: 16, weight: .semibold)
     }
     
     var borderColor: Color {

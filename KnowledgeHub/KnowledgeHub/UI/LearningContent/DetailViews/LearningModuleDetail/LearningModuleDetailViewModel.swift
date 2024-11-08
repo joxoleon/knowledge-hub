@@ -38,11 +38,6 @@ class LearningModuleDetailsViewModel: ObservableObject {
         // TODO: Implement navigation or continue action
     }
 
-    public func navigateToQuiz() {
-        print("Start quiz for module")
-        // TODO: Implement quiz navigation
-    }
-
     public func navigateToFlashcards() {
         print("Open flashcards for module")
         // TODO: Implement flashcard navigation
@@ -51,5 +46,16 @@ class LearningModuleDetailsViewModel: ObservableObject {
     public func navigateToContent(learningContent: any LearningContent) {
         print("Navigate to content")
         // TODO: Implement navigation to content
+    }
+    
+    public func refreshData() {
+        print("*** learningModuleDetailsViewModel refreshData() ***")
+        learningContentMetadataViewModel.refreshValues()
+        contentListViewModel.refreshValues()
+    }
+    
+    public func quizView(isPresented: Binding<Bool>) -> some View {
+        print("*** Fetching quiz from from lesson detail view model ***")
+        return QuizView(viewModel: QuizViewModel(quiz: module.quiz), isPresented: isPresented)
     }
 }

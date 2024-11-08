@@ -77,7 +77,7 @@ struct KHButtonView: View {
         .disabled(state == .disabled)
         .frame(height: 90)
         .padding(.horizontal)
-        .animation(.easeInOut(duration: 0.3), value: state)
+        .animation(.easeInOut(duration: 0.2), value: state)
     }
 }
 
