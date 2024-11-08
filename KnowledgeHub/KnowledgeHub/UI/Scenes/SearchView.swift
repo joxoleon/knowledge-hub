@@ -12,15 +12,21 @@ struct SearchView: View {
     @ObservedObject var viewModel: SearchViewModel
     
     var body: some View {
-        VStack {
-            Text("Search Content")
-                .font(.title)
-                .foregroundColor(.titleGold)
+        
+        ZStack {
+            ThemeConstants.verticalGradient
+                .edgesIgnoringSafeArea(.all)
             
-            // Additional content here
+            VStack {
+                Text("Search Content")
+                    .font(.title)
+                    .foregroundColor(.titleGold)
+                
+                // Additional content here
+            }
+            .navigationTitle("Search")
+            .navigationBarTitleDisplayMode(.inline)
         }
-        .navigationTitle("Search")
-        .navigationBarTitleDisplayMode(.inline)
     }
 }
 

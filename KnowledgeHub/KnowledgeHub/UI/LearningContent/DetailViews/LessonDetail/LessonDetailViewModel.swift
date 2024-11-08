@@ -45,15 +45,36 @@ class LessonDetailsViewModel: ObservableObject {
     }
     
     public func navigateToPreviousLesson() {
-        print("Previous lesson")
+        guard let previousLesson = getPreviousLesson else { return }
+        // TODO: Handle this in a much better way!
+        lesson = previousLesson
+        learningContentMetadataViewModel.content = previousLesson
+        refreshValues()
     }
     
     public func navigateToNextLesson() {
-        print("Next lesson")
+        guard let nextLesson = getNextLesson else { return }
+        lesson = nextLesson
+        learningContentMetadataViewModel.content = nextLesson
+        refreshValues()
     }
     
     public func refreshValues() {
         learningContentMetadataViewModel.refreshValues()
+    }
+    
+    private var getNextLesson: Lesson? {
+        let allLessons = lesson.contentProvider.activeTopModule.preOrderLessons
+        guard let currentIndex = allLessons.firstIndex(where: { $0.id == lesson.id }) else { return nil }
+        let nextIndex = (currentIndex + 1) % allLessons.count
+        return allLessons[nextIndex]
+    }
+    
+    private var getPreviousLesson: Lesson? {
+        let allLessons = lesson.contentProvider.activeTopModule.preOrderLessons
+        guard let currentIndex = allLessons.firstIndex(where: { $0.id == lesson.id }) else { return nil }
+        let previousIndex = (currentIndex - 1 + allLessons.count) % allLessons.count
+        return allLessons[previousIndex]
     }
 }
 

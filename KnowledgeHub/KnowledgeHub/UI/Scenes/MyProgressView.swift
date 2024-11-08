@@ -13,15 +13,21 @@ struct MyProgressView: View {
     @ObservedObject var viewModel: MyProgressViewModel
     
     var body: some View {
-        VStack {
-            Text("Track Your Progress")
-                .font(.title)
-                .foregroundColor(.primary)
+        ZStack {
+            ThemeConstants.verticalGradient
+                .edgesIgnoringSafeArea(.all)
             
-            // Additional content here
+            VStack {
+                Text("Track Your Progress")
+                    .font(.title)
+                    .foregroundColor(.titleGold)
+                
+                // Additional content here
+            }
+            .navigationTitle("Progress")
+            .navigationBarTitleDisplayMode(.inline)
         }
-        .navigationTitle("Progress")
-        .navigationBarTitleDisplayMode(.inline)
+
     }
 }
 
