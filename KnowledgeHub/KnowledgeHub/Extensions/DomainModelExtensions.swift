@@ -37,6 +37,7 @@ public enum LessonSectionTheme {
 }
 
 public extension Color {
+    static let violet = Color(#colorLiteral(red: 0.2094331086, green: 0.002857988002, blue: 0.421089828, alpha: 1))
     static let deepPurple = Color(#colorLiteral(red: 0.2461335659, green: 0.02346310765, blue: 0.2728917301, alpha: 1))
     static let deepPurple2 = Color(#colorLiteral(red: 0.1855854094, green: 0, blue: 0.2303968966, alpha: 1))
     static let deepPurple3 = Color(#colorLiteral(red: 0.0856006667, green: 0.0002626918431, blue: 0.1521573663, alpha: 1))

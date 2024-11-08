@@ -40,9 +40,8 @@ class LessonDetailsViewModel: ObservableObject {
         return QuizView(viewModel: QuizViewModel(quiz: lesson.quiz), isPresented: isPresented)
     }
 
-    public func navigateToFlashcards() {
-        print("FLASH ME!")
-        // TODO: Implement navigation
+    func flashCardsView(isPresented: Binding<Bool>) -> some View {
+        return FlashCardView(cards: lesson.summaries, isPresented: isPresented)
     }
     
     public func navigateToPreviousLesson() {

@@ -32,6 +32,23 @@ public class Lesson: Identifiable, LearningContent {
         return ComputationUtility.estimateReadTime(for: lessonTextContent)
     }()
 
+    public lazy var summary: String = {
+        var content = sections.last?.content ?? ""
+        
+        // Regular expression to match "Key takeaways" heading of any weight and any case at the start of the content
+        let regex = try! NSRegularExpression(pattern: "^(#{1,6}\\s*Key takeaways\\s*)", options: [.caseInsensitive])
+        content = regex.stringByReplacingMatches(in: content, options: [], range: NSRange(location: 0, length: content.utf16.count), withTemplate: "")
+        
+        // Add "## AAA" heading to the start of the content
+        content = "## \(title)\n" + content
+        
+        return content
+    }()
+
+    public lazy var summaries: [String] = {
+        [summary]
+    }()
+
     public var learningContents: [any LearningContent] { [] }
 
     // MARK: - Initialization

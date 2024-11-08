@@ -40,6 +40,9 @@ public protocol LearningContent: AnyObject {
     func starContentsRecursively()
     func unstarContentsRecursively()
 
+    // Summaries
+    var summaries: [String] { get }
+
     // MARK: - Debugging
     var debugDescription: String { get }
 

@@ -18,6 +18,7 @@ struct LessonDetailView: View {
     
     @State private var isReadLessonPresented = false
     @State private var isQuizPresented = false
+    @State private var isFlashcardsPresented = false
     
     var body: some View {
         GeometryReader { geometry in
@@ -37,7 +38,7 @@ struct LessonDetailView: View {
                             title: "Flashcard",
                             fontColor: .titleGold
                         ) {
-                            viewModel.navigateToFlashcards()
+                            isFlashcardsPresented = true
                         }
                         
                         Spacer()
@@ -103,6 +104,9 @@ struct LessonDetailView: View {
             }
             .fullScreenCover(isPresented: $isQuizPresented) {
                 viewModel.quizView(isPresented: $isQuizPresented)
+            }
+            .fullScreenCover(isPresented: $isFlashcardsPresented) {
+                viewModel.flashCardsView(isPresented: $isFlashcardsPresented)
             }
             .onChange(of: isReadLessonPresented) { _, newValue in
                 if !newValue { viewModel.refreshValues() }

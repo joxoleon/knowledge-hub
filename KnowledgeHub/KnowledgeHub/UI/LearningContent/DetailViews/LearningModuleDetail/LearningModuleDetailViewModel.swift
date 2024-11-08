@@ -57,6 +57,10 @@ class LearningModuleDetailsViewModel: ObservableObject {
         return QuizView(viewModel: QuizViewModel(quiz: module.quiz), isPresented: isPresented)
     }
     
+    func flashCardsView(isPresented: Binding<Bool>) -> some View {
+        return FlashCardView(cards: module.summaries, isPresented: isPresented)
+    }
+    
     public func refreshData() {
         print("*** learningModuleDetailsViewModel refreshData() ***")
         learningContentMetadataViewModel.refreshValues()
@@ -79,14 +83,6 @@ class LearningModuleDetailsViewModel: ObservableObject {
             let learningModuleDetailViewModel = LearningModuleDetailsViewModel(module: module, mainTabViewModel: self.mainTabViewModel)
             mainTabViewModel?.navigateTo(.moduleDetail(learningModuleDetailViewModel))
         }
-    }
-    
-    func navigateToQuiz() {
-        //        currentNavigationTarget = .quiz
-    }
-    
-    func navigateToFlashcards() {
-        //        currentNavigationTarget = .flashcards
     }
 }
 

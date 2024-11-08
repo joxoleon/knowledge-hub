@@ -11,19 +11,20 @@ struct FlashCardView: View {
     private struct Constants {
         // Colors and Gradient
         static let backgroundColor = Color.black.opacity(0.7)
-        static let gradient = LinearGradient(
-            gradient: Gradient(colors: [Color.purple.opacity(0.2), Color.black.opacity(0.2)]),
-            startPoint: .topLeading,
-            endPoint: .bottomTrailing
+        static let gradient = RadialGradient(
+            gradient: Gradient(colors: [Color.violet, Color.black]),
+            center: .center,
+            startRadius: 100,
+            endRadius: 650
         )
         static let cardFillColor = Color.black.opacity(0.6)
-        static let cardStrokeColor = Color.titleGold.opacity(0.7)
+        static let cardStrokeColor = Color.titleGold.opacity(0.8)
         static let overlayStrokeColor = Color.purple.opacity(0.2)
         static let textColor = Color.white
 
         // Opacities and sizes
         static let cardScale: CGFloat = 0.95
-        static let cardOpacity: Double = 0.8
+        static let cardOpacity: Double = 1.0
         static let cornerRadius: CGFloat = 20
         static let strokeLineWidth: CGFloat = 1
         static let cardStrokeLineWidth: CGFloat = 2
@@ -75,6 +76,11 @@ struct FlashCardView: View {
                                         DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
                                             discardTopCard()
                                             dragOffset = .zero // Reset offset for next card
+
+                                            // Check if no more cards remain, then dismiss the view
+                                            if cards.isEmpty {
+                                                isPresented = false
+                                            }
                                         }
                                     } else {
                                         // Snap back if swipe is not far enough
@@ -86,32 +92,76 @@ struct FlashCardView: View {
                         )
                         .zIndex(Double(cards.count))
                 }
-            } else {
-                Text("No more cards")
-                    .font(.title)
-                    .foregroundColor(Constants.textColor.opacity(0.7))
             }
         }
     }
 
     private func cardView(for text: String) -> some View {
-        VStack {
-            MarkdownPresentationView(markdownString: text)
-                .padding(.vertical, 20)
-                .padding(.horizontal, 16)
+        ZStack {
+            
+            // Main card content
+            VStack {
+                MarkdownPresentationView(markdownString: text)
+                    .padding(.vertical, 50)
+                    .padding(.horizontal, 20)
+            }
+            .frame(maxWidth: .infinity, maxHeight: .infinity)
+            .background(
+                RoundedRectangle(cornerRadius: Constants.cornerRadius)
+                    .fill(ThemeConstants.verticalGradient3)
+                    .overlay(
+                        RoundedRectangle(cornerRadius: Constants.cornerRadius)
+                            .stroke(Constants.cardStrokeColor, lineWidth: Constants.cardStrokeLineWidth)
+                            .shadow(color: Color.titleGold.opacity(0.6), radius: 6, x: 0, y: 0)
+                    )
+            )
+            .padding()
+            
+            // Rhomboid elements exactly in the corners
+            GeometryReader { geometry in
+                let width = geometry.size.width
+                let height = geometry.size.height
+                let frameSize: CGFloat = 10
+                let offset: CGFloat = 35
+                let rhomboidOffset: CGFloat = 8  // Half of rhomboid width/height to center it at the corner
                 
+                Group {
+                    // Top-left corner
+                    Rhomboid()
+                        .fill(Color.titleGold)
+                        .frame(width: frameSize, height: frameSize)
+                        .position(x: offset + rhomboidOffset, y: offset + rhomboidOffset)
+                        .shadow(color: Color.titleGold.opacity(0.6), radius: 6, x: 0, y: 0)
+
+                    
+                    // Top-right corner
+                    Rhomboid()
+                        .fill(Color.titleGold)
+                        .frame(width: frameSize, height: frameSize)
+                        .position(x: width - offset - rhomboidOffset, y: offset + rhomboidOffset)
+                        .shadow(color: Color.titleGold.opacity(0.6), radius: 6, x: 0, y: 0)
+
+                    
+                    // Bottom-left corner
+                    Rhomboid()
+                        .fill(Color.titleGold)
+                        .frame(width: frameSize, height: frameSize)
+                        .position(x: offset + rhomboidOffset, y: height - offset - rhomboidOffset)
+                        .shadow(color: Color.titleGold.opacity(0.6), radius: 6, x: 0, y: 0)
+
+                    
+                    // Bottom-right corner
+                    Rhomboid()
+                        .fill(Color.titleGold)
+                        .frame(width: frameSize, height: frameSize)
+                        .position(x: width - offset - rhomboidOffset, y: height - offset - rhomboidOffset)
+                        .shadow(color: Color.titleGold.opacity(0.6), radius: 6, x: 0, y: 0)
+
+                }
+            }
         }
-        .frame(maxWidth: .infinity, maxHeight: .infinity)
-        .background(
-            RoundedRectangle(cornerRadius: Constants.cornerRadius)
-                .fill(ThemeConstants.verticalGradient3)
-                .overlay(
-                    RoundedRectangle(cornerRadius: Constants.cornerRadius)
-                        .stroke(Constants.cardStrokeColor, lineWidth: Constants.cardStrokeLineWidth)
-                )
-        )
-        .padding()
     }
+
 
     private func discardTopCard() {
         if let topCard = cards.last {
@@ -122,8 +172,23 @@ struct FlashCardView: View {
     }
 }
 
+// Custom rhomboid shape
+struct Rhomboid: Shape {
+    func path(in rect: CGRect) -> Path {
+        var path = Path()
+        path.move(to: CGPoint(x: rect.midX, y: rect.minY))
+        path.addLine(to: CGPoint(x: rect.maxX, y: rect.midY))
+        path.addLine(to: CGPoint(x: rect.midX, y: rect.maxY))
+        path.addLine(to: CGPoint(x: rect.minX, y: rect.midY))
+        path.closeSubpath()
+        return path
+    }
+}
+
 struct FlashCardView_Previews: PreviewProvider {
+    @State static var isPresented = true
+
     static var previews: some View {
-        FlashCardView()
+        FlashCardView(isPresented: $isPresented)
     }
 }

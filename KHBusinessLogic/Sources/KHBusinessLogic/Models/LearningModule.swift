@@ -30,6 +30,10 @@ public class LearningModule: LearningContent {
         learningContents.reduce(0) { $0 + $1.estimatedReadTimeSeconds }
     }()
 
+    public lazy var summaries: [String] = {
+        preOrderLessons.map { $0.summary }
+    }()
+
 
     // MARK: - Learning Content Computed Properties
 
