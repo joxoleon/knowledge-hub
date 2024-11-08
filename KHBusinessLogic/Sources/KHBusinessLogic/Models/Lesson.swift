@@ -57,7 +57,7 @@ public class Lesson: Identifiable, LearningContent {
         self.title = dtoLesson.metadata.title
         self.description = dtoLesson.metadata.description
         self.sections = dtoLesson.sections.map { LessonSection(from: $0) }
-        self.questions = dtoLesson.questions.map { MultipleChoiceQuestion(from: $0, contentProvider: contentProvider ) }
+        self.questions = dtoLesson.questions.map { MultipleChoiceQuestion(from: $0, lessonId: dtoLesson.metadata.id, contentProvider: contentProvider ) }
         self.contentProvider = contentProvider
     }
 }

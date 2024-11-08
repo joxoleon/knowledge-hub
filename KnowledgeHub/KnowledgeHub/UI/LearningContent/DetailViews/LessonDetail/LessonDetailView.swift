@@ -17,7 +17,8 @@ struct LessonDetailView: View {
     @ObservedObject var learningContentMetadataViewModel: LearningContentMetadataViewModel
     @ObservedObject var viewModel: LessonDetailsViewModel
     
-    @State private var isReadLessonPresented = false // Local state to control presentation of ReadLesson
+    @State private var isReadLessonPresented = false
+    @State private var isQuizPresented = false
     
     var body: some View {
         GeometryReader { geometry in
@@ -60,7 +61,7 @@ struct LessonDetailView: View {
                             title: "Quiz",
                             fontColor: .titleGold
                         ) {
-                            viewModel.navigateToQuiz()
+                            isQuizPresented = true
                         }
                         Spacer()
                     }
@@ -101,19 +102,35 @@ struct LessonDetailView: View {
             .fullScreenCover(isPresented: $isReadLessonPresented) {
                 viewModel.readLessonView(isPresented: $isReadLessonPresented)
             }
+            .fullScreenCover(isPresented: $isQuizPresented) {
+                viewModel.quizView(isPresented: $isQuizPresented)
+            }
         }
     }
 }
 
-// MARK: - Unified Button Component for Both Action and Navigation
+enum KHActionButtonState {
+    case active
+    case disabled
+}
+
 struct KHActionButton: View {
+    // State property
+    @Binding var state: KHActionButtonState
     let iconName: String
     let iconSize: CGFloat
     let title: String
     let fontColor: Color
     let action: () -> Void
     
-    init(iconName: String, iconSize: CGFloat, title: String, fontColor: Color, action: @escaping () -> Void) {
+    init(
+        state: Binding<KHActionButtonState> = .constant(.active),
+        iconName: String,
+        iconSize: CGFloat,
+        title: String,
+        fontColor: Color,
+        action: @escaping () -> Void) {
+        self._state = state
         self.iconName = iconName
         self.title = title
         self.iconSize = iconSize
@@ -126,13 +143,13 @@ struct KHActionButton: View {
             VStack(spacing: 4) {
                 Image(systemName: iconName)
                     .font(.system(size: self.iconSize))
-                    .foregroundColor(.titleGold)
-                    .shadow(color: .titleGold.opacity(0.4), radius: self.iconSize / 6)
+                    .foregroundColor(state == .active ? .titleGold : .placeholderGray)
+                    .shadow(color: .titleGold.opacity(state == .active ? 0.4 : 0.0), radius: self.iconSize / 6)
                 
                 Text(title)
                     .font(.system(size: iconSize / 4))
                     .fontWeight(.bold)
-                    .foregroundColor(.titleGold)
+                    .foregroundColor(state == .active ? .titleGold : .placeholderGray)
             }
         }
         .frame(width: iconSize * 2, height: iconSize * 2)

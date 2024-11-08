@@ -32,6 +32,10 @@ class LessonDetailsViewModel: ObservableObject {
     func readLessonView(isPresented: Binding<Bool>) -> some View {
         ReadLessonView(viewModel: LessonViewModel(lesson: lesson), isPresented: isPresented)
     }
+    
+    func quizView(isPresented: Binding<Bool>) -> some View {
+        QuizView(viewModel: QuizViewModel(quiz: lesson.quiz), isPresented: isPresented)
+    }
 
     public func navigateToReadLesson() {
         print("*** Navigate to read lesson ***")

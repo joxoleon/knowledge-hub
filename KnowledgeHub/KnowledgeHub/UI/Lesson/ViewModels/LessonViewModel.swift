@@ -12,6 +12,7 @@ class LessonViewModel: ObservableObject {
     @Published var lesson: Lesson
 
     init(lesson: Lesson) {
+        print("*** Instantiating lesson view model")
         self.lesson = lesson
     }
 

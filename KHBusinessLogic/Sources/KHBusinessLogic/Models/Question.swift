@@ -90,14 +90,14 @@ public struct MultipleChoiceQuestion: Question {
         self.contentProvider = contentProvider
     }
 
-    public init(from dtoQuestion: KHContentSource.Question, contentProvider: any KHDomainContentProviderProtocol) {
+    public init(from dtoQuestion: KHContentSource.Question, lessonId: String, contentProvider: any KHDomainContentProviderProtocol) {
         self.id = dtoQuestion.id
+        self.lessonId = lessonId
         self.proficiency = QuestionProficiency(rawValue: dtoQuestion.proficiency) ?? .basic
         self.question = dtoQuestion.question
         self.answers = dtoQuestion.answers
         self.correctAnswerIndex = dtoQuestion.correctAnswerIndex
         self.explanation = dtoQuestion.explanation
-        self.lessonId = dtoQuestion.id
         self.contentProvider = contentProvider
     }
     

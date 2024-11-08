@@ -12,7 +12,6 @@ enum KHQuizAnswerButtonState {
 }
 
 struct KHQuizAnswerButton: View {
-    @EnvironmentObject var colorManager: ColorManager
     @Binding var state: KHQuizAnswerButtonState
     let answerText: String
     let onSelected: (String) -> Void
@@ -27,15 +26,10 @@ struct KHQuizAnswerButton: View {
                 .padding()
                 .frame(maxWidth: .infinity, alignment: .leading)
                 .background(RoundedRectangle(cornerRadius: 12)
-                                .fill(LinearGradient(
-                                    gradient: Gradient(colors: [buttonBackgroundColor.opacity(0.4), buttonBackgroundColor.opacity(0.05)]),
-                                    startPoint: .top,
-                                    endPoint: .bottom
-                                )))
+                    .fill(ThemeConstants.cellGradient)
+                )
                 .overlay(RoundedRectangle(cornerRadius: 12)
-                            .stroke(borderColor, lineWidth: 3))
-                .cornerRadius(12)
-                .shadow(color: .black.opacity(0.3), radius: 3, x: 3, y: 5)
+                    .stroke(borderColor, lineWidth: 1))
         }
         .disabled(state != .active)
         .animation(.easeInOut(duration: 0.5), value: state)
@@ -47,36 +41,34 @@ fileprivate extension KHQuizAnswerButton {
     var font: Font {
         return state == .correct ? .system(size: 18, weight: .bold) : .system(size: 16, weight: .semibold)
     }
-
-    var buttonBackgroundColor: Color {
+    
+    var borderColor: Color {
         switch state {
-        case .active:
-            return .white
-        case .disabled:
-            return Color(UIColor.systemGray)
-        case .correct:
-            return .green
-        case .wrong:
-            return .red
+        case .active: return .titleGold
+        case .disabled: return .placeholderGray
+        case .correct: return .green
+        case .wrong: return .red
         }
     }
-
-    var borderColor: Color {
-        return state == .active ? colorManager.theme.buttonBorderColor : buttonBackgroundColor
-    }
-
+    
     var textColor: Color {
-        return state == .active ? colorManager.theme.buttonTextColor : buttonBackgroundColor
+        switch state {
+        case .active: return .textColor
+        case .disabled: return .placeholderGray
+        case .correct: return .green
+        case .wrong: return .red
+        }
     }
 }
 
 struct AnswerButton_Previews: PreviewProvider {
     @State static var buttonState: KHQuizAnswerButtonState = .active
-    static var colorManager = ColorManager(colorTheme: .midnightBlue)
     
     static var previews: some View {
         ZStack {
-            colorManager.theme.backgroundColor.edgesIgnoringSafeArea(.all)
+            
+            ThemeConstants.verticalGradient.ignoresSafeArea()
+
             VStack(spacing: 12) {
                 ForEach(0..<4) { index in
                     KHQuizAnswerButton(
@@ -84,7 +76,6 @@ struct AnswerButton_Previews: PreviewProvider {
                         answerText: "Answer \(index + 1)",
                         onSelected: { _ in buttonState = .correct }
                     )
-                    .environmentObject(colorManager)
                 }
             }
             .padding()

@@ -11,7 +11,6 @@ import KHBusinessLogic
 struct MultipleChoiceQuestionView: View {
     
     // MARK: - Properties
-    @EnvironmentObject var colorManager: ColorManager
     @State private var buttonStates: [KHQuizAnswerButtonState]
     @Binding var selectedAnswer: String?
     
@@ -47,7 +46,7 @@ struct MultipleChoiceQuestionView: View {
     private var questionText: some View {
         Text(question.question)
             .font(.system(size: 20, weight: .medium))
-            .foregroundColor(colorManager.theme.heading1TextColor)
+            .foregroundColor(.titleGold)
             .padding(.vertical, 20)
     }
 
@@ -68,19 +67,21 @@ struct MultipleChoiceQuestionView: View {
         VStack {
             Text("TAKEAWAY")
                 .font(.system(size: 12, weight: .bold))
-                .foregroundColor(colorManager.theme.buttonBorderColor)
+                .foregroundColor(.titleGold)
                 .padding(.bottom, 8)
             
             Text(question.fetchExplanation())
                 .font(.system(size: 14, weight: .medium))
-                .background(colorManager.theme.questionExplanationBackgroundColor)
-                .foregroundColor(colorManager.theme.questionExplanationTextColor)
+                .foregroundColor(.titleGold)
                 .padding()
-                .background(colorManager.theme.questionExplanationBackgroundColor)
+                .background(
+                    RoundedRectangle(cornerRadius: 12)
+                        .fill(ThemeConstants.cellGradient)
+                )
                 .cornerRadius(12)
                 .overlay(
                     RoundedRectangle(cornerRadius: 16)
-                        .stroke(colorManager.theme.questionExplanationBorderColor, lineWidth: 2)
+                        .stroke(Color.titleGold.opacity(0.6), lineWidth: 1)
                         .frame(maxWidth: .infinity)
                 )
         }
@@ -134,7 +135,7 @@ struct MultipleChoicePreviewView: View {
 struct MultipleChoiceQuestionView_Previews: PreviewProvider {
     static var previews: some View {
         ZStack {
-            ColorManager(colorTheme: .midnightBlue).theme.backgroundColor
+            ThemeConstants.verticalGradient
                 .edgesIgnoringSafeArea(.all)
             
             MultipleChoicePreviewView()

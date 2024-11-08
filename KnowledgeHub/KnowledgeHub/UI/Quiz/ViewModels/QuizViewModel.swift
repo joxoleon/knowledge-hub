@@ -11,7 +11,7 @@ import KHBusinessLogic
 class QuizViewModel: ObservableObject {
     
     // MARK: - Properties
-    @Published private(set) var quiz: Quiz
+    @Published var quiz: Quiz
     @Published var isProgressIndicatorVisible = true
     @Published private(set) var currentQuestionIndex: Int
     @Published var selectedAnswer: String? {
@@ -22,8 +22,8 @@ class QuizViewModel: ObservableObject {
     }
     
     // Automatically updated bindings
-    @Published var readLessonButonState: KHQuizAnswerButtonState = .active
-    @Published var nextQuestionButtonState: KHQuizAnswerButtonState = .disabled
+    @Published var readLessonButonState: KHActionButtonState = .active
+    @Published var nextQuestionButtonState: KHActionButtonState = .disabled
     @Published var progress: CGFloat = 0
     @Published var shouldShowLessionOverviewView: Bool = false
 
@@ -42,6 +42,12 @@ class QuizViewModel: ObservableObject {
     
     var numberOfAnsweredQuestions: Int {
         currentQuestionIndex + (selectedAnswer != nil ? 1 : 0)
+    }
+    
+    var lessonForCurrentQuestion: Lesson? {
+        let lesson = quiz.questions[currentQuestionIndex].lesson
+        print("Lesson for current question: \(lesson?.title ?? "No lesson")")
+        return lesson
     }
 
     // MARK: - Initializer
