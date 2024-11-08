@@ -17,10 +17,42 @@ class LearningModuleDetailsViewModel: ObservableObject {
     @Published var cellViewModels: [LearningContentMetadataViewModel]
     private var module: LearningModule
 
-    // Computed property for Start/Continue button title
+    // MARK: - Computed Properties
+    
     var startOrContinueTitle: String {
-        // TODO: Implement business logic to determine for continuation
-        "Continue"
+        let allContainedLessons = module.preOrderLessons
+        guard !allContainedLessons.isEmpty else {
+            return ""
+        }
+        
+        // Restart
+        let areAllLessonsCompleted = allContainedLessons.allSatisfy { $0.completionStatus == .completed }
+        if areAllLessonsCompleted {
+            return "Restart"
+        }
+        
+        // Continue
+        let hasCompleteOrInProgressLessons = allContainedLessons.contains { $0.completionStatus == .completed || $0.completionStatus == .inProgress }
+        if hasCompleteOrInProgressLessons {
+            return "Continue"
+            
+        }
+        
+        // Start
+        return "Start"
+    }
+    
+    // MARK: - Navigatio Destination View Models
+    
+    var startOrContinueLessonDetailViewModel: LessonDetailsViewModel? {
+        let lessons = module.preOrderLessons
+        guard !lessons.isEmpty else { return nil }
+        
+        if let lesson = lessons.first(where: { $0.completionStatus == .inProgress || $0.completionStatus == .notStarted }) {
+            return LessonDetailsViewModel(lesson: lesson)
+        }
+        
+        return LessonDetailsViewModel(lesson: lessons.first!)
     }
 
     // MARK: - Initializers
@@ -32,11 +64,6 @@ class LearningModuleDetailsViewModel: ObservableObject {
     }
     
     // MARK: - Public Methods
-
-    public func startOrContinueLearning() {
-        print("Start or continue learning")
-        // TODO: Implement navigation or continue action
-    }
 
     public func navigateToFlashcards() {
         print("Open flashcards for module")

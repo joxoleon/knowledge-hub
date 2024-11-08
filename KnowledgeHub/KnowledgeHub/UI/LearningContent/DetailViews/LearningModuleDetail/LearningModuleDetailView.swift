@@ -42,16 +42,23 @@ struct LearningModuleDetailView: View {
                     }
                     Spacer()
                     
-                    KHActionButton(
-                        iconName: "play.circle.fill",
-                        iconSize: Constants.primaryIconSize,
-                        title: viewModel.startOrContinueTitle,
-                        fontColor: .titleGold
-                    ) {
-                        viewModel.startOrContinueLearning()
+                    if let lessonViewModel = viewModel.startOrContinueLessonDetailViewModel {
+                        NavigationLink(
+                            destination: destinationView(for: viewModel.startOrContinueLessonDetailViewModel!)
+                        ) {
+                            KHActionButton(
+                                iconName: "play.circle.fill",
+                                iconSize: Constants.primaryIconSize,
+                                title: viewModel.startOrContinueTitle,
+                                fontColor: .titleGold,
+                                action: {
+                                    print("Start/Continue to lesson")
+                                }
+                            )
+                            .offset(y: -Constants.primaryIconSize * 0.8)
+                        }
                     }
-                    .offset(y: -Constants.primaryIconSize * 0.8)
-                    
+
                     Spacer()
                     
                     KHActionButton(
@@ -119,6 +126,11 @@ struct LearningModuleDetailView: View {
                 viewModel: LearningModuleDetailsViewModel(module: cellViewModel.content as! LearningModule)
             )
         }
+    }
+    
+    @ViewBuilder
+    private func destinationView(for lessonDetailViewModel: LessonDetailsViewModel) -> some View {
+        LessonDetailView(viewModel: lessonDetailViewModel)
     }
 }
 
