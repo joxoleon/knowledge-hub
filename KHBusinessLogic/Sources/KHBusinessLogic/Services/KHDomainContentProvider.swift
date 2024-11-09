@@ -9,6 +9,9 @@ public protocol KHDomainContentProviderProtocol {
     func initializeContent() async throws
     func getLesson(by id: String) -> Lesson?
     func getTopLevelModules() -> [LearningModule]
+
+    func searchContent(with query: String, relevanceThreshold: Double) -> [any LearningContent]
+    func searchContent(in contents: [LearningContent], with query: String, relevanceThreshold: Double) -> [LearningContent]
 }
 
 public class KHDomainContentProvider: KHDomainContentProviderProtocol {
@@ -85,7 +88,18 @@ public class KHDomainContentProvider: KHDomainContentProviderProtocol {
         return topLevelLearningModules
     }
 
-    public func searchContent(
+    // MARK: - Private Helper Methods
+
+    private func clearAllData() {
+        lessonsById.removeAll()
+        topLevelLearningModules.removeAll()
+    }
+}
+
+// MARK: - Search
+
+public extension KHDomainContentProviderProtocol {
+    func searchContent(
         with query: String,
         relevanceThreshold: Double = 0.2
     ) -> [any LearningContent] {
@@ -93,7 +107,7 @@ public class KHDomainContentProvider: KHDomainContentProviderProtocol {
         return searchContent(in: allContents, with: query, relevanceThreshold: relevanceThreshold)
     }
 
-    public func searchContent(
+    func searchContent(
         in contents: [LearningContent],
         with query: String,
         relevanceThreshold: Double = 0.2
@@ -103,12 +117,5 @@ public class KHDomainContentProvider: KHDomainContentProviderProtocol {
             .filter { _, score in score >= relevanceThreshold }
             .sorted { $0.1 > $1.1 } // Sort by relevance score descending
             .map { $0.0 } // Return only the contents
-    }
-
-    // MARK: - Private Helper Methods
-
-    private func clearAllData() {
-        lessonsById.removeAll()
-        topLevelLearningModules.removeAll()
     }
 }

@@ -64,7 +64,7 @@ struct MainTabView: View {
             Text("Quiz View") // Replace with actual quiz view
         case .flashcards:
             Text("Flashcards View") // Replace with actual flashcards view
-        case .readLesson(let viewModel):
+        case .readLesson:
             Text("Read Lesson View") // Replace with actual read lesson view
         }
     }
@@ -95,7 +95,7 @@ class MainTabViewModel: ObservableObject {
         self.contentProvider = contentProvider
         
         // Initialize view models directly since contentProvider is already initialized
-        self.searchViewModel = SearchViewModel()
+        self.searchViewModel = SearchViewModel(contentProvider: contentProvider)
         self.browseViewModel = BrowseViewModel(contentProvider: contentProvider, mainTabViewModel: self)
         self.myProgressViewModel = MyProgressViewModel()
     }
