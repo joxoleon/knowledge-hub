@@ -15,6 +15,7 @@ public class Lesson: Identifiable, LearningContent {
     public let id: String
     public let title: String
     public let description: String
+    public let tags: [String]
     public let questions: [Question]
     public let sections: [LessonSection]
     public let contentProvider: any KHDomainContentProviderProtocol
@@ -66,6 +67,7 @@ public class Lesson: Identifiable, LearningContent {
         self.description = description
         self.sections = sections
         self.questions = questions
+        self.tags = []
         self.contentProvider = contentProvider
     }
 
@@ -75,6 +77,7 @@ public class Lesson: Identifiable, LearningContent {
         self.description = dtoLesson.metadata.description
         self.sections = dtoLesson.sections.map { LessonSection(from: $0) }
         self.questions = dtoLesson.questions.map { MultipleChoiceQuestion(from: $0, lessonId: dtoLesson.metadata.id, contentProvider: contentProvider ) }
+        self.tags = dtoLesson.metadata.tags
         self.contentProvider = contentProvider
     }
 }

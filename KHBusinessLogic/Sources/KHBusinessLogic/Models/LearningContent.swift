@@ -19,6 +19,7 @@ public protocol LearningContent: AnyObject {
     var id: String { get }
     var title: String { get }
     var description: String { get }
+    var tags: [String] { get }
     var learningContents: [any LearningContent] { get }
     var questions: [Question] { get }
     var quiz: any Quiz { get }
@@ -42,6 +43,9 @@ public protocol LearningContent: AnyObject {
 
     // Summaries
     var summaries: [String] { get }
+
+    // Search
+    func relevanceScore(for query: String) -> Double
 
     // MARK: - Debugging
     var debugDescription: String { get }
@@ -126,6 +130,43 @@ public extension LearningContent {
         return lessons
     }
 }
+
+// MARK: - Search
+
+fileprivate enum RelevanceConstants {
+        static let titleWeight = 0.5
+        static let tagWeight = 0.3
+        static let descriptionWeight = 0.2
+}
+
+public extension LearningContent {
+
+    func relevanceScore(for query: String) -> Double {
+        let normalizedQuery = query.lowercased()
+        let queryTokens = normalizedQuery.split(separator: " ").map { String($0) }
+
+        // Normalize and tokenize content properties
+        let titleTokens = title.lowercased().split(separator: " ").map { String($0) }
+        let descriptionTokens = description.lowercased().split(separator: " ").map { String($0) }
+        let tagTokens = tags.map { $0.lowercased() }
+
+        // Calculate individual scores
+        let titleScore = calculateTokenMatchScore(queryTokens, in: titleTokens) * RelevanceConstants.titleWeight
+        let tagScore = calculateTokenMatchScore(queryTokens, in: tagTokens) * RelevanceConstants.tagWeight
+        let descriptionScore = calculateTokenMatchScore(queryTokens, in: descriptionTokens) * RelevanceConstants.descriptionWeight
+
+        // Final relevance score (0 to 1)
+        return titleScore + tagScore + descriptionScore
+    }
+
+    private func calculateTokenMatchScore(_ queryTokens: [String], in contentTokens: [String]) -> Double {
+        guard !contentTokens.isEmpty else { return 0.0 }
+        
+        let matchingTokens = queryTokens.filter { contentTokens.contains($0) }
+        return Double(matchingTokens.count) / Double(queryTokens.count)
+    }
+}
+
 
 // MARK: - Debugging
 

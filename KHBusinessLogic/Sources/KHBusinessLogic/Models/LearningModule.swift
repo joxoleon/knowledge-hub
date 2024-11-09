@@ -34,6 +34,14 @@ public class LearningModule: LearningContent {
         preOrderLessons.map { $0.summary }
     }()
 
+    public lazy var tags: [String] = {
+        let allTags = learningContents.flatMap { content in
+            content.tags
+        }
+        // Remove duplicates
+        return Array(Set(allTags))
+    }()
+
 
     // MARK: - Learning Content Computed Properties
 

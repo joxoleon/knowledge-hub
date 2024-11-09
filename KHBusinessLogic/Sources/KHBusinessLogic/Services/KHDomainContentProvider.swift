@@ -6,7 +6,7 @@ public protocol KHDomainContentProviderProtocol {
     var starTrackingRepository: any StarTrackingRepository { get }
     var activeTopModule: LearningModule { get }
 
-    func initializeContent() async throws    
+    func initializeContent() async throws
     func getLesson(by id: String) -> Lesson?
     func getTopLevelModules() -> [LearningModule]
 }
@@ -24,10 +24,14 @@ public class KHDomainContentProvider: KHDomainContentProviderProtocol {
     private let contentRepository: KHContentSource.ContentRepository
     private var topLevelLearningModules: [LearningModule] = []
     private var lessonsById: [String: Lesson] = [:]
-    
+
     // MARK: - Initialization
 
-    public init(contentRepository: ContentRepository, progressTrackingRepository: ProgressTrackingRepository, starTrackingRepository: StarTrackingRepository) {
+    public init(
+        contentRepository: ContentRepository,
+        progressTrackingRepository: ProgressTrackingRepository,
+        starTrackingRepository: StarTrackingRepository
+    ) {
         self.contentRepository = contentRepository
         self.progressTrackingRepository = progressTrackingRepository
         self.starTrackingRepository = starTrackingRepository
@@ -36,7 +40,8 @@ public class KHDomainContentProvider: KHDomainContentProviderProtocol {
     public init() {
         let fetcher = GitHubContentFetcher()
         let contentStorage = FileContentStorage()
-        self.contentRepository = KHContentSource.ContentRepository(fetcher: fetcher, storage: contentStorage)
+        self.contentRepository = KHContentSource.ContentRepository(
+            fetcher: fetcher, storage: contentStorage)
         self.progressTrackingRepository = UserDefaultsProgressTrackingRepository()
         self.starTrackingRepository = UserDefaultsStarTrackingRepository()
     }
@@ -45,7 +50,7 @@ public class KHDomainContentProvider: KHDomainContentProviderProtocol {
 
     public func initializeContent() async throws {
         print("*** initialize content invoked *** ")
-        
+
         // Initialize content repository and clear local data if it was stale
         let contentRepositoryUpdated = try await contentRepository.updateDataIfNeeded()
         if contentRepositoryUpdated {
@@ -78,6 +83,26 @@ public class KHDomainContentProvider: KHDomainContentProviderProtocol {
 
     public func getTopLevelModules() -> [LearningModule] {
         return topLevelLearningModules
+    }
+
+    public func searchContent(
+        with query: String,
+        relevanceThreshold: Double = 0.2
+    ) -> [any LearningContent] {
+        let allContents = activeTopModule.learningContents
+        return searchContent(in: allContents, with: query, relevanceThreshold: relevanceThreshold)
+    }
+
+    public func searchContent(
+        in contents: [LearningContent],
+        with query: String,
+        relevanceThreshold: Double = 0.2
+    ) -> [LearningContent] {
+        return contents
+            .map { content in (content, content.relevanceScore(for: query)) }
+            .filter { _, score in score >= relevanceThreshold }
+            .sorted { $0.1 > $1.1 } // Sort by relevance score descending
+            .map { $0.0 } // Return only the contents
     }
 
     // MARK: - Private Helper Methods
