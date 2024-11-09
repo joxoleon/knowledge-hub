@@ -23,7 +23,7 @@ public enum IconConstants {
     static let completionProgress = "checkmark.circle"
     static let score = "rosette"
     static let lesson = "book.circle.fill"
-    static let learningModule = "books.vertical.fill"
+    static let learningModule = "books.vertical.circle.fill"
     static let searchIcon = "magnifyingglass.circle.fill"
     static let browseIcon = "list.dash.circle.fill"
     static let statsIcon = "chart.bar.xaxis"

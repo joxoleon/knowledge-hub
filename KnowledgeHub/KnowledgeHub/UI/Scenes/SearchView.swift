@@ -22,15 +22,25 @@ struct SearchView: View {
             VStack(spacing: 16) {
                 // Search Bar with Magnifying Glass Icon
                 HStack {
+                    
                     Image(systemName: "magnifyingglass")
                         .foregroundColor(.titleGold)
                         .font(.title2)
-                    TextField("Search...", text: $query, onCommit: {
-                        viewModel.performSearch(with: query)
-                    })
-                    .textFieldStyle(PlainTextFieldStyle())
-                    .foregroundColor(.titleGold)
-                    .padding(8)
+                    
+                    ZStack(alignment: .leading) {
+                        if query.isEmpty {
+                            Text("Search...")
+                                .foregroundColor(.titleGold.opacity(0.3)) // Set your desired placeholder color here
+                                .padding(8)
+                        }
+                        
+                        TextField("", text: $query, onCommit: {
+                            viewModel.performSearch(with: query)
+                        })
+                        .textFieldStyle(PlainTextFieldStyle())
+                        .foregroundColor(.titleGold) // Text color when user types
+                        .padding(8)
+                    }
                     .background(RoundedRectangle(cornerRadius: 8).fill(ThemeConstants.cellGradient))
                     .overlay(RoundedRectangle(cornerRadius: 8).stroke(Color.titleGold.opacity(0.8), lineWidth: 1))
                 }
@@ -38,38 +48,36 @@ struct SearchView: View {
                 
                 // Filter Buttons
                 HStack(spacing: 16) {
-                    Button(action: {
-                        toggleFilter(&showLessons, otherFilter: &showModules)
-                    }) {
-                        SearchFilterButtonView(icon: IconConstants.lesson, isSelected: showLessons)
-                    }
+                    SearchFilterButtonView(
+                        icon: IconConstants.lesson,
+                        label: "Lessons",
+                        isSelected: showLessons,
+                        action: {
+                            toggleFilter(&showLessons, otherFilter: &showModules)
+                        }
+                    )
                     
-                    Button(action: {
-                        toggleFilter(&showModules, otherFilter: &showLessons)
-                    }) {
-                        Text("Modules")
-                            .foregroundColor(showModules ? .titleGold : .placeholderGray)
-                            .padding(.horizontal, 12)
-                            .padding(.vertical, 8)
-                            .background(RoundedRectangle(cornerRadius: 8).fill(Color.white.opacity(showModules ? 0.2 : 0.1)))
-                    }
+                    SearchFilterButtonView(
+                        icon: IconConstants.learningModule,
+                        label: "Modules",
+                        isSelected: showModules,
+                        action: {
+                            toggleFilter(&showModules, otherFilter: &showLessons)
+                        }
+                    )
                 }
                 .padding(.horizontal)
                 
-                // Results List
-                List {
-                    if showLessons {
-                        ForEach(viewModel.searchResultsLessons, id: \.id) { lesson in
-                            Text(lesson.title) // Customize to display more details as needed
-                        }
-                    }
-                    if showModules {
-                        ForEach(viewModel.searchResultsModules, id: \.id) { module in
-                            Text(module.title) // Customize to display more details as needed
-                        }
+                // Contents List with NavigationLink
+                VStack(alignment: .leading, spacing: 3) {
+                    ForEach(viewModel.cellViewModels, id: \.id) { cellViewModel in
+                        LearningContentCellView(viewModel: cellViewModel)
+                            .cornerRadius(8)
+                            .onTapGesture {
+                                viewModel.navigateToLearningContent(content: cellViewModel.content)
+                            }
                     }
                 }
-                .listStyle(PlainListStyle())
                 
                 Spacer()
             }
@@ -88,30 +96,6 @@ struct SearchView: View {
         }
     }
     
-    struct SearchFilterButtonView: View {
-        
-        @State var icon: String
-        @State var isSelected: Bool = true
-        
-        var body: some View {
-            HStack {
-                Image(systemName: IconConstants.lesson)
-                    .foregroundColor(isSelected ? .titleGold : .placeholderGray)
-                    .font(.title2)
-                    .padding(.vertical, 6)
-                    .padding(.leading, 6)
-                
-                Text("Lessons")
-                    .foregroundColor(isSelected ? .titleGold : .placeholderGray)
-                    .padding(.trailing, 8)
-            }
-            .background(RoundedRectangle(cornerRadius: 8).fill(ThemeConstants.cellGradient))
-            .overlay(RoundedRectangle(cornerRadius: 8).stroke(Color.titleGold.opacity(isSelected ? 0.5 : 0.2), lineWidth: 1))
-            
-        }
-
-    }
-    
     // Ensures at least one filter is always active
     private func toggleFilter(_ filter: inout Bool, otherFilter: inout Bool) {
         if filter {
@@ -125,6 +109,31 @@ struct SearchView: View {
     }
 }
 
+struct SearchFilterButtonView: View {
+    let icon: String
+    let label: String
+    var isSelected: Bool
+    var action: () -> Void
+
+    var body: some View {
+        Button(action: action) {
+            HStack {
+                Image(systemName: icon)
+                    .foregroundColor(isSelected ? .titleGold : .placeholderGray)
+                    .font(.title2)
+                    .padding(.vertical, 6)
+                    .padding(.leading, 6)
+                
+                Text(label)
+                    .foregroundColor(isSelected ? .titleGold : .placeholderGray)
+                    .padding(.trailing, 8)
+            }
+            .background(RoundedRectangle(cornerRadius: 8).fill(ThemeConstants.cellGradient))
+            .overlay(RoundedRectangle(cornerRadius: 8).stroke(Color.titleGold.opacity(isSelected ? 0.5 : 0.2), lineWidth: 1))
+        }
+    }
+}
+
 fileprivate enum SearchConstants {
     static let relevanceThreshold = 0.2
 }
@@ -132,10 +141,14 @@ fileprivate enum SearchConstants {
 class SearchViewModel: ObservableObject {
     
     // MARK: - Properties
-    @Published var searchResultsLessons: [Lesson] = []
-    @Published var searchResultsModules: [LearningModule] = []
+    @Published var cellViewModels: [LearningContentMetadataViewModel] = []
     
     private let contentProvider: any KHDomainContentProviderProtocol
+    private let mainTabViewModel: MainTabViewModel?
+    
+    private lazy var defaultContents: [LearningContent] = {
+        contentProvider.activeTopModule.levelOrderModules + contentProvider.activeTopModule.preOrderLessons
+    }()
     
     // MARK: - Initialization
     init(contentProvider: any KHDomainContentProviderProtocol) {
@@ -163,6 +176,16 @@ class SearchViewModel: ObservableObject {
         let searchResults = contentProvider.searchContent(with: query, relevanceThreshold: SearchConstants.relevanceThreshold)
         self.searchResultsLessons = searchResults.toLessons()
         self.searchResultsModules = searchResults.toModules()
+    }
+    
+    func navigateToLearningContent(content: any LearningContent) {
+        if let lesson = content as? Lesson {
+            let lessonDetailViewModel = LessonDetailsViewModel(lesson: lesson, mainTabViewModel: self.mainTabViewModel)
+            mainTabViewModel?.navigateTo(.lessonDetail(lessonDetailViewModel))
+        } else if let module = content as? LearningModule {
+            let learningModuleDetailViewModel = LearningModuleDetailsViewModel(module: module, mainTabViewModel: self.mainTabViewModel)
+            mainTabViewModel?.navigateTo(.moduleDetail(learningModuleDetailViewModel))
+        }
     }
 }
 
