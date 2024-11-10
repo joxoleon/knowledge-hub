@@ -125,7 +125,6 @@ class MyProgressViewModel: ObservableObject {
     
 }
 
-
 // Add preview
 struct MyProgressView_Previews: PreviewProvider {
     static var previews: some View {
