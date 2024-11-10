@@ -23,8 +23,3 @@ struct ContentView: View {
     }
 }
 
-// SwiftUI Preview
-#Preview {
-    ContentView()
-        .modelContainer(for: Item.self, inMemory: true)
-}

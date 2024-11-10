@@ -27,6 +27,10 @@ public enum IconConstants {
     static let searchIcon = "magnifyingglass.circle.fill"
     static let browseIcon = "list.dash.circle.fill"
     static let statsIcon = "chart.bar.xaxis"
+    static let improvementIcon = "exclamationmark.triangle.fill"
+    static let starAction = "star.circle.fill"
+    static let continueAction = "play.circle.fill"
+    static let repeatAction = "arrow.counterclockwise.circle.fill"
 }
 
 public enum LessonSectionTheme {

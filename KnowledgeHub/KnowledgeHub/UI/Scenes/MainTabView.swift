@@ -97,7 +97,7 @@ class MainTabViewModel: ObservableObject {
         // Initialize view models directly since contentProvider is already initialized
         self.searchViewModel = SearchViewModel(contentProvider: contentProvider, mainTabViewModel: self)
         self.browseViewModel = BrowseViewModel(contentProvider: contentProvider, mainTabViewModel: self)
-        self.myProgressViewModel = MyProgressViewModel()
+        self.myProgressViewModel = MyProgressViewModel(contentProvider: contentProvider, mainTabViewModel: self)
     }
     
     // MARK: - Navigation Control

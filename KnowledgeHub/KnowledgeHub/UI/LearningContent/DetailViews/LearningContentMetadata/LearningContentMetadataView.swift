@@ -103,6 +103,7 @@ struct MetadataSquareView: View {
                         .font(.system(size: 14))
                         .foregroundColor(valueColor)
                         .fontWeight(.bold)
+                        .multilineTextAlignment(.center)
                 }
             }
             .padding(8)
