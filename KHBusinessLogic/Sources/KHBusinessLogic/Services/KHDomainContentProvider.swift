@@ -101,7 +101,7 @@ public class KHDomainContentProvider: KHDomainContentProviderProtocol {
 public extension KHDomainContentProviderProtocol {
     func searchContent(
         with query: String,
-        relevanceThreshold: Double = 0.9
+        relevanceThreshold: Double = 0.8
     ) -> [any LearningContent] {
         let allContents: [LearningContent] = activeTopModule.levelOrderModules + activeTopModule.preOrderLessons
         return Self.searchContent(in: allContents, with: query, relevanceThreshold: relevanceThreshold)
@@ -110,9 +110,9 @@ public extension KHDomainContentProviderProtocol {
     static func searchContent(
         in contents: [LearningContent],
         with query: String,
-        relevanceThreshold: Double = 0.9
+        relevanceThreshold: Double = 0.8
     ) -> [LearningContent] {
-        return contents
+        let result =  contents
             .enumerated() // Capture the original index
             .map { (index, content) in (content, content.relevanceScore(for: query), index) }
             .filter { _, score, _ in score >= relevanceThreshold }
@@ -124,5 +124,10 @@ public extension KHDomainContentProviderProtocol {
                 }
             }
             .map { $0.0 } // Return only the contents
+
+            for item in result {
+                print("Search result: [weight]: \(item.relevanceScore(for: query)) , title: \(item.title)")
+            }
+            return result
     }
 }

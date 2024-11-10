@@ -76,7 +76,7 @@ struct LearningModuleDetailView: View {
                 }
             }
         }
-        .padding(10)
+        .padding(.vertical, 5)
         .background(ThemeConstants.verticalGradient.ignoresSafeArea())
         .fullScreenCover(isPresented: $isQuizPresented) {
             viewModel.quizView(isPresented: $isQuizPresented)

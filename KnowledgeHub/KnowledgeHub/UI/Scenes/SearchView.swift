@@ -12,13 +12,13 @@ struct SearchView: View {
     @ObservedObject var viewModel: SearchViewModel
     
     var body: some View {
-        
         VStack(spacing: 16) {
             // Search Bar with Magnifying Glass Icon
             HStack {
                 Image(systemName: "magnifyingglass")
                     .foregroundColor(.titleGold)
                     .font(.title2)
+                    .padding(.leading,8)
                 
                 ZStack(alignment: .leading) {
                     if viewModel.query.isEmpty {
@@ -32,9 +32,10 @@ struct SearchView: View {
                         .foregroundColor(.titleGold)
                         .padding(8)
                 }
-                .background(RoundedRectangle(cornerRadius: 8).fill(ThemeConstants.cellGradient))
-                .overlay(RoundedRectangle(cornerRadius: 8).stroke(Color.titleGold.opacity(0.8), lineWidth: 1))
             }
+            .padding(2)
+            .background(RoundedRectangle(cornerRadius: 8).fill(ThemeConstants.cellGradient))
+            .overlay(RoundedRectangle(cornerRadius: 8).stroke(Color.titleGold.opacity(0.8), lineWidth: 1))
             .padding([.horizontal, .top])
             
             // Filter Buttons
@@ -58,21 +59,32 @@ struct SearchView: View {
                 )
             }
             .padding(.horizontal)
-
-            // Contents List with NavigationLink
-            ScrollView {
-                VStack(alignment: .leading, spacing: 3) {
-                    ForEach(viewModel.cellViewModels, id: \.id) { cellViewModel in
-                        LearningContentCellView(viewModel: cellViewModel)
-                            .cornerRadius(8)
-                            .onTapGesture {
-                                viewModel.navigateToLearningContent(content: cellViewModel.content)
-                            }
+            
+            SeparatorView()
+            
+            // Learning Content Cells
+            if viewModel.cellViewModels.isEmpty {
+                Text("No results")
+                    .frame(maxHeight: .infinity, alignment: .center)
+                    .foregroundColor(.titleGold)
+                    .font(.title2)
+                
+            } else {
+                ScrollView {
+                    VStack(alignment: .leading, spacing: 3) {
+                        ForEach(viewModel.cellViewModels, id: \.id) { cellViewModel in
+                            LearningContentCellView(viewModel: cellViewModel)
+                                .cornerRadius(8)
+                                .onTapGesture {
+                                    viewModel.navigateToLearningContent(content: cellViewModel.content)
+                                }
+                        }
                     }
                 }
             }
         }
-        .background(ThemeConstants.verticalGradient.ignoresSafeArea())
+        .padding(.vertical, 5)
+        .background(ThemeConstants.verticalGradient)
         .navigationTitle("Search")
         .navigationBarTitleDisplayMode(.inline)
     }
@@ -101,10 +113,6 @@ struct SearchFilterButtonView: View {
             .overlay(RoundedRectangle(cornerRadius: 8).stroke(Color.titleGold.opacity(isSelected ? 0.5 : 0.2), lineWidth: 1))
         }
     }
-}
-
-fileprivate enum SearchConstants {
-    static let relevanceThreshold = 0.2
 }
 
 class SearchViewModel: ObservableObject {
@@ -158,7 +166,7 @@ class SearchViewModel: ObservableObject {
             return
         }
         
-        let searchResults = contentProvider.searchContent(with: query, relevanceThreshold: SearchConstants.relevanceThreshold)
+        let searchResults = contentProvider.searchContent(with: query)
         var filteredResults = searchResults
         
         if !showLessons {

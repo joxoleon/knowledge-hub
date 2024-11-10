@@ -34,3 +34,18 @@ struct MyProgressView: View {
 class MyProgressViewModel: ObservableObject {
     // Progress-specific logic and navigation handling here
 }
+
+
+// Add preview
+struct MyProgressView_Previews: PreviewProvider {
+    static var previews: some View {
+        let viewModel = MyProgressViewModel()
+        
+        ZStack {
+            ThemeConstants.verticalGradient
+                .edgesIgnoringSafeArea(.all)
+            
+            MyProgressView(viewModel: viewModel)
+        }
+    }
+}
