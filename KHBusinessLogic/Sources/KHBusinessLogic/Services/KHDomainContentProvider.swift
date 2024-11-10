@@ -11,7 +11,7 @@ public protocol KHDomainContentProviderProtocol {
     func getTopLevelModules() -> [LearningModule]
 
     func searchContent(with query: String, relevanceThreshold: Double) -> [any LearningContent]
-    func searchContent(in contents: [LearningContent], with query: String, relevanceThreshold: Double) -> [LearningContent]
+    static func searchContent(in contents: [LearningContent], with query: String, relevanceThreshold: Double) -> [LearningContent]
 }
 
 public class KHDomainContentProvider: KHDomainContentProviderProtocol {
@@ -101,21 +101,28 @@ public class KHDomainContentProvider: KHDomainContentProviderProtocol {
 public extension KHDomainContentProviderProtocol {
     func searchContent(
         with query: String,
-        relevanceThreshold: Double = 0.2
+        relevanceThreshold: Double = 0.9
     ) -> [any LearningContent] {
-        let allContents = activeTopModule.learningContents
-        return searchContent(in: allContents, with: query, relevanceThreshold: relevanceThreshold)
+        let allContents: [LearningContent] = activeTopModule.levelOrderModules + activeTopModule.preOrderLessons
+        return Self.searchContent(in: allContents, with: query, relevanceThreshold: relevanceThreshold)
     }
 
-    func searchContent(
+    static func searchContent(
         in contents: [LearningContent],
         with query: String,
-        relevanceThreshold: Double = 0.2
+        relevanceThreshold: Double = 0.9
     ) -> [LearningContent] {
         return contents
-            .map { content in (content, content.relevanceScore(for: query)) }
-            .filter { _, score in score >= relevanceThreshold }
-            .sorted { $0.1 > $1.1 } // Sort by relevance score descending
+            .enumerated() // Capture the original index
+            .map { (index, content) in (content, content.relevanceScore(for: query), index) }
+            .filter { _, score, _ in score >= relevanceThreshold }
+            .sorted {
+                if $0.1 != $1.1 {
+                    return $0.1 > $1.1 // Sort by relevance score descending
+                } else {
+                    return $0.2 < $1.2 // Sort by original index if scores are the same
+                }
+            }
             .map { $0.0 } // Return only the contents
     }
 }

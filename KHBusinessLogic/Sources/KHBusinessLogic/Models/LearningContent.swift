@@ -134,13 +134,12 @@ public extension LearningContent {
 // MARK: - Search
 
 fileprivate enum RelevanceConstants {
-        static let titleWeight = 0.5
-        static let tagWeight = 0.3
-        static let descriptionWeight = 0.2
+    static let titleWeight = 0.8
+    // static let tagWeight = 0.3
+    static let descriptionWeight = 0.2
 }
 
 public extension LearningContent {
-
     func relevanceScore(for query: String) -> Double {
         let normalizedQuery = query.lowercased()
         let queryTokens = normalizedQuery.split(separator: " ").map { String($0) }
@@ -148,21 +147,24 @@ public extension LearningContent {
         // Normalize and tokenize content properties
         let titleTokens = title.lowercased().split(separator: " ").map { String($0) }
         let descriptionTokens = description.lowercased().split(separator: " ").map { String($0) }
-        let tagTokens = tags.map { $0.lowercased() }
+        // let tagTokens = tags.map { $0.lowercased() }
 
-        // Calculate individual scores
-        let titleScore = calculateTokenMatchScore(queryTokens, in: titleTokens) * RelevanceConstants.titleWeight
-        let tagScore = calculateTokenMatchScore(queryTokens, in: tagTokens) * RelevanceConstants.tagWeight
-        let descriptionScore = calculateTokenMatchScore(queryTokens, in: descriptionTokens) * RelevanceConstants.descriptionWeight
+        // Calculate individual scores with partial matching
+        let titleScore = calculatePartialMatchScore(queryTokens, in: titleTokens) * RelevanceConstants.titleWeight
+        // let tagScore = calculatePartialMatchScore(queryTokens, in: tagTokens) * RelevanceConstants.tagWeight
+        let descriptionScore = calculatePartialMatchScore(queryTokens, in: descriptionTokens) * RelevanceConstants.descriptionWeight
 
         // Final relevance score (0 to 1)
-        return titleScore + tagScore + descriptionScore
+        return titleScore + descriptionScore
     }
 
-    private func calculateTokenMatchScore(_ queryTokens: [String], in contentTokens: [String]) -> Double {
+    private func calculatePartialMatchScore(_ queryTokens: [String], in contentTokens: [String]) -> Double {
         guard !contentTokens.isEmpty else { return 0.0 }
         
-        let matchingTokens = queryTokens.filter { contentTokens.contains($0) }
+        let matchingTokens = queryTokens.filter { queryToken in
+            contentTokens.contains { contentToken in contentToken.contains(queryToken) }
+        }
+        
         return Double(matchingTokens.count) / Double(queryTokens.count)
     }
 }

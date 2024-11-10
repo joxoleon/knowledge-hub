@@ -78,9 +78,9 @@ struct SearchView: View {
             .navigationTitle("Search")
             .navigationBarTitleDisplayMode(.inline)
         }
-        .onAppear {
-            viewModel.loadDefaultContent()
-        }
+//        .onAppear {
+//            viewModel.loadDefaultContent()
+//        }
         .navigationTitle("Browse")
         .navigationBarTitleDisplayMode(.inline)
     }
@@ -155,7 +155,7 @@ class SearchViewModel: ObservableObject {
     
     // MARK: - Default Content Loading
     func loadDefaultContent() {
-        let contents = (showLessons ? defaultLessons : []) + (showModules ? defaultModules : [])
+        let contents = (showModules ? defaultModules : []) + (showLessons ? defaultLessons : [])
         cellViewModels = contents.map { LearningContentMetadataViewModel(content: $0) }
     }
     
@@ -199,6 +199,7 @@ class SearchViewModel: ObservableObject {
     }
     
     func navigateToLearningContent(content: any LearningContent) {
+        print("Navigating to content: \(content.title)")
         if let lesson = content as? Lesson {
             let lessonDetailViewModel = LessonDetailsViewModel(lesson: lesson, mainTabViewModel: mainTabViewModel)
             mainTabViewModel?.navigateTo(.lessonDetail(lessonDetailViewModel))

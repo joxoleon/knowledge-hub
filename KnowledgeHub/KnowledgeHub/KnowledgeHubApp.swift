@@ -47,14 +47,13 @@ struct KnowledgeHubApp: App {
 //        UINavigationBar.appearance().tintColor = .white
         
         // Tab Bar Appearance
-//        let tabBarAppearance = UITabBarAppearance()
-//        tabBarAppearance.configureWithOpaqueBackground()
-//        tabBarAppearance.backgroundColor = UIColor.black
-//        tabBarAppearance.stackedLayoutAppearance.selected.iconColor = UIColor(Color.titleGold)
-//        tabBarAppearance.stackedLayoutAppearance.selected.titleTextAttributes = [.foregroundColor: UIColor(Color.titleGold)]
+        let tabBarAppearance = UITabBarAppearance()
+        tabBarAppearance.configureWithOpaqueBackground()
+        tabBarAppearance.stackedLayoutAppearance.selected.iconColor = UIColor(Color.titleGold)
+        tabBarAppearance.stackedLayoutAppearance.selected.titleTextAttributes = [.foregroundColor: UIColor(Color.titleGold)]
         
-//        UITabBar.appearance().standardAppearance = tabBarAppearance
-//        UITabBar.appearance().scrollEdgeAppearance = tabBarAppearance
-//        UITabBar.appearance().tintColor = UIColor(Color.titleGold)
+        UITabBar.appearance().standardAppearance = tabBarAppearance
+        UITabBar.appearance().scrollEdgeAppearance = tabBarAppearance
+        UITabBar.appearance().tintColor = UIColor(Color.titleGold)
     }
 }
