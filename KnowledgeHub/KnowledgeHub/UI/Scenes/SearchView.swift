@@ -12,76 +12,68 @@ struct SearchView: View {
     @ObservedObject var viewModel: SearchViewModel
     
     var body: some View {
-        ZStack {
-            ThemeConstants.verticalGradient
-                .edgesIgnoringSafeArea(.all)
-            
-            VStack(spacing: 16) {
-                // Search Bar with Magnifying Glass Icon
-                HStack {
-                    Image(systemName: "magnifyingglass")
-                        .foregroundColor(.titleGold)
-                        .font(.title2)
-                    
-                    ZStack(alignment: .leading) {
-                        if viewModel.query.isEmpty {
-                            Text("Search...")
-                                .foregroundColor(.titleGold.opacity(0.3))
-                                .padding(8)
-                        }
-                        
-                        TextField("", text: $viewModel.query)
-                            .textFieldStyle(PlainTextFieldStyle())
-                            .foregroundColor(.titleGold)
+        
+        VStack(spacing: 16) {
+            // Search Bar with Magnifying Glass Icon
+            HStack {
+                Image(systemName: "magnifyingglass")
+                    .foregroundColor(.titleGold)
+                    .font(.title2)
+                
+                ZStack(alignment: .leading) {
+                    if viewModel.query.isEmpty {
+                        Text("Search...")
+                            .foregroundColor(.titleGold.opacity(0.3))
                             .padding(8)
                     }
-                    .background(RoundedRectangle(cornerRadius: 8).fill(ThemeConstants.cellGradient))
-                    .overlay(RoundedRectangle(cornerRadius: 8).stroke(Color.titleGold.opacity(0.8), lineWidth: 1))
-                }
-                .padding([.horizontal, .top])
-                
-                // Filter Buttons
-                HStack(spacing: 16) {
-                    SearchFilterButtonView(
-                        icon: IconConstants.lesson,
-                        label: "Lessons",
-                        isSelected: viewModel.showLessons,
-                        action: {
-                            viewModel.toggleFilter(for: .lessons)
-                        }
-                    )
                     
-                    SearchFilterButtonView(
-                        icon: IconConstants.learningModule,
-                        label: "Modules",
-                        isSelected: viewModel.showModules,
-                        action: {
-                            viewModel.toggleFilter(for: .modules)
-                        }
-                    )
+                    TextField("", text: $viewModel.query)
+                        .textFieldStyle(PlainTextFieldStyle())
+                        .foregroundColor(.titleGold)
+                        .padding(8)
                 }
-                .padding(.horizontal)
+                .background(RoundedRectangle(cornerRadius: 8).fill(ThemeConstants.cellGradient))
+                .overlay(RoundedRectangle(cornerRadius: 8).stroke(Color.titleGold.opacity(0.8), lineWidth: 1))
+            }
+            .padding([.horizontal, .top])
+            
+            // Filter Buttons
+            HStack(spacing: 16) {
+                SearchFilterButtonView(
+                    icon: IconConstants.lesson,
+                    label: "Lessons",
+                    isSelected: viewModel.showLessons,
+                    action: {
+                        viewModel.toggleFilter(for: .lessons)
+                    }
+                )
                 
-                // Contents List with NavigationLink
-                ScrollView {
-                    VStack(alignment: .leading, spacing: 3) {
-                        ForEach(viewModel.cellViewModels, id: \.id) { cellViewModel in
-                            LearningContentCellView(viewModel: cellViewModel)
-                                .cornerRadius(8)
-                                .onTapGesture {
-                                    viewModel.navigateToLearningContent(content: cellViewModel.content)
-                                }
-                        }
+                SearchFilterButtonView(
+                    icon: IconConstants.learningModule,
+                    label: "Modules",
+                    isSelected: viewModel.showModules,
+                    action: {
+                        viewModel.toggleFilter(for: .modules)
+                    }
+                )
+            }
+            .padding(.horizontal)
+
+            // Contents List with NavigationLink
+            ScrollView {
+                VStack(alignment: .leading, spacing: 3) {
+                    ForEach(viewModel.cellViewModels, id: \.id) { cellViewModel in
+                        LearningContentCellView(viewModel: cellViewModel)
+                            .cornerRadius(8)
+                            .onTapGesture {
+                                viewModel.navigateToLearningContent(content: cellViewModel.content)
+                            }
                     }
                 }
             }
-            .navigationTitle("Search")
-            .navigationBarTitleDisplayMode(.inline)
         }
-//        .onAppear {
-//            viewModel.loadDefaultContent()
-//        }
-        .navigationTitle("Browse")
+        .background(ThemeConstants.verticalGradient.ignoresSafeArea())
+        .navigationTitle("Search")
         .navigationBarTitleDisplayMode(.inline)
     }
 }
@@ -91,7 +83,7 @@ struct SearchFilterButtonView: View {
     let label: String
     var isSelected: Bool
     var action: () -> Void
-
+    
     var body: some View {
         Button(action: action) {
             HStack {
