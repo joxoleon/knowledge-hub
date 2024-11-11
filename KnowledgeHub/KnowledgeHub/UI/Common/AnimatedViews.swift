@@ -15,7 +15,7 @@ struct PulsatingCirclesView: View {
     var body: some View {
         ZStack {
             Circle()
-                .fill(Color.white.opacity(0.4))
+                .fill(Color.deepPurple3.opacity(0.4))
                 .frame(width: 200, height: 200)
                 .scaleEffect(animate ? 1.3 : 1)
                 .opacity(animate ? 0 : 1)
@@ -25,7 +25,7 @@ struct PulsatingCirclesView: View {
                 )
             
             Circle()
-                .fill(Color.white.opacity(0.4))
+                .fill(Color.deepPurple2.opacity(0.4))
                 .frame(width: 300, height: 300)
                 .scaleEffect(animate ? 1.4 : 1)
                 .opacity(animate ? 0 : 1)
@@ -77,7 +77,7 @@ struct AnimatedBackgroundView: View {
     
     var body: some View {
         ZStack {
-            ThemeConstants.verticalGradient
+//            ThemeConstants.verticalGradient
             
             PulsatingCirclesView()
             MovingStarsView()
