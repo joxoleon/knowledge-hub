@@ -159,14 +159,7 @@ class LearningContentsListViewModel: ObservableObject {
     }
 
     func navigateToLearningContent(content: any LearningContent) {
-        print("Navigating to content: \(content.title)")
-        if let lesson = content as? Lesson {
-            let lessonDetailViewModel = LessonDetailsViewModel(lesson: lesson, mainTabViewModel: mainTabViewModel)
-            mainTabViewModel?.navigateTo(.lessonDetail(lessonDetailViewModel))
-        } else if let module = content as? LearningModule {
-            let moduleDetailViewModel = LearningModuleDetailsViewModel(module: module, mainTabViewModel: mainTabViewModel)
-            mainTabViewModel?.navigateTo(.moduleDetail(moduleDetailViewModel))
-        }
+        mainTabViewModel?.navigateToLearningContent(content: content)
     }
 }
 

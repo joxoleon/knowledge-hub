@@ -72,17 +72,11 @@ class LearningModuleDetailsViewModel: ObservableObject {
     func navigateToNextLesson() {
         print("*** navigate to next lesson ***")
         guard let lesson = (module.preOrderLessons.first { $0.completionStatus == .notStarted }) ?? module.preOrderLessons.first else { return }
-        navigateToLearningContent(content: lesson)
+        mainTabViewModel?.navigateToLearningContent(content: lesson)
     }
     
     func navigateToLearningContent(content: any LearningContent) {
-        if let lesson = content as? Lesson {
-            let lessonDetailViewModel = LessonDetailsViewModel(lesson: lesson, mainTabViewModel: self.mainTabViewModel)
-            mainTabViewModel?.navigateTo(.lessonDetail(lessonDetailViewModel))
-        } else if let module = content as? LearningModule {
-            let learningModuleDetailViewModel = LearningModuleDetailsViewModel(module: module, mainTabViewModel: self.mainTabViewModel)
-            mainTabViewModel?.navigateTo(.moduleDetail(learningModuleDetailViewModel))
-        }
+        mainTabViewModel?.navigateToLearningContent(content: content)
     }
 }
 

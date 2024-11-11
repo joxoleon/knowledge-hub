@@ -31,6 +31,8 @@ public enum IconConstants {
     static let starAction = "star.circle.fill"
     static let continueAction = "play.circle.fill"
     static let repeatAction = "arrow.counterclockwise.circle.fill"
+    static let flashcardsAction = "bolt.circle.fill"
+    static let quizAction = "questionmark.circle.fill"
 }
 
 public enum LessonSectionTheme {

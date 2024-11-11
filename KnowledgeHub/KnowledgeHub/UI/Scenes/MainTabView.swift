@@ -101,6 +101,18 @@ class MainTabViewModel: ObservableObject {
     }
     
     // MARK: - Navigation Control
+    
+    func navigateToLearningContent(content: any LearningContent) {
+        print("Navigating to content: \(content.title)")
+        if let lesson = content as? Lesson {
+            let lessonDetailViewModel = LessonDetailsViewModel(lesson: lesson, mainTabViewModel: self)
+            navigateTo(.lessonDetail(lessonDetailViewModel))
+        } else if let module = content as? LearningModule {
+            let moduleDetailViewModel = LearningModuleDetailsViewModel(module: module, mainTabViewModel: self)
+            navigateTo(.moduleDetail(moduleDetailViewModel))
+        }
+    }
+    
     public func navigateTo(_ target: NavigationTarget) {
         switch selectedTab {
         case .search:

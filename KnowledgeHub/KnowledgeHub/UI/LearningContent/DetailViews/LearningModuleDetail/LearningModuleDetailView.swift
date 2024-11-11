@@ -21,7 +21,7 @@ struct LearningModuleDetailView: View {
                 // Action Buttons Row
                 HStack {
                     KHActionButton(
-                        iconName: "bolt.circle.fill",
+                        iconName: IconConstants.flashcardsAction,
                         iconSize: Constants.regularIconSize,
                         title: "Flashcards",
                         fontColor: .titleGold
@@ -31,7 +31,7 @@ struct LearningModuleDetailView: View {
                     Spacer()
 
                     KHActionButton(
-                        iconName: "play.circle.fill",
+                        iconName: IconConstants.continueAction,
                         iconSize: Constants.primaryIconSize,
                         title: viewModel.startOrContinueTitle,
                         fontColor: .titleGold
@@ -43,7 +43,7 @@ struct LearningModuleDetailView: View {
                     Spacer()
                     
                     KHActionButton(
-                        iconName: "questionmark.circle.fill",
+                        iconName: IconConstants.quizAction,
                         iconSize: Constants.regularIconSize,
                         title: "Quiz",
                         fontColor: .titleGold
