@@ -84,3 +84,26 @@ extension LearningContent {
         return Image(systemName: "medal.fill")
     }
 }
+
+
+extension Array where Element == LearningContent {
+    func lessons() -> [Lesson] {
+        return self.compactMap { $0 as? Lesson }
+    }
+    
+    func modules() -> [LearningModule] {
+        return self.compactMap { $0 as? LearningModule }
+    }
+}
+
+extension Array where Element == String {
+    var uniqueElements: [String] {
+        var uniqueElements: [String] = []
+        for element in self {
+            if !uniqueElements.contains(element) {
+                uniqueElements.append(element)
+            }
+        }
+        return uniqueElements
+    }
+}

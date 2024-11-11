@@ -22,29 +22,26 @@ struct ProgressMetadataView: View {
     @ObservedObject var viewModel: ProgressMetadataViewModel
     
     var body: some View {
-        ScrollView {
-            VStack {
-                
-                // Title
-                Text("\(viewModel.title) Progress Overview")
-                    .font(.title2)
-                    .fontWeight(.bold)
-                    .foregroundColor(.titleGold)
-                    .padding()
-                    .multilineTextAlignment(.center)
-                
-                // Grid of metadata squares
-                // 3x2 Grid of metadata squares
-                LazyVGrid(columns: Array(repeating: GridItem(.flexible(), spacing: ProgressConstants.squarePadding), count: 3), spacing: ProgressConstants.squarePadding) {
-                    ForEach(viewModel.metadataItems.prefix(6), id: \.title) { item in
-                        MetadataSquareView(
-                            iconName: item.iconName,
-                            title: item.title,
-                            value: item.value,
-                            valueColor: item.valueColor
-                        )
-                        .frame(width: ProgressConstants.squareSize, height: ProgressConstants.squareSize)
-                    }
+        VStack {
+            // Title
+            Text("\(viewModel.title) Progress Overview")
+                .font(.title2)
+                .fontWeight(.bold)
+                .foregroundColor(.titleGold)
+                .padding()
+                .multilineTextAlignment(.center)
+            
+            // Grid of metadata squares
+            // 3x2 Grid of metadata squares
+            LazyVGrid(columns: Array(repeating: GridItem(.flexible(), spacing: ProgressConstants.squarePadding), count: 3), spacing: ProgressConstants.squarePadding) {
+                ForEach(viewModel.metadataItems.prefix(6), id: \.title) { item in
+                    MetadataSquareView(
+                        iconName: item.iconName,
+                        title: item.title,
+                        value: item.value,
+                        valueColor: item.valueColor
+                    )
+                    .frame(width: ProgressConstants.squareSize, height: ProgressConstants.squareSize)
                 }
             }
         }

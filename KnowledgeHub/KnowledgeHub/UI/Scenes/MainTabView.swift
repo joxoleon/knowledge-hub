@@ -9,6 +9,15 @@ import SwiftUI
 import KHBusinessLogic
 import Combine
 
+enum NavigationTarget: Hashable, Equatable {
+    case lessonDetail(LessonDetailsViewModel)
+    case moduleDetail(LearningModuleDetailsViewModel)
+    case customCollectionView(CustomContentCollectionViewModel)
+    case quiz(QuizViewModel)
+    case flashcards
+    case readLesson(LessonViewModel)
+}
+
 struct MainTabView: View {
     @StateObject var viewModel: MainTabViewModel
 
@@ -60,6 +69,8 @@ struct MainTabView: View {
             LessonDetailView(viewModel: viewModel)
         case .moduleDetail(let viewModel):
             LearningModuleDetailView(viewModel: viewModel)
+        case .customCollectionView(let viewModel):
+            CustomContentCollectionView(viewModel: viewModel)
         case .quiz:
             Text("Quiz View") // Replace with actual quiz view
         case .flashcards:
@@ -111,6 +122,10 @@ class MainTabViewModel: ObservableObject {
             let moduleDetailViewModel = LearningModuleDetailsViewModel(module: module, mainTabViewModel: self)
             navigateTo(.moduleDetail(moduleDetailViewModel))
         }
+    }
+    
+    func navigateToCustomCollectionView(viewModel: CustomContentCollectionViewModel) {
+        navigateTo(.customCollectionView(viewModel))
     }
     
     public func navigateTo(_ target: NavigationTarget) {

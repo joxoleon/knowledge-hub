@@ -8,8 +8,6 @@
 import SwiftUI
 
 fileprivate enum Constants {
-    static let backgroundGradient = LinearGradient(colors: [.darkBlue, .deepPurple], startPoint: .topLeading, endPoint: .bottomTrailing)
-    static let squareBackgroundGradient = LinearGradient(colors: [.deeperPurple.opacity(0.6), .deepPurple.opacity(0.8)], startPoint: .top, endPoint: .bottom)
     static let squareCornerRadius: CGFloat = 12
     static let squarePadding: CGFloat = 10
     static let squareSize: CGFloat = 100
@@ -39,7 +37,7 @@ struct LearningContentMetadataView: View {
                         Image(systemName: viewModel.isStarred ? "star.fill" : "star")
                             .font(.system(size: Constants.starButtonSize))
                             .foregroundColor(viewModel.isStarred ? .titleGold : .placeholderGray)
-                            .shadow(color: viewModel.isStarred ? Color.titleGold.opacity(0.6) : Color.clear, radius: 4, x: 0, y: 0)
+                            .shadow(color: viewModel.isStarred ? Color.titleGold.opacity(0.6) : Color.clear, radius: 5, x: 0, y: 0)
                     }
                 }
                 .padding(.horizontal, 8)

@@ -21,7 +21,7 @@ struct LearningContentsListView: View {
             // Filter Buttons
             if viewModel.showFilterButtons {
                 
-                HStack(spacing: 16) {
+                HStack {
                     FilterButtonView(
                         icon: IconConstants.lesson,
                         label: "Lessons",
@@ -30,6 +30,8 @@ struct LearningContentsListView: View {
                             viewModel.toggleFilter(for: .lessons)
                         }
                     )
+                    .frame(maxWidth: .infinity)
+                    
                     
                     FilterButtonView(
                         icon: IconConstants.learningModule,
@@ -39,8 +41,9 @@ struct LearningContentsListView: View {
                             viewModel.toggleFilter(for: .modules)
                         }
                     )
+                    .frame(maxWidth: .infinity)
                 }
-                .padding(.horizontal)
+                .padding(.horizontal, 25)
                 
                 SeparatorView()
             }
@@ -87,6 +90,8 @@ struct FilterButtonView: View {
                     .foregroundColor(isSelected ? .titleGold : .placeholderGray)
                     .padding(.trailing, 8)
             }
+            .padding(.horizontal, 10)
+            .padding(.vertical, 4)
             .background(RoundedRectangle(cornerRadius: 8).fill(ThemeConstants.cellGradient))
             .overlay(RoundedRectangle(cornerRadius: 8).stroke(Color.titleGold.opacity(isSelected ? 0.5 : 0.2), lineWidth: 1))
         }
@@ -118,7 +123,7 @@ class LearningContentsListViewModel: ObservableObject {
 
     // MARK: - Initialization
     
-    init(content: [LearningContent], mainTabViewModel: MainTabViewModel? = nil, showFilterButtons: Bool) {
+    init(content: [LearningContent], mainTabViewModel: MainTabViewModel?, showFilterButtons: Bool) {
         self.allContent = content
         self.mainTabViewModel = mainTabViewModel
         filterContent()
@@ -166,12 +171,19 @@ class LearningContentsListViewModel: ObservableObject {
 // MARK: - Preview
 struct LearningContentsListView_Previews: PreviewProvider {
     static var previews: some View {
-        LearningContentsListView(
-            viewModel: LearningContentsListViewModel(
-                content: Testing.contentProvider.activeTopModule.preOrderLessons + Testing.contentProvider.activeTopModule.levelOrderModules,
-                mainTabViewModel: nil,
-                showFilterButtons: true
+        
+        ZStack {
+            ThemeConstants.verticalGradient
+                .ignoresSafeArea()
+            
+            LearningContentsListView(
+                viewModel: LearningContentsListViewModel(
+                    content: Testing.contentProvider.activeTopModule.preOrderLessons + Testing.contentProvider.activeTopModule.levelOrderModules,
+                    mainTabViewModel: nil,
+                    showFilterButtons: true
+                )
             )
-        )
+        }
+
     }
 }

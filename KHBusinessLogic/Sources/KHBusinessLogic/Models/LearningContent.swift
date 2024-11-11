@@ -23,6 +23,7 @@ public protocol LearningContent: AnyObject {
     var learningContents: [any LearningContent] { get }
     var questions: [Question] { get }
     var quiz: any Quiz { get }
+    var recursiveLearningContents: [any LearningContent] { get }
 
     // Services
     var contentProvider: any KHDomainContentProviderProtocol { get }
@@ -128,6 +129,15 @@ public extension LearningContent {
             }
         }
         return lessons
+    }
+
+    var recursiveLearningContents: [any LearningContent] {
+        var contents: [any LearningContent] = []
+        learningContents.forEach { content in
+            contents.append(content)
+            contents.append(contentsOf: content.recursiveLearningContents)
+        }
+        return contents
     }
 }
 

@@ -77,7 +77,6 @@ struct LearningModuleDetailView: View {
             }
         }
         .padding(.vertical, 5)
-        .background(ThemeConstants.verticalGradient.ignoresSafeArea())
         .fullScreenCover(isPresented: $isQuizPresented) {
             viewModel.quizView(isPresented: $isQuizPresented)
         }
@@ -86,6 +85,23 @@ struct LearningModuleDetailView: View {
         }
         .onAppear {
             viewModel.refreshData()
+        }
+    }
+}
+
+
+struct LearningModuleDetailView_Previews: PreviewProvider {
+    static var previews: some View {
+        ZStack {
+            ThemeConstants.verticalGradient
+                .ignoresSafeArea()
+            
+            VStack {
+                LearningModuleDetailView(viewModel: LearningModuleDetailsViewModel(module: Testing.testModule, mainTabViewModel: nil))
+                    .padding()
+                
+                Spacer()
+            }
         }
     }
 }

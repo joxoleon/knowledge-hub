@@ -22,6 +22,12 @@ public struct QuizImpl: Quiz {
     public let id: String
     public let questions: [Question]
     public let contentProvider: any KHDomainContentProviderProtocol
+
+    public init(id: String, questions: [Question], contentProvider: any KHDomainContentProviderProtocol) {
+        self.id = id
+        self.questions = questions
+        self.contentProvider = contentProvider
+    }
     
     public var completionStatus: CompletionStatus {
         let completedQuestionCount = questions.filter(\.self.isComplete).count
